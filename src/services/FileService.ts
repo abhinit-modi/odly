@@ -41,25 +41,36 @@ export class FileService {
         return this.getMockFileContent(fileName);
       }
 
-      // Construct the path to the asset file
-      const filePath = `${RNFS.MainBundlePath}/${fileName}`;
+      // On Android, assets need to be read using readFileAssets
+      // On iOS, use MainBundlePath
+      let content: string;
+      let size: number;
       
-      // Check if file exists
-      const fileExists = await RNFS.exists(filePath);
-      if (!fileExists) {
-        throw new Error(`Asset file not found: ${fileName}`);
-      }
+      try {
+        // Try Android method first (readFileAssets)
+        content = await RNFS.readFileAssets(fileName, 'utf8');
+        size = content.length;
+        console.log(`✓ Read asset file from Android assets: ${fileName} (${size} bytes)`);
+      } catch (androidError) {
+        // If Android method fails, try iOS method
+        console.log('Android readFileAssets failed, trying iOS method...');
+        const filePath = `${RNFS.MainBundlePath}/${fileName}`;
+        
+        const fileExists = await RNFS.exists(filePath);
+        if (!fileExists) {
+          throw new Error(`Asset file not found: ${fileName}`);
+        }
 
-      // Read the file content
-      const content = await RNFS.readFile(filePath, 'utf8');
-      
-      // Get file stats
-      const stats = await RNFS.stat(filePath);
+        content = await RNFS.readFile(filePath, 'utf8');
+        const stats = await RNFS.stat(filePath);
+        size = stats.size;
+        console.log(`✓ Read asset file from iOS bundle: ${fileName} (${size} bytes)`);
+      }
 
       return {
         content: content.trim(),
         fileName,
-        size: stats.size,
+        size,
       };
     } catch (error) {
       console.error(`Error reading asset file ${fileName}:`, error);

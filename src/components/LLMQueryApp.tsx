@@ -6,8 +6,6 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
-  PermissionsAndroid,
-  Platform,
 } from 'react-native';
 import { QueryInterface } from './QueryInterface';
 import { LLMService, LLMResponse } from '../services/LLMService';
@@ -29,40 +27,10 @@ export const LLMQueryApp: React.FC = () => {
     initializeApp();
   }, []);
 
-  const requestStoragePermissions = async (): Promise<boolean> => {
-    if (Platform.OS !== 'android') {
-      return true;
-    }
-
-    try {
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      ]);
-
-      return (
-        granted['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED ||
-        granted['android.permission.WRITE_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED
-      );
-    } catch (err) {
-      console.warn('Error requesting storage permissions:', err);
-      return false;
-    }
-  };
-
   const initializeApp = useCallback(async () => {
     try {
       setIsInitializing(true);
       setInitializationError(null);
-
-      // Request storage permissions first
-      console.log('Requesting storage permissions...');
-      const hasPermission = await requestStoragePermissions();
-      if (!hasPermission) {
-        console.warn('Storage permissions not granted, may not be able to access model file');
-      } else {
-        console.log('✓ Storage permissions granted');
-      }
 
       // Check TinyLlama model first
       console.log('Checking TinyLlama GGUF model...');

@@ -1,97 +1,243 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# TinyLlama GGUF Query App
 
-# Getting Started
+A React Native application that allows you to query the TinyLlama 1.1B GGUF model using content from a context file. The app runs entirely on the device without requiring internet connectivity for inference.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- **TinyLlama GGUF Model**: Uses llama.rn for local GGUF model inference
+- **Context-Aware Queries**: Reads context from assets and uses it to answer questions
+- **Cross-Platform**: Runs on Android, iOS, and emulators
+- **Offline Capable**: No internet required for querying (model included in assets)
+- **Modern UI**: Clean, responsive interface with loading states and error handling
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Tech Stack
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **React Native**: Bare React Native (0.74.1) for maximum compatibility
+- **llama.rn**: React Native bindings for llama.cpp GGUF model inference
+- **react-native-fs**: For reading files from assets
+- **TypeScript**: For type safety and better development experience
 
-```sh
-# Using npm
-npm start
+## Project Structure
 
-# OR using Yarn
-yarn start
+```
+src/
+├── components/
+│   ├── LLMQueryApp.tsx      # Main app component
+│   └── QueryInterface.tsx   # Query UI component
+├── services/
+│   ├── LLMService.ts        # TinyLlama GGUF inference service
+│   └── FileService.ts       # File reading service
+android/app/src/main/assets/
+├── context.txt              # Context file for queries
+└── tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf  # TinyLlama GGUF model
 ```
 
-## Step 2: Build and run your app
+## Setup Instructions
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### Prerequisites
 
-### Android
+- Node.js >= 18
+- React Native development environment
+- Android Studio (for Android development)
+- Xcode (for iOS development, macOS only)
 
-```sh
-# Using npm
+### Installation
+
+1. **Clone and install dependencies:**
+   ```bash
+   cd /Users/abhinitmodi/Dev/odly
+   npm install
+   ```
+
+2. **Link native modules (llama.rn):**
+   ```bash
+   npx react-native link llama.rn
+   npx react-native link react-native-fs
+   ```
+
+3. **iOS Setup (macOS only):**
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
+
+4. **Android Setup:**
+   - Ensure Android SDK is properly configured
+   - Connect an Android device or start an emulator
+
+### Running the App
+
+**Android:**
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+**iOS (macOS only):**
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+**Start Metro bundler:**
+```bash
+npm start
+```
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## Model Setup
 
-## Step 3: Modify your app
+### Current Model
 
-Now that you have successfully run the app, let's make changes!
+The app uses the **TinyLlama 1.1B Chat GGUF model** (`tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`) that's already included in the assets folder.
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+### Model Specifications
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- **Model**: TinyLlama-1.1B-Chat-v1.0
+- **Format**: GGUF (4-bit quantized)
+- **Size**: ~700MB
+- **Performance**: Optimized for mobile devices
+- **Context Length**: 2048 tokens
+- **Inference Engine**: llama.cpp via llama.rn
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+### Using Different GGUF Models
 
-## Congratulations! :tada:
+To use a different GGUF model:
 
-You've successfully run and modified your React Native App. :partying_face:
+1. **Download your preferred GGUF model** from Hugging Face:
+   ```bash
+   # Example: Download a different GGUF model
+   wget https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.q4_k_m.gguf
+   ```
 
-### Now what?
+2. **Place the GGUF model file** in `android/app/src/main/assets/`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+3. **Update the model reference** in `src/services/LLMService.ts`:
+   ```typescript
+   this.modelPath = `${RNFS.MainBundlePath}/your-model-name.gguf`;
+   ```
 
-# Troubleshooting
+### Recommended GGUF Models for Mobile
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+| Model | Size | Performance | Use Case |
+|-------|------|-------------|----------|
+| TinyLlama-1.1B-Chat | ~700MB | Fast | General chat |
+| Phi-3-mini | ~2.3GB | Good | General purpose |
+| Qwen2-0.5B | ~350MB | Very Fast | Lightweight tasks |
+| Gemma-2B | ~1.5GB | Good | Balanced performance |
 
-# Learn More
+## Context File Setup
 
-To learn more about React Native, take a look at the following resources:
+### Current Context
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+The app includes a sample context file (`context.txt`) with information about the first programmable computer.
+
+### Adding Your Own Context
+
+1. **Replace or modify** `android/app/src/main/assets/context.txt`
+2. **Add multiple context files** by:
+   - Adding more `.txt` files to the assets folder
+   - Modifying `FileService.ts` to read multiple files
+   - Combining contexts in `LLMQueryApp.tsx`
+
+### Context File Format
+
+The context file should be plain text. Example:
+```
+The first programmable computer was the Z1, created by Germany's Konrad Zuse in his parents' living room between 1936 and 1938. It was a binary electrically driven mechanical calculator with limited programmability.
+```
+
+## Usage
+
+1. **Launch the app** on your device or emulator
+2. **Wait for initialization** (model loading may take 30-60 seconds)
+3. **Enter your question** in the query input field
+4. **Tap "Query LLM"** to get a response
+5. **View the response** below the input area
+
+### Example Queries
+
+Based on the sample context:
+- "Who created the first programmable computer?"
+- "When was the Z1 computer created?"
+- "What type of calculator was the Z1?"
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Model not loading:**
+   - Ensure the model file exists in `android/app/src/main/assets/`
+   - Check device storage (models require significant space)
+   - Restart the app
+
+2. **Context file not found:**
+   - Verify `context.txt` exists in assets
+   - Check file permissions
+   - Ensure the file is not empty
+
+3. **Slow performance:**
+   - Use a quantized model (4-bit or 8-bit)
+   - Reduce context length
+   - Close other apps to free memory
+
+4. **App crashes on startup:**
+   - Check device compatibility
+   - Ensure sufficient RAM (2GB+ recommended)
+   - Try with a smaller model
+
+### Debug Mode
+
+Enable debug logging by checking the Metro bundler console for detailed error messages.
+
+## Performance Optimization
+
+### Model Selection
+- Use quantized models (4-bit/8-bit) for better performance
+- Smaller models (1B parameters or less) work best on mobile
+- Consider task-specific models for better accuracy
+
+### Memory Management
+- The app automatically manages model memory
+- Models are loaded once and cached
+- Consider model size vs. device RAM
+
+## Development
+
+### Adding Features
+
+1. **New query types**: Extend `LLMService.ts`
+2. **UI improvements**: Modify `QueryInterface.tsx`
+3. **File handling**: Update `FileService.ts`
+4. **App logic**: Edit `LLMQueryApp.tsx`
+
+### Testing
+
+```bash
+# Run tests
+npm test
+
+# Run linting
+npm run lint
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test on both Android and iOS
+5. Submit a pull request
+
+## License
+
+This project is open source. Please check the model licenses for any models you use.
+
+## Support
+
+For issues and questions:
+1. Check the troubleshooting section
+2. Review the console logs
+3. Open an issue with device details and error messages
+
+---
+
+**Note**: This app is designed for demonstration and educational purposes. For production use, consider additional optimizations and error handling based on your specific requirements.

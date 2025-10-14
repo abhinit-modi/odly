@@ -8,3 +8,13 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# llama.rn - keep all classes and native methods
+-keep class com.rnllama.** { *; }
+-keepclassmembers class com.rnllama.** { *; }
+-dontwarn com.rnllama.**
+
+# Keep all native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}

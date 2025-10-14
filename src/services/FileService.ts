@@ -1,16 +1,6 @@
-// Conditionally import native modules
-let RNFS: any = null;
+import RNFS from 'react-native-fs';
 
-try {
-  // Import RNFS properly - it's a CommonJS module
-  RNFS = require('react-native-fs');
-  
-  if (RNFS) {
-    console.log('✓ RNFS loaded in FileService');
-  }
-} catch (error) {
-  console.warn('RNFS not available:', error);
-}
+console.log('✓ RNFS loaded in FileService');
 
 export interface FileContent {
   content: string;
@@ -34,63 +24,36 @@ export class FileService {
    * Read content from a file in the assets directory
    */
   public async readAssetFile(fileName: string): Promise<FileContent> {
+    // On Android, assets need to be read using readFileAssets
+    // On iOS, use MainBundlePath
+    let content: string;
+    let size: number;
+    
     try {
-      // Check if RNFS is available
-      if (!RNFS) {
-        console.warn('RNFS not available, using mock file content');
-        return this.getMockFileContent(fileName);
-      }
-
-      // On Android, assets need to be read using readFileAssets
-      // On iOS, use MainBundlePath
-      let content: string;
-      let size: number;
+      // Try Android method first (readFileAssets)
+      content = await RNFS.readFileAssets(fileName, 'utf8');
+      size = content.length;
+      console.log(`✓ Read asset file from Android assets: ${fileName} (${size} bytes)`);
+    } catch (androidError) {
+      // If Android method fails, try iOS method
+      console.log('Android readFileAssets failed, trying iOS method...');
+      const filePath = `${RNFS.MainBundlePath}/${fileName}`;
       
-      try {
-        // Try Android method first (readFileAssets)
-        content = await RNFS.readFileAssets(fileName, 'utf8');
-        size = content.length;
-        console.log(`✓ Read asset file from Android assets: ${fileName} (${size} bytes)`);
-      } catch (androidError) {
-        // If Android method fails, try iOS method
-        console.log('Android readFileAssets failed, trying iOS method...');
-        const filePath = `${RNFS.MainBundlePath}/${fileName}`;
-        
-        const fileExists = await RNFS.exists(filePath);
-        if (!fileExists) {
-          throw new Error(`Asset file not found: ${fileName}`);
-        }
-
-        content = await RNFS.readFile(filePath, 'utf8');
-        const stats = await RNFS.stat(filePath);
-        size = stats.size;
-        console.log(`✓ Read asset file from iOS bundle: ${fileName} (${size} bytes)`);
+      const fileExists = await RNFS.exists(filePath);
+      if (!fileExists) {
+        throw new Error(`Asset file not found: ${fileName}`);
       }
 
-      return {
-        content: content.trim(),
-        fileName,
-        size,
-      };
-    } catch (error) {
-      console.error(`Error reading asset file ${fileName}:`, error);
-      // Fallback to mock content
-      return this.getMockFileContent(fileName);
-    }
-  }
-
-  private getMockFileContent(fileName: string): FileContent {
-    let mockContent = '';
-    if (fileName === 'context.txt') {
-      mockContent = 'This is mock context content for testing the LLM app. The actual file system access is disabled until native modules are properly configured.';
-    } else {
-      mockContent = `Mock content for ${fileName}`;
+      content = await RNFS.readFile(filePath, 'utf8');
+      const stats = await RNFS.stat(filePath);
+      size = stats.size;
+      console.log(`✓ Read asset file from iOS bundle: ${fileName} (${size} bytes)`);
     }
 
     return {
-      content: mockContent,
+      content: content.trim(),
       fileName,
-      size: mockContent.length,
+      size,
     };
   }
 
@@ -165,57 +128,32 @@ export class FileService {
   public async checkTinyLlamaModel(): Promise<{ exists: boolean; size: number; path: string }> {
     const modelFileName = 'tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf';
     
-    // Check if RNFS is available
-    if (!RNFS) {
-      console.warn('RNFS not available, using mock model info');
+    // Try multiple locations - prioritize internal storage and assets over Downloads
+    const internalPath = `${RNFS.DocumentDirectoryPath}/${modelFileName}`; // App internal storage (best access)
+    const assetsPath = `file:///android_asset/${modelFileName}`;          // App assets (bundled)
+    
+    // Check internal storage first
+    console.log(`Checking model at: ${internalPath}`);
+    const internalExists = await RNFS.exists(internalPath);
+    if (internalExists) {
+      const stats = await RNFS.stat(internalPath);
+      console.log(`✓ Found model at: ${internalPath} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
       return {
         exists: true,
-        size: 1024 * 1024 * 100, // Mock 100MB size
-        path: `mock://${modelFileName}`,
+        size: stats.size,
+        path: internalPath,
       };
     }
-
-    // Try multiple locations - prioritize internal storage and assets over Downloads
-    const possiblePaths = [
-      `${RNFS.DocumentDirectoryPath}/${modelFileName}`, // App internal storage (best access)
-      `file:///android_asset/${modelFileName}`,          // App assets (bundled) - use direct asset path
-      `${RNFS.DownloadDirectoryPath}/${modelFileName}`, // External storage (may have access issues on Android 10+)
-    ];
     
-    try {
-      // Check internal storage first
-      const internalPath = possiblePaths[0];
-      console.log(`Checking model at: ${internalPath}`);
-      const internalExists = await RNFS.exists(internalPath);
-      if (internalExists) {
-        const stats = await RNFS.stat(internalPath);
-        console.log(`✓ Found model at: ${internalPath} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
-        return {
-          exists: true,
-          size: stats.size,
-          path: internalPath,
-        };
-      }
-      
-      // For assets, RNFS.exists() doesn't work reliably on Android
-      // So we assume it exists there if bundled with the app
-      // The native llama.rn library will verify it can open the file
-      const assetsPath = possiblePaths[1];
-      console.log(`Model not in internal storage, will use from assets: ${assetsPath}`);
-      return {
-        exists: true, // Assume it exists in assets (bundled with APK)
-        size: 637 * 1024 * 1024, // Approximate size in bytes (637MB)
-        path: assetsPath,
-      };
-    } catch (error) {
-      console.error('Error checking TinyLlama model:', error);
-      // Fall back to assets path
-      return { 
-        exists: true, 
-        size: 637 * 1024 * 1024, 
-        path: possiblePaths[1] 
-      };
-    }
+    // For assets, RNFS.exists() doesn't work reliably on Android
+    // So we assume it exists there if bundled with the app
+    // The native llama.rn library will verify it can open the file
+    console.log(`Model not in internal storage, will use from assets: ${assetsPath}`);
+    return {
+      exists: true, // Assume it exists in assets (bundled with APK)
+      size: 637 * 1024 * 1024, // Approximate size in bytes (637MB)
+      path: assetsPath,
+    };
   }
 
   /**

@@ -93,36 +93,12 @@ export const LLMQueryApp: React.FC = () => {
       console.error('Initialization error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       
-      // Check if it's a native module error
-      if (errorMessage.includes('native module') || errorMessage.includes('LlamaRn')) {
-        // Set demo mode message
-        setInitializationError('Running in Demo Mode');
-        setModelInfo('🎭 Demo Mode: Using mock LLM responses (Native modules not configured)');
-        
-        // Still load context and set as ready
-        try {
-          const context = await fileService.readContext();
-          setContextContent(context);
-          setContextLoaded(true);
-        } catch (e) {
-          console.log('Could not load context in demo mode');
-          setContextContent('Demo context content');
-        }
-        
-        // Show informative alert
-        Alert.alert(
-          '🎭 Demo Mode Active',
-          'The native LLM modules are not yet configured, so the app is running in demo mode with mock responses. You can still test the interface and see how the app works!\n\nThe app will provide intelligent mock responses to your queries.',
-          [{ text: 'Got it!', onPress: () => {} }]
-        );
-      } else {
-        setInitializationError(errorMessage);
-        Alert.alert(
-          'Initialization Error',
-          `Failed to initialize the app: ${errorMessage}`,
-          [{ text: 'Retry', onPress: initializeApp }]
-        );
-      }
+      setInitializationError(errorMessage);
+      Alert.alert(
+        'Initialization Error',
+        `Failed to initialize the app: ${errorMessage}`,
+        [{ text: 'Retry', onPress: initializeApp }]
+      );
     } finally {
       setIsInitializing(false);
     }

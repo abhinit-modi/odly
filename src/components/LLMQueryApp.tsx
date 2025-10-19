@@ -6,21 +6,39 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
+  Platform,
+  TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import { QueryInterface } from './QueryInterface';
-import { LLMService, LLMResponse } from '../services/LLMService';
+import { ChatInterface } from './ChatInterface';
+import { FileExplorerInterface } from './FileExplorerInterface';
+import { LLMService } from '../services/LLMService';
 import { FileService } from '../services/FileService';
+import { AnswerService } from '../services/AnswerService';
+import { ChatService } from '../services/ChatService';
+import { GroupbyService } from '../services/GroupbyService';
+
+type TabType = 'search' | 'chat' | 'files';
 
 export const LLMQueryApp: React.FC = () => {
   const [isInitializing, setIsInitializing] = useState(true);
-  const [contextLoaded, setContextLoaded] = useState(false);
-  const [contextContent, setContextContent] = useState<string>('');
+  const [filesLoaded, setFilesLoaded] = useState(false);
+  const [availableFiles, setAvailableFiles] = useState<string[]>([]);
   const [isQuerying, setIsQuerying] = useState(false);
   const [initializationError, setInitializationError] = useState<string | null>(null);
   const [modelInfo, setModelInfo] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<TabType>('chat');
+  const [chatMessages, setChatMessages] = useState<any[]>([]);
+  const [isGrouping, setIsGrouping] = useState(false);
+  const [isPushing, setIsPushing] = useState(false);
+  const [fileList, setFileList] = useState<Array<{ name: string; path: string }>>([]);
 
   const llmService = LLMService.getInstance();
   const fileService = FileService.getInstance();
+  const answerService = AnswerService.getInstance();
+  const chatService = ChatService.getInstance();
+  const groupbyService = GroupbyService.getInstance();
 
   // Initialize the app
   useEffect(() => {
@@ -41,12 +59,12 @@ export const LLMQueryApp: React.FC = () => {
       console.log(`TinyLlama model found: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
       console.log(`TinyLlama model path: ${modelCheck.path}`);
 
-      // Load context file
-      console.log('Loading context file...');
-      const context = await fileService.readContext();
-      setContextContent(context);
-      setContextLoaded(true);
-      console.log('Context loaded successfully');
+      // Load files from aham directory
+      console.log('Loading files from aham directory...');
+      const files = await answerService.getAvailableFiles();
+      setAvailableFiles(files);
+      setFilesLoaded(true);
+      console.log('Files loaded successfully:', files);
 
       // Initialize LLM service with TinyLlama using the found model path
       console.log('Initializing TinyLlama GGUF model...');
@@ -56,6 +74,23 @@ export const LLMQueryApp: React.FC = () => {
       // Get model information
       const info = llmService.getModelInfo();
       setModelInfo(info);
+
+      // Initialize chat service and load messages (non-blocking)
+      console.log('Initializing chat service...');
+      try {
+        await chatService.initialize();
+        setChatMessages(chatService.getMessages());
+        console.log('Chat service initialized');
+      } catch (chatError) {
+        console.error('Chat service initialization failed, continuing anyway:', chatError);
+        // Continue even if chat fails - don't block the app
+      }
+
+      // Load file list for file explorer
+      console.log('Loading file list...');
+      const ahamFiles = await fileService.getAhamFileList();
+      setFileList(ahamFiles);
+      console.log('File list loaded:', ahamFiles);
 
     } catch (error) {
       console.error('Initialization error:', error);
@@ -70,46 +105,248 @@ export const LLMQueryApp: React.FC = () => {
     } finally {
       setIsInitializing(false);
     }
-  }, [llmService, fileService]);
+  }, [llmService, fileService, answerService, chatService]);
 
-  const handleQuery = useCallback(async (query: string, context: string): Promise<string> => {
-    if (!llmService.isReady()) {
-      throw new Error('LLM service is not ready');
+  const handleQuery = useCallback(async (query: string): Promise<{ answer: string; sources: string[] }> => {
+    if (!answerService.isReady()) {
+      throw new Error('Answer service is not ready');
     }
 
     setIsQuerying(true);
     try {
-      const response: LLMResponse = await llmService.query(query, context);
-      return response.text;
+      const response = await answerService.answerQuery(query);
+      return {
+        answer: response.answer,
+        sources: response.sources,
+      };
     } catch (error) {
       console.error('Query execution error:', error);
       throw error;
     } finally {
       setIsQuerying(false);
     }
-  }, [llmService]);
+  }, [answerService]);
 
-  const getContextPreview = useCallback((): string => {
-    if (!contextContent) return '';
-    
-    // Return first 200 characters as preview
-    return contextContent.length > 200 
-      ? `${contextContent.substring(0, 200)}...`
-      : contextContent;
-  }, [contextContent]);
+  const handleSaveMessage = useCallback(async (message: string, tags: string[]) => {
+    try {
+      await chatService.saveMessage(message, tags);
+      setChatMessages(chatService.getMessages());
+    } catch (error) {
+      console.error('Error saving message:', error);
+      Alert.alert('Error', 'Failed to save message');
+    }
+  }, [chatService]);
+
+  const handleClearMessages = useCallback(async () => {
+    Alert.alert(
+      'Clear All Messages',
+      'Are you sure you want to delete all messages? This cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Clear', 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await chatService.clearAllMessages();
+              setChatMessages([]);
+              if (Platform.OS === 'android') {
+                ToastAndroid.show('All messages cleared', ToastAndroid.SHORT);
+              }
+            } catch (error) {
+              console.error('Error clearing messages:', error);
+              Alert.alert('Error', 'Failed to clear messages');
+            }
+          }
+        }
+      ]
+    );
+  }, [chatService]);
+
+  const handleDeleteMessage = useCallback(async (id: string) => {
+    try {
+      await chatService.deleteMessage(id);
+      setChatMessages(chatService.getMessages());
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Message deleted', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      Alert.alert('Error', 'Failed to delete message');
+    }
+  }, [chatService]);
+
+  const handleUpdateMessage = useCallback(async (id: string, newText: string, tags: string[]) => {
+    try {
+      await chatService.updateMessage(id, newText, tags);
+      setChatMessages(chatService.getMessages());
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Message updated', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.error('Error updating message:', error);
+      Alert.alert('Error', 'Failed to update message');
+    }
+  }, [chatService]);
+
+  const handleLoadFile = useCallback(async (filePath: string): Promise<string> => {
+    try {
+      return await fileService.loadFileForEditing(filePath);
+    } catch (error) {
+      console.error('Error loading file:', error);
+      throw error;
+    }
+  }, [fileService]);
+
+  const handleSaveFile = useCallback(async (filePath: string, content: string): Promise<void> => {
+    try {
+      await fileService.saveEditedFile(filePath, content);
+    } catch (error) {
+      console.error('Error saving file:', error);
+      throw error;
+    }
+  }, [fileService]);
+
+  const handlePushMessages = useCallback(async () => {
+    if (chatMessages.length === 0) {
+      return;
+    }
+
+    setIsPushing(true);
+    try {
+      console.log('Pushing messages to aham files...');
+
+      // Group messages by their first tag
+      const messagesByTag: { [tag: string]: Array<{ text: string; timestamp: Date }> } = {};
+      
+      for (const message of chatMessages) {
+        const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '#random';
+        if (!messagesByTag[firstTag]) {
+          messagesByTag[firstTag] = [];
+        }
+        messagesByTag[firstTag].push({
+          text: message.text,
+          timestamp: message.timestamp,
+        });
+      }
+
+      console.log('Grouped messages by tags:', Object.keys(messagesByTag));
+
+      // Append to each corresponding file
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const [tag, messages] of Object.entries(messagesByTag)) {
+        try {
+          await fileService.appendToAhamFile(tag, messages);
+          successCount++;
+          console.log(`✓ Pushed ${messages.length} messages to ${tag}`);
+        } catch (error) {
+          failCount++;
+          console.error(`✗ Failed to push messages to ${tag}:`, error);
+        }
+      }
+
+      // Show result and clear if successful
+      if (failCount === 0) {
+        // Clear conversation history on success
+        await chatService.clearAllMessages();
+        setChatMessages([]);
+        
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `Pushed ${chatMessages.length} messages to ${successCount} files!`,
+            ToastAndroid.LONG
+          );
+        } else {
+          Alert.alert('Success', `Pushed ${chatMessages.length} messages to ${successCount} files!`);
+        }
+      } else {
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `Pushed to ${successCount} files, ${failCount} failed`,
+            ToastAndroid.LONG
+          );
+        } else {
+          Alert.alert('Partial Success', `Pushed to ${successCount} files, ${failCount} failed`);
+        }
+      }
+    } catch (error) {
+      console.error('Error pushing messages:', error);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Failed to push messages', ToastAndroid.LONG);
+      } else {
+        Alert.alert('Error', 'Failed to push messages');
+      }
+    } finally {
+      setIsPushing(false);
+    }
+  }, [chatMessages, fileService]);
+
+  const handleGroupMessages = useCallback(async () => {
+    if (chatMessages.length < 2) {
+      return;
+    }
+
+    setIsGrouping(true);
+    try {
+      console.log('Starting message grouping with GroupbyService...');
+      
+      // Backup current messages before attempting grouping
+      console.log('Backing up messages...');
+      await chatService.backupMessages();
+      console.log('Messages backed up successfully');
+      
+      // Use GroupbyService to group messages by tags
+      const groupedMessages = await groupbyService.groupMessages(chatMessages);
+      
+      console.log(`GroupbyService returned ${groupedMessages.length} grouped messages`);
+
+      // Replace messages in the chat service
+      await chatService.replaceMessages(groupedMessages);
+      setChatMessages(chatService.getMessages());
+
+      console.log('Message grouping completed successfully');
+      
+      // Show success toast
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Messages grouped successfully!', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      console.error('Error grouping messages:', error);
+      
+      // Restore from backup on any error
+      try {
+        console.log('Restoring messages from backup due to error...');
+        await chatService.restoreFromBackup();
+        setChatMessages(chatService.getMessages());
+      } catch (restoreError) {
+        console.error('Failed to restore from backup:', restoreError);
+      }
+      
+      // Show toast notification
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Grouping failed. Messages restored.', ToastAndroid.LONG);
+      } else {
+        Alert.alert('Grouping Error', 'Grouping failed. Messages have been restored.');
+      }
+    } finally {
+      setIsGrouping(false);
+    }
+  }, [chatMessages, chatService, groupbyService]);
 
   if (isInitializing) {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingTitle}>Initializing TinyLlama GGUF Model</Text>
-          <Text style={styles.loadingSubtitle}>
-            Loading TinyLlama 1.1B model and context file...
-          </Text>
-          <Text style={styles.loadingDetails}>
-            Model: tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
-          </Text>
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingTitle}>Awakening the Oracle</Text>
+        <Text style={styles.loadingSubtitle}>
+          Summoning ancient wisdom...
+        </Text>
+        <Text style={styles.loadingDetails}>
+          🪔 Preparing the lamp
+        </Text>
           {initializationError && (
             <View style={styles.errorContainer}>
               <Text style={styles.errorTitle}>Initialization Failed</Text>
@@ -123,25 +360,87 @@ export const LLMQueryApp: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
+      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>TinyLlama GGUF Query App</Text>
-        <Text style={styles.headerSubtitle}>
-          Ask questions using TinyLlama 1.1B model with context from your file
-        </Text>
-        {modelInfo && (
-          <Text style={styles.modelInfo}>
-            {modelInfo}
-          </Text>
-        )}
+        <Text style={styles.headerTitle}>🏝️Rūḥ</Text>
       </View>
       
-      <QueryInterface
-        onQuery={handleQuery}
-        isLoading={isQuerying}
-        contextLoaded={contextLoaded}
-        contextPreview={getContextPreview()}
-      />
+      {/* Tab Content */}
+      {activeTab === 'search' ? (
+        <QueryInterface
+          onQuery={handleQuery}
+          isLoading={isQuerying}
+          filesLoaded={filesLoaded}
+          availableFiles={availableFiles}
+        />
+      ) : activeTab === 'chat' ? (
+        <ChatInterface
+          onSaveMessage={handleSaveMessage}
+          onGroupMessages={handleGroupMessages}
+          onClearMessages={handleClearMessages}
+          onPushMessages={handlePushMessages}
+          onDeleteMessage={handleDeleteMessage}
+          onUpdateMessage={handleUpdateMessage}
+          messages={chatMessages}
+          isGrouping={isGrouping}
+          isPushing={isPushing}
+        />
+      ) : (
+        <FileExplorerInterface
+          files={fileList}
+          onLoadFile={handleLoadFile}
+          onSaveFile={handleSaveFile}
+          isLoading={false}
+        />
+      )}
+
+      {/* Tab Navigation - Fixed at Bottom */}
+      <View style={styles.tabBar}>
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'chat' && styles.tabButtonActive
+          ]}
+          onPress={() => setActiveTab('chat')}
+        >
+          <Text style={[
+            styles.tabIcon,
+            activeTab === 'chat' && styles.tabIconActive
+          ]}>
+            💭
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'search' && styles.tabButtonActive
+          ]}
+          onPress={() => setActiveTab('search')}
+        >
+          <Text style={[
+            styles.tabIcon,
+            activeTab === 'search' && styles.tabIconActive
+          ]}>
+            🧞
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'files' && styles.tabButtonActive
+          ]}
+          onPress={() => setActiveTab('files')}
+        >
+          <Text style={[
+            styles.tabIcon,
+            activeTab === 'files' && styles.tabIconActive
+          ]}>
+            🏰
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -149,7 +448,7 @@ export const LLMQueryApp: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F5DEB3',
   },
   loadingContainer: {
     flex: 1,
@@ -197,32 +496,82 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   header: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    backgroundColor: '#00CED1',
+    paddingHorizontal: 20,
+    paddingTop: 60,
+    paddingBottom: 24,
+    borderBottomWidth: 2,
+    borderBottomColor: '#008B8B',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
+    fontSize: 42,
+    fontWeight: '900',
+    color: '#8B6F47',
+    marginBottom: 4,
+    letterSpacing: 1,
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   headerSubtitle: {
     fontSize: 16,
-    color: '#666',
-    lineHeight: 22,
+    color: '#FFEB3B',
+    lineHeight: 20,
+    fontWeight: '800',
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textShadowColor: '#006064',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
-  modelInfo: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 8,
-    fontFamily: 'monospace',
+  tabBar: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 2,
+    borderTopColor: '#00BCD4',
+    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+    paddingTop: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 12,
+  },
+  tabButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginHorizontal: 8,
+    borderRadius: 16,
+    backgroundColor: 'transparent',
+  },
+  tabButtonActive: {
+    backgroundColor: '#E0F7FA',
+    borderWidth: 1,
+    borderColor: '#00BCD4',
+  },
+  tabIcon: {
+    fontSize: 28,
+    marginBottom: 4,
+    opacity: 0.5,
+  },
+  tabIconActive: {
+    opacity: 1,
+  },
+  tabLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#00838F',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    opacity: 0.5,
+  },
+  tabLabelActive: {
+    opacity: 1,
+    color: '#006064',
   },
 });

@@ -58,15 +58,44 @@ export class FileService {
   }
 
   /**
-   * Read the context file from assets
+   * Read all markdown files from the aham directory in assets
+   */
+  public async readAhamFiles(): Promise<FileContent[]> {
+    const ahamFiles = ['aham/gig.md', 'aham/fun.md', 'aham/love.md', 'aham/play.md', 'aham/work.md'];
+    const fileContents: FileContent[] = [];
+
+    for (const fileName of ahamFiles) {
+      try {
+        const fileContent = await this.readAssetFile(fileName);
+        fileContents.push(fileContent);
+        console.log(`✓ Read file: ${fileName}`);
+      } catch (error) {
+        console.warn(`⚠ Failed to read ${fileName}:`, error);
+      }
+    }
+
+    if (fileContents.length === 0) {
+      throw new Error('No files found in aham directory');
+    }
+
+    return fileContents;
+  }
+
+  /**
+   * Read the context file from assets (legacy support)
+   * @deprecated Use readAhamFiles() instead
    */
   public async readContext(): Promise<string> {
     try {
-      const fileContent = await this.readAssetFile('context.txt');
-      return fileContent.content;
+      // Try new aham directory structure first
+      const ahamFiles = await this.readAhamFiles();
+      // Combine all file contents with separators
+      return ahamFiles
+        .map(file => `=== ${file.fileName} ===\n${file.content}`)
+        .join('\n\n');
     } catch (error) {
-      console.error('Error reading context file:', error);
-      throw new Error('Failed to read context file. Make sure context.txt exists in assets.');
+      console.error('Error reading aham files:', error);
+      throw new Error('Failed to read context files from aham directory.');
     }
   }
 
@@ -169,6 +198,145 @@ export class FileService {
     } catch (error) {
       console.error('Error listing GGUF models:', error);
       return [];
+    }
+  }
+
+  /**
+   * Get list of aham files for the file explorer
+   */
+  public async getAhamFileList(): Promise<Array<{ name: string; path: string }>> {
+    const ahamFiles = ['gig.md', 'fun.md', 'love.md', 'play.md', 'work.md'];
+    return ahamFiles.map(fileName => ({
+      name: fileName,
+      path: `aham/${fileName}`,
+    }));
+  }
+
+  /**
+   * Load a file for editing (creates writable copy if needed)
+   */
+  public async loadFileForEditing(filePath: string): Promise<string> {
+    const fileName = filePath.split('/').pop() || '';
+    const writablePath = `${RNFS.DocumentDirectoryPath}/${filePath}`;
+    
+    console.log(`FileService: Loading file for editing: ${filePath}`);
+    
+    try {
+      // Check if writable copy exists
+      const exists = await RNFS.exists(writablePath);
+      
+      if (exists) {
+        // Load from writable location
+        const content = await RNFS.readFile(writablePath, 'utf8');
+        console.log(`FileService: Loaded from writable storage: ${writablePath}`);
+        return content;
+      } else {
+        // Load from assets and create writable copy
+        const assetContent = await this.readAssetFile(filePath);
+        
+        // Ensure directory exists
+        const dirPath = writablePath.substring(0, writablePath.lastIndexOf('/'));
+        const dirExists = await RNFS.exists(dirPath);
+        if (!dirExists) {
+          await RNFS.mkdir(dirPath);
+        }
+        
+        // Create writable copy
+        await RNFS.writeFile(writablePath, assetContent.content, 'utf8');
+        console.log(`FileService: Created writable copy at ${writablePath}`);
+        return assetContent.content;
+      }
+    } catch (error) {
+      console.error(`FileService: Error loading file ${filePath}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Save an edited file
+   */
+  public async saveEditedFile(filePath: string, content: string): Promise<void> {
+    const writablePath = `${RNFS.DocumentDirectoryPath}/${filePath}`;
+    
+    console.log(`FileService: Saving file: ${filePath}`);
+    
+    try {
+      // Ensure directory exists
+      const dirPath = writablePath.substring(0, writablePath.lastIndexOf('/'));
+      const dirExists = await RNFS.exists(dirPath);
+      if (!dirExists) {
+        await RNFS.mkdir(dirPath);
+      }
+      
+      await RNFS.writeFile(writablePath, content, 'utf8');
+      console.log(`FileService: Successfully saved to ${writablePath}`);
+    } catch (error) {
+      console.error(`FileService: Error saving file ${filePath}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Append messages to an aham file based on tag
+   * @param tag The tag that determines which file to append to (e.g., '#gig' -> gig.md)
+   * @param messages Array of message objects with text and timestamp
+   */
+  public async appendToAhamFile(
+    tag: string,
+    messages: Array<{ text: string; timestamp: Date }>
+  ): Promise<void> {
+    // Map tag to file name (remove # and add .md extension)
+    const tagName = tag.replace('#', '');
+    const fileName = `${tagName}.md`;
+    const ahamDirPath = `${RNFS.DocumentDirectoryPath}/aham`;
+    const filePath = `${ahamDirPath}/${fileName}`;
+
+    console.log(`FileService: Appending ${messages.length} messages to ${fileName}`);
+
+    try {
+      // Ensure aham directory exists
+      const dirExists = await RNFS.exists(ahamDirPath);
+      if (!dirExists) {
+        await RNFS.mkdir(ahamDirPath);
+        console.log(`FileService: Created aham directory at ${ahamDirPath}`);
+      }
+
+      // Read existing content from assets first if file doesn't exist in DocumentDirectory
+      let existingContent = '';
+      const fileExists = await RNFS.exists(filePath);
+      
+      if (!fileExists) {
+        // Try to read from assets as base content
+        try {
+          const assetContent = await this.readAssetFile(`aham/${fileName}`);
+          existingContent = assetContent.content;
+          console.log(`FileService: Loaded base content from assets for ${fileName}`);
+        } catch (error) {
+          console.log(`FileService: No asset file found for ${fileName}, starting fresh`);
+          existingContent = `# ${tagName.charAt(0).toUpperCase() + tagName.slice(1)}\n\n`;
+        }
+      } else {
+        existingContent = await RNFS.readFile(filePath, 'utf8');
+        console.log(`FileService: Read existing content from ${fileName}`);
+      }
+
+      // Format messages with timestamps
+      const newContent = messages
+        .map(msg => {
+          const timestamp = new Date(msg.timestamp).toLocaleString();
+          return `**[${timestamp}]**\n${msg.text}`;
+        })
+        .join('\n\n');
+
+      // Append new content
+      const updatedContent = existingContent.trim() + '\n\n---\n\n' + newContent;
+
+      // Write to DocumentDirectory (writable location)
+      await RNFS.writeFile(filePath, updatedContent, 'utf8');
+      console.log(`FileService: Successfully appended to ${fileName} at ${filePath}`);
+    } catch (error) {
+      console.error(`FileService: Error appending to ${fileName}:`, error);
+      throw error;
     }
   }
 }

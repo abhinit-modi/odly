@@ -54,9 +54,9 @@ export class LLMService {
     const initConfig = {
       model: this.modelPath,
       use_mlock: false,       // Disable mlock to reduce memory pressure
-      n_ctx: 256,             // Minimal context size for mobile
-      n_batch: 64,            // Minimal batch size for mobile
-      n_threads: 1,           // Single thread to reduce overhead
+      n_ctx: 2048,            // Fast mode - still handles all 4 files comfortably
+      n_batch: 256,           // Fast mode - good balance
+      n_threads: 2,           // Fast mode - efficient threading
       n_gpu_layers: 0,        // CPU only for compatibility
     };
     
@@ -91,11 +91,11 @@ export class LLMService {
     // Run inference using llama.rn's completion API
     const result = await this.context.completion({
       prompt: fullPrompt,
-      n_predict: 256,           // Maximum tokens to generate
+      n_predict: 512,           // Fast mode - 2-3 paragraph responses (~15-20 seconds)
       temperature: 0.7,         // Sampling temperature
-      top_p: 0.9,              // Top-p sampling
-      repeat_penalty: 1.1,     // Repetition penalty
-      stop: ['<|user|>', '<|system|>', '\n\n'], // Stop sequences
+      top_p: 0.9,              // Standard top_p for good responses
+      repeat_penalty: 1.1,     // Standard repetition penalty
+      stop: ['<|user|>', '<|system|>'], // Only stop on role markers, allow full responses
     });
 
     // Extract the response text

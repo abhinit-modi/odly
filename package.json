@@ -9,7 +9,9 @@
     "start": "react-native start",
     "test": "jest",
     "setup-model": "node scripts/setup-model.js",
-    "test-setup": "node scripts/test-setup.js"
+    "test-setup": "node scripts/test-setup.js",
+    "warmup": "./warmup.sh",
+    "reload": "./reload.sh"
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.1",

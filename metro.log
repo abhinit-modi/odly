@@ -1015,3 +1015,319 @@ true
  LOG  [94m12:13:45 PM | INFO : ChatService: Messages persisted successfully [0m
  LOG  [94m12:13:59 PM | INFO : ChatService: Messages persisted successfully [0m
  LOG  [94m12:13:59 PM | INFO : ChatService: Updated message 1760987625713wok5u71go [0m
+ LOG  [94m12:20:02 PM | INFO : Pushing messages to aham files... [0m
+ LOG  [94m12:20:02 PM | INFO : Grouped messages by tags: 
+[
+  "#play"
+]
+[0m
+ LOG  [94m12:20:02 PM | INFO : FileService: Appending 1 messages to play.md [0m
+ LOG  [94m12:20:02 PM | INFO : FileService: Read existing content from play.md [0m
+ LOG  [94m12:20:02 PM | INFO : FileService: Successfully appended to play.md at /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:20:02 PM | INFO : ✓ Pushed 1 messages to #play [0m
+ LOG  [94m12:20:02 PM | INFO : ChatService: Messages persisted successfully [0m
+ LOG  [94m12:20:05 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:20:05 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:22:16 PM | INFO : FileService: Loading file for editing: aham/ideas.md [0m
+ LOG  [94m12:22:16 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/ideas.md [0m
+ LOG  [94m12:22:22 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m12:22:22 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m12:23:29 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m12:23:29 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m12:27:50 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:27:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ ERROR  ReferenceError: Property 'markdownStyles' doesn't exist
+
+This error is located at:
+    in FileExplorerInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'markdownStyles' doesn't exist
+
+This error is located at:
+    in FileExplorerInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m12:30:10 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m12:30:10 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m12:30:10 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m12:30:10 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:30:10 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m12:30:10 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m12:30:10 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m12:30:10 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m12:30:10 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m12:30:10 PM | INFO : Initializing chat service... [0m
+ LOG  [94m12:30:10 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m12:30:10 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m12:30:10 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m12:30:10 PM | INFO : Chat service initialized [0m
+ LOG  [94m12:30:10 PM | INFO : Loading file list... [0m
+ LOG  [94m12:30:10 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m12:30:10 PM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m12:31:12 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:31:12 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:31:26 PM | INFO : FileService: Saving file: aham/play.md [0m
+ LOG  [94m12:31:26 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:31:29 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:31:29 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:07 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:32:08 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:21 PM | INFO : FileService: Saving file: aham/play.md [0m
+ LOG  [94m12:32:21 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:24 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:32:24 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:35 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:32:35 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:44 PM | INFO : FileService: Saving file: aham/play.md [0m
+ LOG  [94m12:32:44 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:32:46 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:32:46 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:33:05 PM | INFO : FileService: Saving file: aham/play.md [0m
+ LOG  [94m12:33:05 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:33:07 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:33:08 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:33:38 PM | INFO : FileService: Saving file: aham/play.md [0m
+ LOG  [94m12:33:38 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m12:33:40 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m12:33:40 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  Running "odly" with {"rootTag":71}
+ LOG  [94m12:33:58 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m12:33:58 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m12:33:58 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m12:33:58 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:33:58 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m12:33:58 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m12:33:58 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m12:33:58 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m12:33:58 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m12:33:58 PM | INFO : Initializing chat service... [0m
+ LOG  [94m12:33:58 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m12:33:58 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m12:33:58 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m12:33:58 PM | INFO : Chat service initialized [0m
+ LOG  [94m12:33:58 PM | INFO : Loading file list... [0m
+ LOG  [94m12:33:58 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m12:33:58 PM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m12:34:04 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m12:34:04 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  Running "odly" with {"rootTag":91}
+ LOG  [94m12:34:58 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m12:34:58 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m12:34:58 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m12:34:58 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m12:34:58 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m12:34:58 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m12:34:58 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m12:34:58 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m12:34:58 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m12:34:58 PM | INFO : Initializing chat service... [0m
+ LOG  [94m12:34:58 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m12:34:58 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m12:34:58 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m12:34:58 PM | INFO : Chat service initialized [0m
+ LOG  [94m12:34:58 PM | INFO : Loading file list... [0m
+ LOG  [94m12:34:58 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m12:34:58 PM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m12:35:03 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m12:35:03 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:35:21 PM | INFO : FileService: Saving file: aham/work.md [0m
+ LOG  [94m12:35:21 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:35:22 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m12:35:22 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:35:33 PM | INFO : FileService: Saving file: aham/work.md [0m
+ LOG  [94m12:35:33 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:36:19 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m12:36:19 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:36:27 PM | INFO : FileService: Saving file: aham/work.md [0m
+ LOG  [94m12:36:27 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m12:48:49 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m12:48:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m12:51:54 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m12:51:54 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m1:00:57 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m1:00:57 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m1:01:00 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m1:01:00 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m1:01:02 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m1:01:02 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m1:01:12 PM | INFO : FileService: Saving file: aham/love.md [0m
+ LOG  [94m1:01:12 PM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/love.md [0m

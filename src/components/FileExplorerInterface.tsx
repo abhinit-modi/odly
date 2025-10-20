@@ -12,6 +12,7 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { log } from '../utils/logger';
 
 interface FileItem {
@@ -48,6 +49,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
   const [isRenamingFile, setIsRenamingFile] = useState(false);
   const [fileToRename, setFileToRename] = useState<FileItem | null>(null);
   const [renameFileName, setRenameFileName] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleFileClick = useCallback(async (file: FileItem) => {
     if (hasUnsavedChanges) {
@@ -77,6 +79,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
       setFileContent(content);
       setSelectedFile(file);
       setHasUnsavedChanges(false);
+      setIsEditMode(false); // Open in read-only mode by default
     } catch (error) {
       log.error('Error loading file:', error);
       Alert.alert('Error', `Failed to load ${file.name}`);
@@ -92,6 +95,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
     try {
       await onSaveFile(selectedFile.path, fileContent);
       setHasUnsavedChanges(false);
+      setIsEditMode(false); // Switch back to read-only mode after saving
       if (Platform.OS === 'android') {
         ToastAndroid.show('File saved successfully!', ToastAndroid.SHORT);
       } else {
@@ -119,6 +123,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
               setSelectedFile(null);
               setFileContent('');
               setHasUnsavedChanges(false);
+              setIsEditMode(false);
             }
           }
         ]
@@ -126,8 +131,13 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
     } else {
       setSelectedFile(null);
       setFileContent('');
+      setIsEditMode(false);
     }
   }, [hasUnsavedChanges]);
+
+  const handleEnterEditMode = useCallback(() => {
+    setIsEditMode(true);
+  }, []);
 
   const handleContentChange = useCallback((text: string) => {
     setFileContent(text);
@@ -264,37 +274,59 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
             {selectedFile.name}
             {hasUnsavedChanges && ' *'}
           </Text>
-          <TouchableOpacity
-            style={[
-              styles.saveButton,
-              (isSaving || !hasUnsavedChanges) && styles.buttonDisabled
-            ]}
-            onPress={handleSave}
-            disabled={isSaving || !hasUnsavedChanges}
-          >
-            {isSaving ? (
-              <ActivityIndicator color="#FFFFFF" size="small" />
-            ) : (
-              <Text style={styles.saveButtonText}>💾</Text>
-            )}
-          </TouchableOpacity>
+          {!isEditMode ? (
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={handleEnterEditMode}
+            >
+              <Text style={styles.editButtonText}>Edit ✏️</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.saveButton,
+                (isSaving || !hasUnsavedChanges) && styles.buttonDisabled
+              ]}
+              onPress={handleSave}
+              disabled={isSaving || !hasUnsavedChanges}
+            >
+              {isSaving ? (
+                <ActivityIndicator color="#FFFFFF" size="small" />
+              ) : (
+                <Text style={styles.saveButtonText}>💾</Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
 
-        {/* Text Editor */}
-        <ScrollView 
-          style={styles.editorContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          <TextInput
-            style={styles.editor}
-            value={fileContent}
-            onChangeText={handleContentChange}
-            multiline
-            editable={!isSaving && !isLoadingFile}
-            placeholder="File content..."
-            placeholderTextColor="#80868b"
-          />
-        </ScrollView>
+        {/* Content Area */}
+        {!isEditMode ? (
+          // Read Mode - Markdown Display
+          <ScrollView 
+            style={styles.editorContainer}
+            contentContainerStyle={styles.markdownContainer}
+          >
+            <Markdown style={markdownStyles}>
+              {fileContent || 'No content'}
+            </Markdown>
+          </ScrollView>
+        ) : (
+          // Edit Mode - Text Editor
+          <ScrollView 
+            style={styles.editorContainer}
+            keyboardShouldPersistTaps="handled"
+          >
+            <TextInput
+              style={styles.editor}
+              value={fileContent}
+              onChangeText={handleContentChange}
+              multiline
+              editable={!isSaving && !isLoadingFile}
+              placeholder="File content..."
+              placeholderTextColor="#80868b"
+            />
+          </ScrollView>
+        )}
       </KeyboardAvoidingView>
     );
   }
@@ -502,24 +534,26 @@ const styles = StyleSheet.create({
   editorHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: '#A8DADC',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 2,
     borderBottomColor: '#00BCD4',
-    gap: 12,
   },
   backButton: {
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 8,
     backgroundColor: '#00BCD4',
     borderRadius: 12,
+    minWidth: 80,
   },
   backButtonText: {
     fontSize: 14,
     fontWeight: '700',
     color: '#FFFFFF',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
   },
   fileName: {
     flex: 1,
@@ -527,25 +561,44 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#006064',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
+    paddingHorizontal: 8,
   },
   saveButton: {
-    width: 44,
-    height: 44,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: '#7CB342',
-    borderRadius: 22,
+    borderRadius: 12,
+    minWidth: 80,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#558B2F',
   },
   saveButtonText: {
     fontSize: 24,
+  },
+  editButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: '#FF9800',
+    borderRadius: 12,
+    minWidth: 80,
+  },
+  editButtonText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
   },
   buttonDisabled: {
     opacity: 0.3,
   },
   editorContainer: {
     flex: 1,
+  },
+  markdownContainer: {
+    padding: 20,
+    paddingTop: 32,
   },
   editor: {
     flex: 1,
@@ -668,6 +721,104 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#FFFFFF',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+});
+
+const markdownStyles = StyleSheet.create({
+  body: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#004D40',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  heading1: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#006064',
+    marginTop: 0,
+    marginBottom: 12,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  heading2: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#00838F',
+    marginTop: 16,
+    marginBottom: 10,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  heading3: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#0097A7',
+    marginTop: 12,
+    marginBottom: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  paragraph: {
+    marginBottom: 12,
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#004D40',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  strong: {
+    fontWeight: '700',
+    color: '#00695C',
+  },
+  em: {
+    fontStyle: 'italic',
+  },
+  code_inline: {
+    backgroundColor: '#E0F2F1',
+    color: '#D32F2F',
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 4,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  code_block: {
+    backgroundColor: '#263238',
+    color: '#FFFFFF',
+    padding: 12,
+    borderRadius: 8,
+    marginVertical: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  fence: {
+    backgroundColor: '#263238',
+    color: '#FFFFFF',
+    padding: 12,
+    borderRadius: 8,
+    marginVertical: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  blockquote: {
+    backgroundColor: '#FFF9C4',
+    borderLeftWidth: 4,
+    borderLeftColor: '#FBC02D',
+    paddingLeft: 12,
+    paddingVertical: 8,
+    marginVertical: 8,
+  },
+  bullet_list: {
+    marginBottom: 8,
+  },
+  ordered_list: {
+    marginBottom: 8,
+  },
+  list_item: {
+    marginBottom: 4,
+    flexDirection: 'row',
+  },
+  link: {
+    color: '#1976D2',
+    textDecorationLine: 'underline',
+  },
+  hr: {
+    backgroundColor: '#B0BEC5',
+    height: 2,
+    marginVertical: 16,
   },
 });
 

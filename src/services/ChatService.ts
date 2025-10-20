@@ -1,4 +1,5 @@
 import RNFS from 'react-native-fs';
+import { log } from '../utils/logger';
 
 export interface ChatMessage {
   id: string;
@@ -33,8 +34,8 @@ export class ChatService {
    */
   public async initialize(): Promise<void> {
     try {
-      console.log('ChatService: Starting initialization...');
-      console.log('ChatService: Storage path:', this.storagePath);
+      log.info('ChatService: Starting initialization...');
+      log.info('ChatService: Storage path:', this.storagePath);
       
       const exists = await RNFS.exists(this.storagePath);
       if (exists) {
@@ -45,13 +46,13 @@ export class ChatService {
           ...msg,
           timestamp: new Date(msg.timestamp),
         }));
-        console.log(`ChatService: Loaded ${this.messages.length} chat messages from storage`);
+        log.info(`ChatService: Loaded ${this.messages.length} chat messages from storage`);
       } else {
-        console.log('ChatService: No stored messages found, starting fresh');
+        log.info('ChatService: No stored messages found, starting fresh');
         this.messages = [];
       }
     } catch (error) {
-      console.error('ChatService: Error loading chat messages:', error);
+      log.error('ChatService: Error loading chat messages:', error);
       this.messages = [];
     }
   }
@@ -103,7 +104,7 @@ export class ChatService {
     };
 
     await this.persistMessages();
-    console.log(`ChatService: Updated message ${id}`);
+    log.info(`ChatService: Updated message ${id}`);
   }
 
   /**
@@ -132,9 +133,9 @@ export class ChatService {
         .join('\n\n---\n\n');
       
       await RNFS.writeFile(this.backupPath, backupContent, 'utf8');
-      console.log('ChatService: Messages backed up successfully');
+      log.info('ChatService: Messages backed up successfully');
     } catch (error) {
-      console.error('ChatService: Error backing up chat messages:', error);
+      log.error('ChatService: Error backing up chat messages:', error);
       throw error;
     }
   }
@@ -144,7 +145,7 @@ export class ChatService {
    */
   public async restoreFromBackup(): Promise<void> {
     try {
-      console.log('ChatService: Restoring from backup...');
+      log.info('ChatService: Restoring from backup...');
       const exists = await RNFS.exists(this.storagePath);
       if (exists) {
         const content = await RNFS.readFile(this.storagePath, 'utf8');
@@ -154,10 +155,10 @@ export class ChatService {
           ...msg,
           timestamp: new Date(msg.timestamp),
         }));
-        console.log(`ChatService: Restored ${this.messages.length} messages from backup`);
+        log.info(`ChatService: Restored ${this.messages.length} messages from backup`);
       }
     } catch (error) {
-      console.error('ChatService: Error restoring from backup:', error);
+      log.error('ChatService: Error restoring from backup:', error);
       throw error;
     }
   }
@@ -168,9 +169,9 @@ export class ChatService {
   private async persistMessages(): Promise<void> {
     try {
       await RNFS.writeFile(this.storagePath, JSON.stringify(this.messages), 'utf8');
-      console.log('ChatService: Messages persisted successfully');
+      log.info('ChatService: Messages persisted successfully');
     } catch (error) {
-      console.error('ChatService: Error persisting chat messages:', error);
+      log.error('ChatService: Error persisting chat messages:', error);
       throw error;
     }
   }

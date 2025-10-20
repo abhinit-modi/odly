@@ -113,6 +113,18 @@ else
     print_success "Metro bundler already running"
 fi
 
+# Verify Metro is responding
+print_step "Verifying Metro bundler is responding..."
+sleep 2
+METRO_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$METRO_PORT/status 2>/dev/null || echo "000")
+if [ "$METRO_STATUS" = "200" ]; then
+    print_success "Metro bundler is responding correctly"
+else
+    print_warning "Metro may still be starting up (status: $METRO_STATUS)"
+    # Give it more time
+    sleep 3
+fi
+
 # Check if app is installed
 print_step "Checking if app is installed..."
 APP_INSTALLED=$(adb -s $DEVICE_ID shell pm list packages | grep "^package:${APP_PACKAGE}$")
@@ -133,6 +145,16 @@ if [ -z "$APP_INSTALLED" ]; then
     fi
 else
     print_success "App is installed"
+fi
+
+# Setup ADB reverse port forwarding for Metro connection
+print_step "Setting up port forwarding for Metro..."
+adb -s $DEVICE_ID reverse tcp:$METRO_PORT tcp:$METRO_PORT 2>/dev/null
+if [ $? -eq 0 ]; then
+    print_success "Port forwarding established (device:$METRO_PORT -> host:$METRO_PORT)"
+else
+    print_error "Failed to set up port forwarding"
+    exit 1
 fi
 
 # Clear logcat buffer
@@ -166,17 +188,38 @@ else
     print_warning "App may not be in focus"
 fi
 
+# Check for Metro connection errors
+print_step "Verifying Metro connection..."
+sleep 3
+CONNECTION_ERRORS=$(adb -s $DEVICE_ID logcat -d | grep -i "Couldn't connect.*$METRO_PORT" | tail -1)
+if [ ! -z "$CONNECTION_ERRORS" ]; then
+    print_error "Device cannot connect to Metro bundler!"
+    echo ""
+    echo -e "${YELLOW}Troubleshooting:${NC}"
+    echo "  1. Ensure port forwarding is active: adb reverse tcp:$METRO_PORT tcp:$METRO_PORT"
+    echo "  2. Check Metro is running: lsof -ti:$METRO_PORT"
+    echo "  3. Check Metro logs: tail -f metro.log"
+    exit 1
+else
+    print_success "Metro connection established"
+fi
+
 # Show initialization logs
 print_step "Checking initialization logs..."
 sleep 2
-LOGS=$(adb -s $DEVICE_ID logcat -d -s ReactNativeJS:I | tail -20)
+LOGS=$(adb -s $DEVICE_ID logcat -d -s ReactNativeJS:I | tail -30)
 if echo "$LOGS" | grep -q "TinyLlama model initialized successfully"; then
     print_success "Model initialized successfully!"
     echo ""
     echo -e "${CYAN}Recent logs:${NC}"
     echo "$LOGS" | grep "ReactNativeJS" | tail -10
+elif echo "$LOGS" | grep -q "Initializing TinyLlama"; then
+    print_warning "Model is initializing (this takes ~10-15 seconds)..."
+    echo ""
+    echo -e "${CYAN}Recent logs:${NC}"
+    echo "$LOGS" | grep "ReactNativeJS" | tail -10
 else
-    print_warning "Model may still be initializing..."
+    print_warning "Waiting for app to load JavaScript bundle..."
     echo ""
     echo -e "${CYAN}Recent logs:${NC}"
     echo "$LOGS" | grep "ReactNativeJS" | tail -10
@@ -195,12 +238,16 @@ echo -e "  Metro Port:   ${YELLOW}$METRO_PORT${NC}"
 echo -e "  Metro PID:    ${YELLOW}$(cat .metro.pid 2>/dev/null || echo 'N/A')${NC}"
 echo ""
 echo -e "${GREEN}Useful Commands:${NC}"
-echo -e "  View logs:    ${YELLOW}adb -s $DEVICE_ID logcat -s ReactNativeJS:*${NC}"
-echo -e "  Stop Metro:   ${YELLOW}kill \$(cat .metro.pid)${NC}"
-echo -e "  Reload app:   ${YELLOW}adb -s $DEVICE_ID shell input keyevent 82${NC}"
-echo -e "  Restart app:  ${YELLOW}adb -s $DEVICE_ID shell am start -n $MAIN_ACTIVITY${NC}"
+echo -e "  View logs:      ${YELLOW}adb -s $DEVICE_ID logcat -s ReactNativeJS:*${NC}"
+echo -e "  Stop Metro:     ${YELLOW}kill \$(cat .metro.pid)${NC}"
+echo -e "  Port forward:   ${YELLOW}adb -s $DEVICE_ID reverse tcp:$METRO_PORT tcp:$METRO_PORT${NC}"
+echo -e "  Reload JS:      ${YELLOW}adb -s $DEVICE_ID shell input keyevent 82${NC}"
+echo -e "  Restart app:    ${YELLOW}adb -s $DEVICE_ID shell am start -n $MAIN_ACTIVITY${NC}"
+echo -e "  Force stop app: ${YELLOW}adb -s $DEVICE_ID shell am force-stop $APP_PACKAGE${NC}"
 echo ""
 echo -e "${BLUE}📱 Your device is ready for prototyping!${NC}"
+echo ""
+echo -e "${CYAN}Note:${NC} If you see EPERM cache errors in Metro logs, they are harmless and don't affect functionality."
 echo ""
 
 # Optional: Follow logs

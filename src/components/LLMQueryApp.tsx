@@ -18,6 +18,7 @@ import { FileService } from '../services/FileService';
 import { AnswerService } from '../services/AnswerService';
 import { ChatService } from '../services/ChatService';
 import { GroupbyService } from '../services/GroupbyService';
+import { log } from '../utils/logger';
 
 type TabType = 'search' | 'chat' | 'files';
 
@@ -33,6 +34,7 @@ export const LLMQueryApp: React.FC = () => {
   const [isGrouping, setIsGrouping] = useState(false);
   const [isPushing, setIsPushing] = useState(false);
   const [fileList, setFileList] = useState<Array<{ name: string; path: string }>>([]);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
 
   const llmService = LLMService.getInstance();
   const fileService = FileService.getInstance();
@@ -51,49 +53,54 @@ export const LLMQueryApp: React.FC = () => {
       setInitializationError(null);
 
       // Check TinyLlama model first
-      console.log('Checking TinyLlama GGUF model...');
+      log.info('Checking TinyLlama GGUF model...');
       const modelCheck = await fileService.checkTinyLlamaModel();
       if (!modelCheck.exists) {
         throw new Error(`TinyLlama model not found at: ${modelCheck.path}`);
       }
-      console.log(`TinyLlama model found: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
-      console.log(`TinyLlama model path: ${modelCheck.path}`);
+      log.info(`TinyLlama model found: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
+      log.info(`TinyLlama model path: ${modelCheck.path}`);
 
       // Load files from aham directory
-      console.log('Loading files from aham directory...');
+      log.info('Loading files from aham directory...');
       const files = await answerService.getAvailableFiles();
       setAvailableFiles(files);
       setFilesLoaded(true);
-      console.log('Files loaded successfully:', files);
+      log.info('Files loaded successfully:', files);
 
       // Initialize LLM service with TinyLlama using the found model path
-      console.log('Initializing TinyLlama GGUF model...');
+      log.info('Initializing TinyLlama GGUF model...');
       await llmService.initialize(modelCheck.path);
-      console.log('TinyLlama model initialized successfully');
+      log.info('TinyLlama model initialized successfully');
 
       // Get model information
       const info = llmService.getModelInfo();
       setModelInfo(info);
 
       // Initialize chat service and load messages (non-blocking)
-      console.log('Initializing chat service...');
+      log.info('Initializing chat service...');
       try {
         await chatService.initialize();
         setChatMessages(chatService.getMessages());
-        console.log('Chat service initialized');
+        log.info('Chat service initialized');
       } catch (chatError) {
-        console.error('Chat service initialization failed, continuing anyway:', chatError);
+        log.error('Chat service initialization failed, continuing anyway:', chatError);
         // Continue even if chat fails - don't block the app
       }
 
-      // Load file list for file explorer
-      console.log('Loading file list...');
+      // Load file list for file explorer and generate tags
+      log.info('Loading file list...');
       const ahamFiles = await fileService.getAhamFileList();
       setFileList(ahamFiles);
-      console.log('File list loaded:', ahamFiles);
+      log.info('File list loaded:', ahamFiles);
+      
+      // Generate tags from file list (remove .md extension and add # prefix)
+      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
+      setAvailableTags(tags);
+      log.info('Available tags:', tags);
 
     } catch (error) {
-      console.error('Initialization error:', error);
+      log.error('Initialization error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       
       setInitializationError(errorMessage);
@@ -107,20 +114,28 @@ export const LLMQueryApp: React.FC = () => {
     }
   }, [llmService, fileService, answerService, chatService]);
 
-  const handleQuery = useCallback(async (query: string): Promise<{ answer: string; sources: string[] }> => {
+  const handleQuery = useCallback(async (query: string, selectedTags: string[]): Promise<{ answer: string; sources: string[] }> => {
     if (!answerService.isReady()) {
       throw new Error('Answer service is not ready');
     }
 
     setIsQuerying(true);
     try {
-      const response = await answerService.answerQuery(query);
+      // Convert tags to file names (e.g., '#gig' -> 'gig.md')
+      const selectedFileNames = selectedTags.length > 0 
+        ? selectedTags.map(tag => `${tag.replace('#', '')}.md`)
+        : undefined; // undefined means use all files
+      
+      log.info('HandleQuery: Selected tags:', selectedTags);
+      log.info('HandleQuery: Filtering to files:', selectedFileNames || 'all files');
+      
+      const response = await answerService.answerQuery(query, selectedFileNames);
       return {
         answer: response.answer,
         sources: response.sources,
       };
     } catch (error) {
-      console.error('Query execution error:', error);
+      log.error('Query execution error:', error);
       throw error;
     } finally {
       setIsQuerying(false);
@@ -132,7 +147,7 @@ export const LLMQueryApp: React.FC = () => {
       await chatService.saveMessage(message, tags);
       setChatMessages(chatService.getMessages());
     } catch (error) {
-      console.error('Error saving message:', error);
+      log.error('Error saving message:', error);
       Alert.alert('Error', 'Failed to save message');
     }
   }, [chatService]);
@@ -154,7 +169,7 @@ export const LLMQueryApp: React.FC = () => {
                 ToastAndroid.show('All messages cleared', ToastAndroid.SHORT);
               }
             } catch (error) {
-              console.error('Error clearing messages:', error);
+              log.error('Error clearing messages:', error);
               Alert.alert('Error', 'Failed to clear messages');
             }
           }
@@ -171,7 +186,7 @@ export const LLMQueryApp: React.FC = () => {
         ToastAndroid.show('Message deleted', ToastAndroid.SHORT);
       }
     } catch (error) {
-      console.error('Error deleting message:', error);
+      log.error('Error deleting message:', error);
       Alert.alert('Error', 'Failed to delete message');
     }
   }, [chatService]);
@@ -184,7 +199,7 @@ export const LLMQueryApp: React.FC = () => {
         ToastAndroid.show('Message updated', ToastAndroid.SHORT);
       }
     } catch (error) {
-      console.error('Error updating message:', error);
+      log.error('Error updating message:', error);
       Alert.alert('Error', 'Failed to update message');
     }
   }, [chatService]);
@@ -193,7 +208,7 @@ export const LLMQueryApp: React.FC = () => {
     try {
       return await fileService.loadFileForEditing(filePath);
     } catch (error) {
-      console.error('Error loading file:', error);
+      log.error('Error loading file:', error);
       throw error;
     }
   }, [fileService]);
@@ -202,7 +217,67 @@ export const LLMQueryApp: React.FC = () => {
     try {
       await fileService.saveEditedFile(filePath, content);
     } catch (error) {
-      console.error('Error saving file:', error);
+      log.error('Error saving file:', error);
+      throw error;
+    }
+  }, [fileService]);
+
+  const handleCreateFile = useCallback(async (fileName: string): Promise<void> => {
+    try {
+      await fileService.createAhamFile(fileName);
+      log.info('File created successfully:', fileName);
+      
+      // Refresh file list
+      const ahamFiles = await fileService.getAhamFileList();
+      setFileList(ahamFiles);
+      log.info('File list refreshed after creation:', ahamFiles);
+      
+      // Update available tags
+      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
+      setAvailableTags(tags);
+      log.info('Tags updated after file creation:', tags);
+    } catch (error) {
+      log.error('Error creating file:', error);
+      throw error;
+    }
+  }, [fileService]);
+
+  const handleDeleteFile = useCallback(async (fileName: string): Promise<void> => {
+    try {
+      await fileService.deleteAhamFile(fileName);
+      log.info('File deleted successfully:', fileName);
+      
+      // Refresh file list
+      const ahamFiles = await fileService.getAhamFileList();
+      setFileList(ahamFiles);
+      log.info('File list refreshed after deletion:', ahamFiles);
+      
+      // Update available tags
+      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
+      setAvailableTags(tags);
+      log.info('Tags updated after file deletion:', tags);
+    } catch (error) {
+      log.error('Error deleting file:', error);
+      throw error;
+    }
+  }, [fileService]);
+
+  const handleRenameFile = useCallback(async (oldFileName: string, newFileName: string): Promise<void> => {
+    try {
+      await fileService.renameAhamFile(oldFileName, newFileName);
+      log.info('File renamed successfully:', oldFileName, '->', newFileName);
+      
+      // Refresh file list
+      const ahamFiles = await fileService.getAhamFileList();
+      setFileList(ahamFiles);
+      log.info('File list refreshed after rename:', ahamFiles);
+      
+      // Update available tags
+      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
+      setAvailableTags(tags);
+      log.info('Tags updated after file rename:', tags);
+    } catch (error) {
+      log.error('Error renaming file:', error);
       throw error;
     }
   }, [fileService]);
@@ -214,7 +289,7 @@ export const LLMQueryApp: React.FC = () => {
 
     setIsPushing(true);
     try {
-      console.log('Pushing messages to aham files...');
+      log.info('Pushing messages to aham files...');
 
       // Group messages by their first tag
       const messagesByTag: { [tag: string]: Array<{ text: string; timestamp: Date }> } = {};
@@ -230,7 +305,7 @@ export const LLMQueryApp: React.FC = () => {
         });
       }
 
-      console.log('Grouped messages by tags:', Object.keys(messagesByTag));
+      log.info('Grouped messages by tags:', Object.keys(messagesByTag));
 
       // Append to each corresponding file
       let successCount = 0;
@@ -240,10 +315,10 @@ export const LLMQueryApp: React.FC = () => {
         try {
           await fileService.appendToAhamFile(tag, messages);
           successCount++;
-          console.log(`✓ Pushed ${messages.length} messages to ${tag}`);
+          log.info(`✓ Pushed ${messages.length} messages to ${tag}`);
         } catch (error) {
           failCount++;
-          console.error(`✗ Failed to push messages to ${tag}:`, error);
+          log.error(`✗ Failed to push messages to ${tag}:`, error);
         }
       }
 
@@ -272,7 +347,7 @@ export const LLMQueryApp: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error('Error pushing messages:', error);
+      log.error('Error pushing messages:', error);
       if (Platform.OS === 'android') {
         ToastAndroid.show('Failed to push messages', ToastAndroid.LONG);
       } else {
@@ -290,38 +365,38 @@ export const LLMQueryApp: React.FC = () => {
 
     setIsGrouping(true);
     try {
-      console.log('Starting message grouping with GroupbyService...');
+      log.info('Starting message grouping with GroupbyService...');
       
       // Backup current messages before attempting grouping
-      console.log('Backing up messages...');
+      log.info('Backing up messages...');
       await chatService.backupMessages();
-      console.log('Messages backed up successfully');
+      log.info('Messages backed up successfully');
       
       // Use GroupbyService to group messages by tags
       const groupedMessages = await groupbyService.groupMessages(chatMessages);
       
-      console.log(`GroupbyService returned ${groupedMessages.length} grouped messages`);
+      log.info(`GroupbyService returned ${groupedMessages.length} grouped messages`);
 
       // Replace messages in the chat service
       await chatService.replaceMessages(groupedMessages);
       setChatMessages(chatService.getMessages());
 
-      console.log('Message grouping completed successfully');
+      log.info('Message grouping completed successfully');
       
       // Show success toast
       if (Platform.OS === 'android') {
         ToastAndroid.show('Messages grouped successfully!', ToastAndroid.SHORT);
       }
     } catch (error) {
-      console.error('Error grouping messages:', error);
+      log.error('Error grouping messages:', error);
       
       // Restore from backup on any error
       try {
-        console.log('Restoring messages from backup due to error...');
+        log.info('Restoring messages from backup due to error...');
         await chatService.restoreFromBackup();
         setChatMessages(chatService.getMessages());
       } catch (restoreError) {
-        console.error('Failed to restore from backup:', restoreError);
+        log.error('Failed to restore from backup:', restoreError);
       }
       
       // Show toast notification
@@ -372,6 +447,7 @@ export const LLMQueryApp: React.FC = () => {
           isLoading={isQuerying}
           filesLoaded={filesLoaded}
           availableFiles={availableFiles}
+          availableTags={availableTags}
         />
       ) : activeTab === 'chat' ? (
         <ChatInterface
@@ -384,12 +460,16 @@ export const LLMQueryApp: React.FC = () => {
           messages={chatMessages}
           isGrouping={isGrouping}
           isPushing={isPushing}
+          availableTags={availableTags}
         />
       ) : (
         <FileExplorerInterface
           files={fileList}
           onLoadFile={handleLoadFile}
           onSaveFile={handleSaveFile}
+          onCreateFile={handleCreateFile}
+          onDeleteFile={handleDeleteFile}
+          onRenameFile={handleRenameFile}
           isLoading={false}
         />
       )}

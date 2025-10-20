@@ -1,5 +1,6 @@
 import { ChatMessage } from './ChatService';
 import { LLMService } from './LLMService';
+import { log } from '../utils/logger';
 
 export class GroupbyService {
   private static instance: GroupbyService;
@@ -22,7 +23,7 @@ export class GroupbyService {
    * - For #random tag: use LLM to cluster similar messages
    */
   public async groupMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
-    console.log('GroupbyService: Starting message grouping...');
+    log.info('GroupbyService: Starting message grouping...');
     
     // Group messages by their first tag
     const groupedByTag: { [tag: string]: ChatMessage[] } = {};
@@ -35,7 +36,7 @@ export class GroupbyService {
       groupedByTag[firstTag].push(message);
     }
 
-    console.log('GroupbyService: Groups created:', Object.keys(groupedByTag));
+    log.info('GroupbyService: Groups created:', Object.keys(groupedByTag));
 
     const resultMessages: ChatMessage[] = [];
 
@@ -43,18 +44,18 @@ export class GroupbyService {
     for (const [tag, groupMessages] of Object.entries(groupedByTag)) {
       if (tag === '#random') {
         // Use LLM for random group
-        console.log(`GroupbyService: Processing ${groupMessages.length} random messages with LLM...`);
+        log.info(`GroupbyService: Processing ${groupMessages.length} random messages with LLM...`);
         const llmGrouped = await this.groupWithLLM(groupMessages);
         resultMessages.push(...llmGrouped);
       } else {
         // Create bulleted list for non-random groups
-        console.log(`GroupbyService: Creating bulleted list for ${tag} with ${groupMessages.length} messages`);
+        log.info(`GroupbyService: Creating bulleted list for ${tag} with ${groupMessages.length} messages`);
         const bulletedMessage = this.createBulletedList(tag, groupMessages);
         resultMessages.push(bulletedMessage);
       }
     }
 
-    console.log(`GroupbyService: Grouping complete, created ${resultMessages.length} result messages`);
+    log.info(`GroupbyService: Grouping complete, created ${resultMessages.length} result messages`);
     return resultMessages;
   }
 
@@ -129,11 +130,11 @@ Format your response EXACTLY like this (no additional text):
 Important: Return ONLY the JSON array with FULL MESSAGE TEXTS, no other text before or after.`;
 
     try {
-      console.log('GroupbyService: Calling LLM for random group clustering...');
+      log.info('GroupbyService: Calling LLM for random group clustering...');
       const llmResponse = await this.llmService.query(prompt);
       const response = llmResponse.text;
 
-      console.log('GroupbyService: LLM Response received');
+      log.info('GroupbyService: LLM Response received');
 
       // Parse the JSON response
       const jsonMatch = response.match(/\[[\s\S]*\]/);
@@ -157,10 +158,10 @@ Important: Return ONLY the JSON array with FULL MESSAGE TEXTS, no other text bef
         tags: ['#random'],
       }));
 
-      console.log(`GroupbyService: Created ${groupedMessages.length} clustered groups for random messages`);
+      log.info(`GroupbyService: Created ${groupedMessages.length} clustered groups for random messages`);
       return groupedMessages;
     } catch (error) {
-      console.error('GroupbyService: Error clustering random messages:', error);
+      log.error('GroupbyService: Error clustering random messages:', error);
       // Fallback: return original messages as individual items
       return messages.map(msg => ({
         ...msg,

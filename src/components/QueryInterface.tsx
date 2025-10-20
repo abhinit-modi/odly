@@ -11,12 +11,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { log } from '../utils/logger';
 
 interface QueryInterfaceProps {
-  onQuery: (query: string) => Promise<{ answer: string; sources: string[] }>;
+  onQuery: (query: string, selectedTags: string[]) => Promise<{ answer: string; sources: string[] }>;
   isLoading: boolean;
   filesLoaded: boolean;
   availableFiles: string[];
+  availableTags: string[];
 }
 
 export const QueryInterface: React.FC<QueryInterfaceProps> = ({
@@ -24,11 +26,23 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
   isLoading,
   filesLoaded,
   availableFiles,
+  availableTags,
 }) => {
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [sources, setSources] = useState<string[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const toggleTag = useCallback((tag: string) => {
+    setSelectedTags(prev => {
+      if (prev.includes(tag)) {
+        return prev.filter(t => t !== tag);
+      } else {
+        return [...prev, tag];
+      }
+    });
+  }, []);
 
   const handleSearch = useCallback(async () => {
     if (!query.trim()) {
@@ -43,16 +57,16 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
 
     try {
       setHasSearched(true);
-      const result = await onQuery(query.trim());
+      const result = await onQuery(query.trim(), selectedTags);
       setResponse(result.answer);
       setSources(result.sources);
     } catch (error) {
-      console.error('Search error:', error);
+      log.error('Search error:', error);
       Alert.alert('Search Error', `Failed to process search: ${error}`);
       setResponse('');
       setSources([]);
     }
-  }, [query, onQuery, filesLoaded]);
+  }, [query, selectedTags, onQuery, filesLoaded]);
 
   const handleKeyPress = useCallback(() => {
     if (!isLoading) {
@@ -143,35 +157,63 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
 
       {/* Search Bar - Fixed at Bottom */}
       <View style={styles.searchBarContainer}>
-          <View style={styles.searchBar}>
-            <View style={styles.searchInputContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Khoj"
-                value={query}
-                onChangeText={setQuery}
-                editable={!isLoading && filesLoaded}
-                placeholderTextColor="#80868b"
-                returnKeyType="search"
-                onSubmitEditing={handleKeyPress}
-              />
-              <TouchableOpacity
-                style={[
-                  styles.searchButtonInside,
-                  (!filesLoaded || isLoading || !query.trim()) && styles.buttonDisabled
-                ]}
-                onPress={handleSearch}
-                disabled={!filesLoaded || isLoading || !query.trim()}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#00BCD4" size="small" />
-                ) : (
-                  <Text style={styles.searchButtonText}>🐬</Text>
-                )}
-              </TouchableOpacity>
-            </View>
+        {/* Tags Row */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.tagsScrollView}
+          contentContainerStyle={styles.tagsRow}
+          keyboardShouldPersistTaps="handled"
+        >
+          {availableTags.map((tag) => (
+            <TouchableOpacity
+              key={tag}
+              style={[
+                styles.tagButton,
+                selectedTags.includes(tag) && styles.tagButtonSelected
+              ]}
+              onPress={() => toggleTag(tag)}
+              disabled={isLoading}
+            >
+              <Text style={[
+                styles.tagButtonText,
+                selectedTags.includes(tag) && styles.tagButtonTextSelected
+              ]}>
+                {tag}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        <View style={styles.searchBar}>
+          <View style={styles.searchInputContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Khoj"
+              value={query}
+              onChangeText={setQuery}
+              editable={!isLoading && filesLoaded}
+              placeholderTextColor="#80868b"
+              returnKeyType="search"
+              onSubmitEditing={handleKeyPress}
+            />
+            <TouchableOpacity
+              style={[
+                styles.searchButtonInside,
+                (!filesLoaded || isLoading || !query.trim()) && styles.buttonDisabled
+              ]}
+              onPress={handleSearch}
+              disabled={!filesLoaded || isLoading || !query.trim()}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="#00BCD4" size="small" />
+              ) : (
+                <Text style={styles.searchButtonText}>🐬</Text>
+              )}
+            </TouchableOpacity>
           </View>
         </View>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -438,5 +480,33 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     fontWeight: '700',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  tagsScrollView: {
+    marginBottom: 10,
+  },
+  tagsRow: {
+    flexDirection: 'row',
+    gap: 6,
+    paddingRight: 10,
+  },
+  tagButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00BCD4',
+    backgroundColor: '#FFFFFF',
+  },
+  tagButtonSelected: {
+    backgroundColor: '#00BCD4',
+  },
+  tagButtonText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#00BCD4',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  tagButtonTextSelected: {
+    color: '#FFFFFF',
   },
 });

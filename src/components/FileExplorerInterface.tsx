@@ -12,6 +12,7 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
+import { log } from '../utils/logger';
 
 interface FileItem {
   name: string;
@@ -22,6 +23,9 @@ interface FileExplorerInterfaceProps {
   files: FileItem[];
   onLoadFile: (filePath: string) => Promise<string>;
   onSaveFile: (filePath: string, content: string) => Promise<void>;
+  onCreateFile: (fileName: string) => Promise<void>;
+  onDeleteFile: (fileName: string) => Promise<void>;
+  onRenameFile: (oldFileName: string, newFileName: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -29,6 +33,9 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
   files,
   onLoadFile,
   onSaveFile,
+  onCreateFile,
+  onDeleteFile,
+  onRenameFile,
   isLoading,
 }) => {
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
@@ -36,6 +43,11 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isCreatingFile, setIsCreatingFile] = useState(false);
+  const [newFileName, setNewFileName] = useState('');
+  const [isRenamingFile, setIsRenamingFile] = useState(false);
+  const [fileToRename, setFileToRename] = useState<FileItem | null>(null);
+  const [renameFileName, setRenameFileName] = useState('');
 
   const handleFileClick = useCallback(async (file: FileItem) => {
     if (hasUnsavedChanges) {
@@ -66,7 +78,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
       setSelectedFile(file);
       setHasUnsavedChanges(false);
     } catch (error) {
-      console.error('Error loading file:', error);
+      log.error('Error loading file:', error);
       Alert.alert('Error', `Failed to load ${file.name}`);
     } finally {
       setIsLoadingFile(false);
@@ -86,7 +98,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
         Alert.alert('Success', 'File saved successfully!');
       }
     } catch (error) {
-      console.error('Error saving file:', error);
+      log.error('Error saving file:', error);
       Alert.alert('Error', 'Failed to save file');
     } finally {
       setIsSaving(false);
@@ -120,6 +132,111 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
   const handleContentChange = useCallback((text: string) => {
     setFileContent(text);
     setHasUnsavedChanges(true);
+  }, []);
+
+  const handleCreateFile = useCallback(async () => {
+    if (!newFileName.trim()) {
+      Alert.alert('Error', 'Please enter a file name');
+      return;
+    }
+
+    try {
+      await onCreateFile(newFileName.trim());
+      setNewFileName('');
+      setIsCreatingFile(false);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('File created successfully!', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Success', 'File created successfully!');
+      }
+    } catch (error) {
+      log.error('Error creating file:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create file';
+      Alert.alert('Error', errorMessage);
+    }
+  }, [newFileName, onCreateFile]);
+
+  const handleCancelCreate = useCallback(() => {
+    setIsCreatingFile(false);
+    setNewFileName('');
+  }, []);
+
+  const handleFileLongPress = useCallback((file: FileItem) => {
+    Alert.alert(
+      file.name,
+      'What would you like to do?',
+      [
+        {
+          text: 'Rename',
+          onPress: () => {
+            setFileToRename(file);
+            setRenameFileName(file.name.replace('.md', ''));
+            setIsRenamingFile(true);
+          }
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            Alert.alert(
+              'Delete File',
+              `Are you sure you want to delete "${file.name}"? This cannot be undone.`,
+              [
+                { text: 'Cancel', style: 'cancel' },
+                { 
+                  text: 'Delete',
+                  style: 'destructive',
+                  onPress: async () => {
+                    try {
+                      await onDeleteFile(file.name);
+                      if (Platform.OS === 'android') {
+                        ToastAndroid.show('File deleted successfully!', ToastAndroid.SHORT);
+                      } else {
+                        Alert.alert('Success', 'File deleted successfully!');
+                      }
+                    } catch (error) {
+                      log.error('Error deleting file:', error);
+                      const errorMessage = error instanceof Error ? error.message : 'Failed to delete file';
+                      Alert.alert('Error', errorMessage);
+                    }
+                  }
+                }
+              ]
+            );
+          }
+        },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  }, [onDeleteFile]);
+
+  const handleRenameFile = useCallback(async () => {
+    if (!fileToRename || !renameFileName.trim()) {
+      Alert.alert('Error', 'Please enter a file name');
+      return;
+    }
+
+    try {
+      await onRenameFile(fileToRename.name, renameFileName.trim());
+      setRenameFileName('');
+      setIsRenamingFile(false);
+      setFileToRename(null);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('File renamed successfully!', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Success', 'File renamed successfully!');
+      }
+    } catch (error) {
+      log.error('Error renaming file:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to rename file';
+      Alert.alert('Error', errorMessage);
+    }
+  }, [fileToRename, renameFileName, onRenameFile]);
+
+  const handleCancelRename = useCallback(() => {
+    setIsRenamingFile(false);
+    setFileToRename(null);
+    setRenameFileName('');
   }, []);
 
   if (isLoading) {
@@ -184,10 +301,93 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
 
   return (
     <View style={styles.container}>
+      {/* Create File Modal */}
+      {isCreatingFile && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Create New File</Text>
+            <Text style={styles.modalSubtitle}>Enter a name for your new .md file</Text>
+            <TextInput
+              style={styles.modalInput}
+              value={newFileName}
+              onChangeText={setNewFileName}
+              placeholder="e.g., ideas, notes, journal"
+              placeholderTextColor="#80868b"
+              autoFocus
+              maxLength={50}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.modalButtonCancel}
+                onPress={handleCancelCreate}
+              >
+                <Text style={styles.modalButtonCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.modalButtonCreate,
+                  !newFileName.trim() && styles.buttonDisabled
+                ]}
+                onPress={handleCreateFile}
+                disabled={!newFileName.trim()}
+              >
+                <Text style={styles.modalButtonCreateText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* Rename File Modal */}
+      {isRenamingFile && fileToRename && (
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Rename File</Text>
+            <Text style={styles.modalSubtitle}>Enter a new name for {fileToRename.name}</Text>
+            <TextInput
+              style={styles.modalInput}
+              value={renameFileName}
+              onChangeText={setRenameFileName}
+              placeholder="e.g., ideas, notes, journal"
+              placeholderTextColor="#80868b"
+              autoFocus
+              maxLength={50}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.modalButtonCancel}
+                onPress={handleCancelRename}
+              >
+                <Text style={styles.modalButtonCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.modalButtonCreate,
+                  !renameFileName.trim() && styles.buttonDisabled
+                ]}
+                onPress={handleRenameFile}
+                disabled={!renameFileName.trim()}
+              >
+                <Text style={styles.modalButtonCreateText}>Rename</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+
       <ScrollView 
         style={styles.fileListContainer}
         contentContainerStyle={styles.fileListContent}
       >
+        {/* Create New File Button */}
+        <TouchableOpacity
+          style={styles.createFileButton}
+          onPress={() => setIsCreatingFile(true)}
+        >
+          <Text style={styles.createFileIcon}>➕</Text>
+          <Text style={styles.createFileText}>Create New File</Text>
+        </TouchableOpacity>
+
         {files.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateIcon}>🏰</Text>
@@ -202,6 +402,8 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
               key={index}
               style={styles.fileItem}
               onPress={() => handleFileClick(file)}
+              onLongPress={() => handleFileLongPress(file)}
+              delayLongPress={500}
             >
               <Text style={styles.fileIcon}>📄</Text>
               <Text style={styles.fileNameText}>{file.name}</Text>
@@ -354,6 +556,118 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     textAlignVertical: 'top',
     minHeight: 600,
+  },
+  createFileButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7CB342',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#558B2F',
+    shadowColor: '#7CB342',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  createFileIcon: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  createFileText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    borderWidth: 2,
+    borderColor: '#00BCD4',
+    shadowColor: '#00ACC1',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#006064',
+    marginBottom: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: '#0097A7',
+    marginBottom: 20,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    textAlign: 'center',
+  },
+  modalInput: {
+    borderWidth: 2,
+    borderColor: '#00BCD4',
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 16,
+    color: '#004D40',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    marginBottom: 20,
+    backgroundColor: '#F5F5F5',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalButtonCancel: {
+    flex: 1,
+    backgroundColor: '#FF6F61',
+    borderRadius: 12,
+    padding: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#E85D4F',
+  },
+  modalButtonCancelText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalButtonCreate: {
+    flex: 1,
+    backgroundColor: '#7CB342',
+    borderRadius: 12,
+    padding: 12,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#558B2F',
+  },
+  modalButtonCreateText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
 });
 

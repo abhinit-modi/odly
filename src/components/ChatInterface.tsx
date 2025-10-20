@@ -29,9 +29,8 @@ interface ChatInterfaceProps {
   messages: Message[];
   isGrouping: boolean;
   isPushing: boolean;
+  availableTags: string[];
 }
-
-const AVAILABLE_TAGS = ['#gig', '#fun', '#love', '#play', '#work'];
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onSaveMessage,
@@ -43,6 +42,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   messages,
   isGrouping,
   isPushing,
+  availableTags,
 }) => {
   const [inputText, setInputText] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -219,8 +219,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {/* Input Bar - Fixed at Bottom */}
       <View style={styles.inputBarContainer}>
         {/* Tags Row */}
-        <View style={styles.tagsRow}>
-          {AVAILABLE_TAGS.map((tag) => (
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.tagsScrollView}
+          contentContainerStyle={styles.tagsRow}
+          keyboardShouldPersistTaps="handled"
+        >
+          {availableTags.map((tag) => (
             <TouchableOpacity
               key={tag}
               style={[
@@ -238,7 +244,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
 
         <View style={styles.inputBar}>
           <View style={styles.inputContainer}>
@@ -430,11 +436,13 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     alignSelf: 'flex-end',
   },
+  tagsScrollView: {
+    marginBottom: 10,
+  },
   tagsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 6,
-    marginBottom: 10,
+    paddingRight: 10,
   },
   tagButton: {
     paddingHorizontal: 10,

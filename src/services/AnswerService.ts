@@ -1,5 +1,6 @@
 import { FileService, FileContent } from './FileService';
 import { LLMService } from './LLMService';
+import { log } from '../utils/logger';
 
 export interface AnswerResponse {
   answer: string;
@@ -31,59 +32,63 @@ export class AnswerService {
   /**
    * Answer a query using context from all files in the aham directory
    * and the LLM's internal knowledge
+   * @param query The user's search query
+   * @param selectedFileNames Optional array of file names to filter (e.g., ['gig.md', 'fun.md']). If empty or undefined, uses all files.
    */
-  public async answerQuery(query: string): Promise<AnswerResponse> {
-    console.log('AnswerService: Processing query:', query);
+  public async answerQuery(query: string, selectedFileNames?: string[]): Promise<AnswerResponse> {
+    log.info('AnswerService: Processing query:', query);
+    if (selectedFileNames && selectedFileNames.length > 0) {
+      log.info('AnswerService: Filtering to specific files:', selectedFileNames);
+    }
 
-    // Step 1: Read all files from the aham directory
-    console.log('AnswerService: Reading files from aham directory...');
-    const fileContents: FileContent[] = await this.fileService.readAhamFiles();
+    // Step 1: Get list of all aham files (includes both assets and user-created files)
+    log.info('AnswerService: Getting list of aham files...');
+    let fileList = await this.fileService.getAhamFileList();
+    
+    // Step 2: Filter files if specific files are requested
+    if (selectedFileNames && selectedFileNames.length > 0) {
+      fileList = fileList.filter(file => selectedFileNames.includes(file.name));
+      log.info('AnswerService: Filtered to files:', fileList.map(f => f.name));
+    } else {
+      log.info('AnswerService: Using all files:', fileList.map(f => f.name));
+    }
+    
+    // Step 3: Read content from each file
+    const fileContents: Array<{ fileName: string; content: string }> = [];
+    for (const file of fileList) {
+      try {
+        // Use loadFileForEditing to read from writable location or assets
+        const content = await this.fileService.loadFileForEditing(file.path);
+        fileContents.push({
+          fileName: file.name,
+          content: content,
+        });
+        log.info(`AnswerService: Loaded content from ${file.name}`);
+      } catch (error) {
+        log.warn(`AnswerService: Failed to load ${file.name}:`, error);
+      }
+    }
     
     // Track source files
     const sources = fileContents.map(fc => fc.fileName);
-    console.log('AnswerService: Files loaded:', sources);
+    log.info('AnswerService: Successfully loaded files:', sources);
 
-    // Step 2: Combine file contents into a single context string
+    // Step 4: Combine file contents into a concise context string
     const combinedContext = fileContents
       .map(file => {
-        return `File: ${file.fileName}\n${file.content}`;
+        return `${file.fileName}:\n${file.content}`;
       })
-      .join('\n\n---\n\n');
+      .join('\n\n');
 
-    // Step 3: Create a prompt that asks the LLM to answer based on files + common sense
-    const prompt = this.createAnswerPrompt(query, combinedContext);
-
-    // Step 4: Call the LLM service
-    console.log('AnswerService: Querying LLM...');
-    const llmResponse = await this.llmService.query(prompt);
+    // Step 5: Call the LLM service with context passed separately for optimal formatting
+    log.info('AnswerService: Querying LLM...');
+    const llmResponse = await this.llmService.query(query, combinedContext);
 
     return {
       answer: llmResponse.text,
       sources,
       usage: llmResponse.usage,
     };
-  }
-
-  /**
-   * Create a well-structured prompt for the LLM
-   */
-  private createAnswerPrompt(query: string, context: string): string {
-    return `You are a helpful assistant that answers questions based on provided context and your general knowledge.
-
-CONTEXT FROM FILES:
-${context}
-
-USER QUESTION:
-${query}
-
-INSTRUCTIONS:
-- Use the information from the files above when relevant
-- Also use your general knowledge and common sense
-- Provide a clear, concise answer
-- If the files contain relevant information, mention it
-- If the answer requires common knowledge beyond the files, use your understanding
-
-ANSWER:`;
   }
 
   /**
@@ -94,7 +99,7 @@ ANSWER:`;
       const fileContents = await this.fileService.readAhamFiles();
       return fileContents.map(fc => fc.fileName);
     } catch (error) {
-      console.error('AnswerService: Error getting available files:', error);
+      log.error('AnswerService: Error getting available files:', error);
       return [];
     }
   }

@@ -1,0 +1,1017 @@
+(node:14815) ExperimentalWarning: CommonJS module /usr/local/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /usr/local/lib/node_modules/npm/node_modules/supports-color/index.js using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14837) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+info Welcome to React Native v0.74
+info Starting dev server on port 8081...
+
+                        ▒▒▓▓▓▓▒▒
+                     ▒▓▓▓▒▒░░▒▒▓▓▓▒
+                  ▒▓▓▓▓░░░▒▒▒▒░░░▓▓▓▓▒
+                 ▓▓▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▓▓
+                 ▓▓░░░░░▒▓▓▓▓▓▓▒░░░░░▓▓
+                 ▓▓░░▓▓▒░░░▒▒░░░▒▓▒░░▓▓
+                 ▓▓░░▓▓▓▓▓▒▒▒▒▓▓▓▓▒░░▓▓
+                 ▓▓░░▓▓▓▓▓▓▓▓▓▓▓▓▓▒░░▓▓
+                 ▓▓▒░░▒▒▓▓▓▓▓▓▓▓▒░░░▒▓▓
+                  ▒▓▓▓▒░░░▒▓▓▒░░░▒▓▓▓▒
+                     ▒▓▓▓▒░░░░▒▓▓▓▒
+                        ▒▒▓▓▓▓▒▒
+
+
+                Welcome to Metro v0.80.12
+              Fast - Scalable - Integrated
+
+
+info React Native v0.82.0 is now available (your project is running on v0.74.1).
+info Changelog: https://github.com/facebook/react-native/releases/tag/v0.82.0
+info Diff: https://react-native-community.github.io/upgrade-helper/?from=0.74.1
+info For more info, check out "https://reactnative.dev/docs/upgrading?os=macos".
+info Dev server ready
+ BUNDLE  ./index.android.js 
+
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  [94m11:22:24 AM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m11:22:24 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:22:24 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:22:24 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:22:24 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:22:24 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:22:24 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:22:24 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:22:24 AM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m11:22:24 AM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:22:24 AM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m11:22:24 AM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 2048,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m11:22:25 AM | INFO : Context object type: object [0m
+ LOG  [94m11:22:25 AM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m11:22:25 AM | INFO : ✓ Context validation successful [0m
+ LOG  [94m11:22:25 AM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m11:22:25 AM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m11:22:25 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:22:25 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:22:25 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:22:25 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:22:25 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:22:25 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:22:25 AM | INFO : Loading file list... [0m
+ LOG  [94m11:22:25 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:22:25 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:34:51 AM | INFO : FileService: Creating new file ideas-md.md [0m
+ LOG  [94m11:34:51 AM | INFO : FileService: Successfully created ideas-md.md at /data/user/0/com.odly/files/aham/ideas-md.md [0m
+ LOG  [94m11:34:51 AM | INFO : File created successfully: ideas.md [0m
+ LOG  [94m11:34:51 AM | INFO : File list refreshed after creation: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas-md.md",
+    "path": "aham/ideas-md.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:34:51 AM | INFO : Tags updated after file creation: 
+[
+  "#fun",
+  "#gig",
+  "#ideas-md",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:34:53 AM | INFO : FileService: Loading file for editing: aham/ideas-md.md [0m
+ LOG  [94m11:34:53 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/ideas-md.md [0m
+ LOG  [94m11:36:05 AM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m11:36:06 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:36:06 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:36:06 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:36:06 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:06 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:36:06 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:36:06 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:36:06 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:36:06 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:36:06 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:36:06 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:36:06 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:36:06 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:36:06 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:36:06 AM | INFO : Loading file list... [0m
+ LOG  [94m11:36:06 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas-md.md",
+    "path": "aham/ideas-md.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:36:06 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas-md",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:36:54 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:36:54 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:36:54 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:36:54 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:54 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:36:54 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:36:54 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:36:54 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:36:54 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:36:54 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:36:54 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:36:54 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:36:54 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:36:54 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:36:54 AM | INFO : Loading file list... [0m
+ LOG  [94m11:36:54 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas-md.md",
+    "path": "aham/ideas-md.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:36:54 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas-md",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:36:56 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:36:56 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:36:56 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:36:56 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:36:56 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:36:56 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:36:56 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:36:56 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:36:56 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:36:56 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:36:56 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:36:56 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:36:56 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:36:56 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:36:56 AM | INFO : Loading file list... [0m
+ LOG  [94m11:36:56 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas-md.md",
+    "path": "aham/ideas-md.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:36:56 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas-md",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:37:49 AM | INFO : FileService: Loading file for editing: aham/ideas-md.md [0m
+ LOG  [94m11:37:49 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/ideas-md.md [0m
+ LOG  Running "odly" with {"rootTag":41}
+ LOG  [94m11:37:53 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:37:53 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:37:53 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:37:53 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:37:53 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:37:53 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:37:53 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:37:53 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:37:53 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:37:53 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:37:53 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:37:53 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:37:53 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:37:53 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:37:53 AM | INFO : Loading file list... [0m
+ LOG  [94m11:37:53 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas-md.md",
+    "path": "aham/ideas-md.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:37:53 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas-md",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:38:01 AM | INFO : FileService: Renaming file ideas-md.md to ideas.md [0m
+ LOG  [94m11:38:01 AM | INFO : FileService: Successfully renamed ideas-md.md to ideas.md [0m
+ LOG  [94m11:38:01 AM | INFO : File renamed successfully: ideas-md.md -> ideas [0m
+ LOG  [94m11:38:02 AM | INFO : File list refreshed after rename: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:38:02 AM | INFO : Tags updated after file rename: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:38:07 AM | INFO : FileService: Creating new file check.md [0m
+ LOG  [94m11:38:07 AM | INFO : FileService: Successfully created check.md at /data/user/0/com.odly/files/aham/check.md [0m
+ LOG  [94m11:38:07 AM | INFO : File created successfully: Check [0m
+ LOG  [94m11:38:07 AM | INFO : File list refreshed after creation: 
+[
+  {
+    "name": "check.md",
+    "path": "aham/check.md"
+  },
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:38:07 AM | INFO : Tags updated after file creation: 
+[
+  "#check",
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:38:12 AM | INFO : FileService: Deleting file check.md [0m
+ LOG  [94m11:38:12 AM | INFO : FileService: Successfully deleted check.md [0m
+ LOG  [94m11:38:12 AM | INFO : File deleted successfully: check.md [0m
+ LOG  [94m11:38:13 AM | INFO : File list refreshed after deletion: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:38:13 AM | INFO : Tags updated after file deletion: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:42:18 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:42:18 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:42:18 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:42:18 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:42:18 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:42:18 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:42:18 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:42:18 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:42:18 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:42:18 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:42:18 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:42:18 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:42:18 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:42:18 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:42:18 AM | INFO : Loading file list... [0m
+ LOG  [94m11:42:18 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:42:18 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ ERROR  TypeError: Cannot read property 'map' of undefined
+
+This error is located at:
+    in QueryInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  TypeError: Cannot read property 'map' of undefined
+
+This error is located at:
+    in QueryInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m11:42:55 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:42:55 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:42:55 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:42:55 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:42:55 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:42:55 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:42:55 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:42:55 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:42:55 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:42:55 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:42:55 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:42:55 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:42:55 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:42:55 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:42:55 AM | INFO : Loading file list... [0m
+ LOG  [94m11:42:55 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:42:55 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:43:02 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:43:02 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:43:02 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:43:02 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:43:02 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:43:02 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:43:02 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:43:02 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:43:02 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:43:02 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:43:02 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:43:02 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:43:02 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:43:02 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:43:02 AM | INFO : Loading file list... [0m
+ LOG  [94m11:43:02 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:43:02 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:43:05 AM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m11:43:05 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m11:43:05 AM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m11:43:05 AM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:43:05 AM | INFO : Loading files from aham directory... [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m11:43:05 AM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m11:43:05 AM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m11:43:05 AM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m11:43:05 AM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m11:43:05 AM | INFO : Initializing chat service... [0m
+ LOG  [94m11:43:05 AM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m11:43:05 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m11:43:05 AM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m11:43:05 AM | INFO : Chat service initialized [0m
+ LOG  [94m11:43:05 AM | INFO : Loading file list... [0m
+ LOG  [94m11:43:05 AM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "ideas.md",
+    "path": "aham/ideas.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m11:43:05 AM | INFO : Available tags: 
+[
+  "#fun",
+  "#gig",
+  "#ideas",
+  "#love",
+  "#play",
+  "#work"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : HandleQuery: Selected tags: 
+[
+  "#work"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Processing query: Who should I call [0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m11:55:15 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:55:15 AM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [93m11:55:15 AM | WARN : Context appears invalid, attempting to reinitialize... Context not found [0m
+ LOG  [94m11:55:15 AM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m11:55:15 AM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m11:55:15 AM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 2048,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m11:55:17 AM | INFO : Context object type: object [0m
+ LOG  [94m11:55:17 AM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m11:55:17 AM | INFO : ✓ Context validation successful [0m
+ LOG  [94m11:55:17 AM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m11:55:17 AM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m11:55:17 AM | INFO : Context successfully reinitialized [0m
+ LOG  [94m11:55:17 AM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m11:55:17 AM | INFO : Prompt length: 780 chars [0m
+ LOG  [94m11:55:30 AM | INFO : LLM response length: 324 chars [0m
+ LOG  [94m11:57:49 AM | INFO : HandleQuery: Selected tags: 
+[
+  "#work"
+]
+[0m
+ LOG  [94m11:57:49 AM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Processing query: Who should I call? [0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:57:49 AM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m11:57:49 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:57:49 AM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m11:57:49 AM | INFO : Context is valid [0m
+ LOG  [94m11:57:49 AM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m11:57:49 AM | INFO : Prompt length: 781 chars [0m
+ LOG  [94m11:57:51 AM | INFO : LLM response length: 18 chars [0m
+ LOG  [94m11:58:19 AM | INFO : HandleQuery: Selected tags: 
+[
+  "#work"
+]
+[0m
+ LOG  [94m11:58:19 AM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Processing query: Who should I call at work [0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:58:19 AM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m11:58:19 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m11:58:19 AM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m11:58:19 AM | INFO : Context is valid [0m
+ LOG  [94m11:58:19 AM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m11:58:19 AM | INFO : Prompt length: 788 chars [0m
+ LOG  [94m11:58:30 AM | INFO : LLM response length: 680 chars [0m
+ LOG  [94m12:13:45 PM | INFO : ChatService: Messages persisted successfully [0m
+ LOG  [94m12:13:59 PM | INFO : ChatService: Messages persisted successfully [0m
+ LOG  [94m12:13:59 PM | INFO : ChatService: Updated message 1760987625713wok5u71go [0m

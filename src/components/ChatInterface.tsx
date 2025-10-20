@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import { AudioRecorderButton } from './AudioRecorderButton';
 
 interface Message {
   id: string;
@@ -118,6 +119,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       } else {
         return [...prev, tag];
       }
+    });
+  }, []);
+
+  const handleTranscriptionComplete = useCallback((text: string) => {
+    // Append transcribed text to existing input or replace if empty
+    setInputText(prev => {
+      if (prev.trim()) {
+        return `${prev} ${text}`;
+      }
+      return text;
     });
   }, []);
 
@@ -248,6 +259,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
         <View style={styles.inputBar}>
           <View style={styles.inputContainer}>
+            <AudioRecorderButton
+              onTranscriptionComplete={handleTranscriptionComplete}
+              disabled={isGrouping || isPushing}
+            />
             <TextInput
               style={styles.textInput}
               placeholder={editingMessageId ? "Edit your message..." : "Arz kiya hai..."}
@@ -312,30 +327,30 @@ const styles = StyleSheet.create({
   groupButton: {
     backgroundColor: 'transparent',
     borderWidth: 0,
-    width: 52,
-    height: 52,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
+    marginBottom: 0,
   },
   groupButtonIcon: {
-    fontSize: 38,
+    fontSize: 28,
   },
   inputBar: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     gap: 8,
   },
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     borderWidth: 2,
     borderColor: '#00BCD4',
     borderRadius: 26,
     backgroundColor: '#FFFFFF',
     paddingRight: 4,
-    paddingLeft: 20,
+    paddingLeft: 12,
     paddingVertical: 8,
     shadowColor: '#00ACC1',
     shadowOffset: { width: 0, height: 2 },
@@ -352,23 +367,24 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     paddingTop: 6,
     paddingBottom: 6,
+    paddingLeft: 8,
   },
   sendButton: {
     backgroundColor: 'transparent',
     paddingVertical: 0,
-    paddingHorizontal: 8,
-    borderRadius: 24,
-    minWidth: 44,
+    paddingHorizontal: 6,
+    borderRadius: 20,
+    minWidth: 36,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 44,
-    marginLeft: 8,
+    height: 36,
+    marginLeft: 6,
   },
   buttonDisabled: {
     opacity: 0.3,
   },
   sendButtonText: {
-    fontSize: 28,
+    fontSize: 20,
   },
   messagesContainer: {
     flex: 1,

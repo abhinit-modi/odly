@@ -19,6 +19,8 @@ Rūḥ (meaning "spirit" or "essence" in Arabic) is a mobile-first knowledge man
 
 ## 🚀 Quick Start
 
+### Development Mode (with Metro bundler)
+
 Get up and running in seconds:
 
 ```bash
@@ -37,6 +39,28 @@ This will:
 ```bash
 npm run reload  # Fast app restart
 ```
+
+### Release Mode (standalone, no Metro needed)
+
+Build and deploy a production-ready APK:
+
+```bash
+# One command to build and deploy release version
+npm run release
+```
+
+This will:
+- ✅ Bundle JavaScript code (optimized)
+- ✅ Build release APK (~1.1GB)
+- ✅ Install on connected device
+- ✅ Launch app (works completely offline)
+- ✅ Verify standalone operation
+
+**Perfect for:**
+- Production deployment
+- Sharing APK with others
+- Offline-only usage
+- Performance testing
 
 See [cursor_logs/DEVELOPMENT.md](./cursor_logs/DEVELOPMENT.md) for detailed development commands.
 
@@ -203,6 +227,43 @@ npm run ios
 ```bash
 npm start
 ```
+
+### Building Release Versions
+
+The app can run without the Metro bundler by creating release bundles:
+
+**Create JavaScript bundles:**
+```bash
+# Android bundle
+npm run bundle:android
+
+# iOS bundle
+npm run bundle:ios
+```
+
+**Build release APK (Android):**
+```bash
+# Standard APK
+npm run build:android:release
+
+# Android App Bundle (AAB) for Play Store
+npm run build:android:release-aab
+```
+
+The release APK will be located at:
+```
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+**iOS Release Build:**
+1. Run: `npm run bundle:ios`
+2. Open `ios/odly.xcodeproj` in Xcode
+3. Select "Product > Archive"
+4. Follow Xcode's distribution workflow
+
+**Note:** Release builds include the bundled JavaScript and don't require the Metro development server to be running.
+
+For detailed release build information, see [RELEASE_GUIDE.md](./RELEASE_GUIDE.md).
 
 ---
 

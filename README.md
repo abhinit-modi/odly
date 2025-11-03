@@ -405,14 +405,6 @@ Knowledge files are stored in the `aham/` directory:
 2. Rebuild app for changes to take effect
 3. Files must be in markdown format
 
-**Sync Files from Device:**
-If you've created or edited files on your device, you can copy them back to the repo:
-```bash
-npm run sync-files     # Pull all .md files from connected device
-# or
-./sync-files.sh        # Direct usage
-```
-
 ---
 
 ## 🐛 Troubleshooting
@@ -504,7 +496,6 @@ npm run lint        # Run ESLint
 npm test            # Run Jest tests
 npm run warmup      # Complete setup and launch
 npm run reload      # Fast reload during development
-npm run sync-files  # Pull .md files from device to repo
 npm run release     # Build and deploy release APK
 ```
 

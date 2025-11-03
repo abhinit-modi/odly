@@ -15,9 +15,7 @@ class MainApplication : Application(), ReactApplication {
   override val reactNativeHost: ReactNativeHost = object : DefaultReactNativeHost(this) {
     override fun getPackages(): List<ReactPackage> {
       // Packages that cannot be auto-linked yet can be added manually here
-      val packages = PackageList(this).packages.toMutableList()
-      // Add our custom AssetCopyPackage
-      packages.add(AssetCopyPackage())
+      val packages = PackageList(this).packages
       return packages
     }
 

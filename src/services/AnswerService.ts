@@ -38,12 +38,14 @@ export class AnswerService {
   public async answerQuery(query: string, selectedFileNames?: string[]): Promise<AnswerResponse> {
     log.info('AnswerService: Processing query:', query);
     if (selectedFileNames && selectedFileNames.length > 0) {
+      selectedFileNames = selectedFileNames.map(name => name.replace('<', '').replace('>', ''));
       log.info('AnswerService: Filtering to specific files:', selectedFileNames);
     }
 
     // Step 1: Get list of all aham files (includes both assets and user-created files)
     log.info('AnswerService: Getting list of aham files...');
     let fileList = await this.fileService.getAhamFileList();
+    log.info('AnswerService: File list:', fileList);
     
     // Step 2: Filter files if specific files are requested
     if (selectedFileNames && selectedFileNames.length > 0) {

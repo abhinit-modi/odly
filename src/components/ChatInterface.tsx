@@ -30,6 +30,7 @@ interface ChatInterfaceProps {
   onPushMessages: () => void;
   onDeleteMessage: (id: string) => void;
   onUpdateMessage: (id: string, newText: string, tags: string[]) => void;
+  onCreateTag: (tagName: string) => Promise<void>;
   messages: Message[];
   isGrouping: boolean;
   isPushing: boolean;
@@ -43,6 +44,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onPushMessages,
   onDeleteMessage,
   onUpdateMessage,
+  onCreateTag,
   messages,
   isGrouping,
   isPushing,
@@ -51,6 +53,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [inputText, setInputText] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [showCreateTagModal, setShowCreateTagModal] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
   const scrollViewRef = useRef<ScrollView>(null);
 
   // Auto-scroll to bottom when messages change
@@ -138,6 +142,31 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const handleKeyPress = useCallback(() => {
     handleSend();
   }, [handleSend]);
+
+  const handleCreateTag = useCallback(async () => {
+    const trimmedTagName = newTagName.trim();
+    if (!trimmedTagName) {
+      return;
+    }
+
+    try {
+      await onCreateTag(trimmedTagName);
+      setShowCreateTagModal(false);
+      setNewTagName('');
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(`Tag {${trimmedTagName}} created!`, ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Success', `Tag {${trimmedTagName}} created!`);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create tag';
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
+    }
+  }, [newTagName, onCreateTag]);
 
   const formatTime = (date: Date) => {
     const hours = date.getHours();
@@ -304,6 +333,52 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </ScrollView>
         )}
 
+        {/* User-Created Tags Row */}
+        {(availableTags.filter(tag => tag.type === 'user_created').length > 0 || true) && (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.tagsScrollView}
+            contentContainerStyle={styles.tagsRow}
+            keyboardShouldPersistTaps="handled"
+          >
+            {/* Create Tag Button */}
+            <TouchableOpacity
+              style={styles.createTagButton}
+              onPress={() => setShowCreateTagModal(true)}
+              disabled={isGrouping}
+            >
+              <Text style={styles.createTagButtonText}>+</Text>
+            </TouchableOpacity>
+
+            {/* User Created Tags */}
+            {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
+              const isSelected = selectedTags.includes(tag.name);
+              
+              return (
+                <TouchableOpacity
+                  key={tag.name}
+                  style={[
+                    styles.tagButton,
+                    styles.tagButtonUserCreated,
+                    isSelected && styles.tagButtonUserCreatedSelected
+                  ]}
+                  onPress={() => toggleTag(tag.name)}
+                  disabled={isGrouping}
+                >
+                  <Text style={[
+                    styles.tagButtonText,
+                    styles.tagButtonTextUserCreated,
+                    isSelected && styles.tagButtonTextSelected
+                  ]}>
+                    {tag.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        )}
+
         <View style={styles.inputBar}>
           <View style={styles.inputContainer}>
             <AudioRecorderButton
@@ -349,6 +424,46 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Create Tag Modal */}
+      <Modal
+        visible={showCreateTagModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowCreateTagModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Create New Tag</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Enter tag name..."
+              value={newTagName}
+              onChangeText={setNewTagName}
+              placeholderTextColor="#999"
+              autoFocus
+              maxLength={30}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCancelButton]}
+                onPress={() => {
+                  setShowCreateTagModal(false);
+                  setNewTagName('');
+                }}
+              >
+                <Text style={styles.modalCancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCreateButton]}
+                onPress={handleCreateTag}
+              >
+                <Text style={styles.modalCreateButtonText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };

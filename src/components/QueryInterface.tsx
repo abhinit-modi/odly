@@ -192,43 +192,6 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
           </ScrollView>
         )}
 
-        {/* User-Created Tags Row */}
-        {availableTags.filter(tag => tag.type === 'user_created').length > 0 && (
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            style={styles.tagsScrollView}
-            contentContainerStyle={styles.tagsRow}
-            keyboardShouldPersistTaps="handled"
-          >
-            {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
-              const isSelected = selectedTags.includes(tag.name);
-              
-              return (
-                <TouchableOpacity
-                  key={tag.name}
-                  style={[
-                    styles.tagButton,
-                    styles.tagButtonUserCreated,
-                    isSelected && styles.tagButtonUserCreatedSelected
-                  ]}
-                  onPress={() => toggleTag(tag.name)}
-                  disabled={isLoading}
-                >
-                  <Text style={[
-                    styles.tagButtonText,
-                    styles.tagButtonTextUserCreated,
-                    isSelected && styles.tagButtonTextSelected
-                  ]}>
-                    {tag.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        )}
-
-
         <View style={styles.searchBar}>
           <View style={styles.searchInputContainer}>
             <TextInput
@@ -541,24 +504,14 @@ const styles = StyleSheet.create({
     borderColor: '#00BCD4',
     backgroundColor: '#FFFFFF',
   },
-  tagButtonUserCreated: {
-    borderColor: '#9C27B0',
-    borderWidth: 2,
-  },
   tagButtonSelected: {
     backgroundColor: '#00BCD4',
-  },
-  tagButtonUserCreatedSelected: {
-    backgroundColor: '#9C27B0',
   },
   tagButtonText: {
     fontSize: 13,
     fontWeight: '700',
     color: '#00BCD4',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-  },
-  tagButtonTextUserCreated: {
-    color: '#9C27B0',
   },
   tagButtonTextSelected: {
     color: '#FFFFFF',

@@ -43,6 +43,7 @@ export const LLMQueryApp: React.FC = () => {
   const answerService = AnswerService.getInstance();
   const chatService = ChatService.getInstance();
   const groupbyService = GroupbyService.getInstance();
+  const tagService = TagService.getInstance();
 
   // Initialize the app
   useEffect(() => {
@@ -106,10 +107,56 @@ export const LLMQueryApp: React.FC = () => {
       setFileList(ahamFiles);
       log.info('File list loaded:', ahamFiles);
       
+      // Initialize TagService and load user-created tags
+      log.info('Initializing TagService...');
+      await tagService.initialize();
+      log.info('TagService initialized');
+      
+      // Read all .md files and extract tags from {TagName} format
+      log.info('Extracting {tags} from markdown files...');
+      const extractedTags = new Set<string>();
+      
+      for (const file of ahamFiles) {
+        try {
+          // Use loadFileForEditing to get content from writable location (DocumentDirectory) 
+          // or fall back to assets if not yet edited
+          const fileContent = await fileService.loadFileForEditing(file.path);
+          
+          // Regular expression to match {TagName} pattern
+          const tagRegex = /\{([^}]+)\}/g;
+          let match;
+          
+          while ((match = tagRegex.exec(fileContent)) !== null) {
+            const tagName = match[1].trim();
+            if (tagName) {
+              extractedTags.add(tagName);
+            }
+          }
+        } catch (error) {
+          log.warn(`Failed to read file ${file.path} for tag extraction:`, error);
+        }
+      }
+      
+      log.info(`Found ${extractedTags.size} tags in curly braces:`, Array.from(extractedTags));
+      
+      // Create user_created tags from extracted {tags} (if they don't exist)
+      for (const tagName of extractedTags) {
+        try {
+          await tagService.createTag(tagName);
+          log.info(`Created tag from file content: {${tagName}}`);
+        } catch (error) {
+          // Tag might already exist, that's okay
+          log.debug(`Tag {${tagName}} already exists or failed to create:`, error);
+        }
+      }
+      
       // Generate default tags from file list
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      setAvailableTags(defaultTags);
-      log.info('Available tags:', defaultTags);
+      
+      // Merge default tags with user-created tags
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Available tags (default + user-created):', allTags);
 
     } catch (error) {
       log.error('Initialization error:', error);
@@ -244,15 +291,16 @@ export const LLMQueryApp: React.FC = () => {
       setFileList(ahamFiles);
       log.info('File list refreshed after creation:', ahamFiles);
       
-      // Update available tags
+      // Update available tags (merge default and user-created)
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      setAvailableTags(defaultTags);
-      log.info('Tags updated after file creation:', defaultTags);
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file creation:', allTags);
     } catch (error) {
       log.error('Error creating file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
 
   const handleDeleteFile = useCallback(async (fileName: string): Promise<void> => {
     try {
@@ -264,15 +312,16 @@ export const LLMQueryApp: React.FC = () => {
       setFileList(ahamFiles);
       log.info('File list refreshed after deletion:', ahamFiles);
       
-      // Update available tags
+      // Update available tags (merge default and user-created)
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      setAvailableTags(defaultTags);
-      log.info('Tags updated after file deletion:', defaultTags);
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file deletion:', allTags);
     } catch (error) {
       log.error('Error deleting file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
 
   const handleRenameFile = useCallback(async (oldFileName: string, newFileName: string): Promise<void> => {
     try {
@@ -284,15 +333,33 @@ export const LLMQueryApp: React.FC = () => {
       setFileList(ahamFiles);
       log.info('File list refreshed after rename:', ahamFiles);
       
-      // Update available tags
+      // Update available tags (merge default and user-created)
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      setAvailableTags(defaultTags);
-      log.info('Tags updated after file rename:', defaultTags);
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file rename:', allTags);
     } catch (error) {
       log.error('Error renaming file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
+
+  const handleCreateTag = useCallback(async (tagName: string): Promise<void> => {
+    try {
+      await tagService.createTag(tagName);
+      log.info('Tag created successfully:', tagName);
+      
+      // Refresh available tags (merge default and user-created)
+      const ahamFiles = await fileService.getAhamFileList();
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after tag creation:', allTags);
+    } catch (error) {
+      log.error('Error creating tag:', error);
+      throw error;
+    }
+  }, [tagService, fileService]);
 
   const handlePushMessages = useCallback(async () => {
     if (chatMessages.length === 0) {
@@ -499,6 +566,7 @@ export const LLMQueryApp: React.FC = () => {
           onPushMessages={handlePushMessages}
           onDeleteMessage={handleDeleteMessage}
           onUpdateMessage={handleUpdateMessage}
+          onCreateTag={handleCreateTag}
           messages={chatMessages}
           isGrouping={isGrouping}
           isPushing={isPushing}

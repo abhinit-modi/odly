@@ -38,7 +38,7 @@ export class AnswerService {
   public async answerQuery(query: string, selectedFileNames?: string[]): Promise<AnswerResponse> {
     log.info('AnswerService: Processing query:', query);
     if (selectedFileNames && selectedFileNames.length > 0) {
-      selectedFileNames = selectedFileNames.map(name => name.replace('<', '').replace('>', ''));
+      selectedFileNames = selectedFileNames.map(name => name);
       log.info('AnswerService: Filtering to specific files:', selectedFileNames);
     }
 

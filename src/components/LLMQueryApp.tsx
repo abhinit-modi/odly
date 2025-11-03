@@ -149,7 +149,7 @@ export const LLMQueryApp: React.FC = () => {
     try {
       // Convert tags to file names (e.g., '#gig' -> 'gig.md')
       const selectedFileNames = selectedTags.length > 0 
-        ? selectedTags.map(tag => `${tag.replace('#', '')}.md`)
+        ? selectedTags.map(tag => `${tag.replace('<', '').replace('>', '')}.md`)
         : undefined; // undefined means use all files
       
       log.info('HandleQuery: Selected tags:', selectedTags);

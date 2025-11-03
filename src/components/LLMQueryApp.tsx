@@ -43,7 +43,6 @@ export const LLMQueryApp: React.FC = () => {
   const answerService = AnswerService.getInstance();
   const chatService = ChatService.getInstance();
   const groupbyService = GroupbyService.getInstance();
-  const tagService = TagService.getInstance();
 
   // Initialize the app
   useEffect(() => {
@@ -102,15 +101,6 @@ export const LLMQueryApp: React.FC = () => {
         // Continue even if chat fails - don't block the app
       }
 
-      // Initialize tag service
-      log.info('Initializing tag service...');
-      try {
-        await tagService.initialize();
-        log.info('Tag service initialized');
-      } catch (tagError) {
-        log.error('Tag service initialization failed, continuing anyway:', tagError);
-      }
-
       // Load file list for file explorer and generate tags
       log.info('Loading file list...');
       const ahamFiles = await fileService.getAhamFileList();
@@ -119,11 +109,8 @@ export const LLMQueryApp: React.FC = () => {
       
       // Generate default tags from file list
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      
-      // Combine with user-created tags
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Available tags:', allTags);
+      setAvailableTags(defaultTags);
+      log.info('Available tags:', defaultTags);
 
     } catch (error) {
       log.error('Initialization error:', error);
@@ -138,7 +125,7 @@ export const LLMQueryApp: React.FC = () => {
     } finally {
       setIsInitializing(false);
     }
-  }, [llmService, fileService, answerService, chatService, tagService]);
+  }, [llmService, fileService, answerService, chatService]);
 
   const handleQuery = useCallback(async (query: string, selectedTags: string[]): Promise<{ answer: string; sources: string[] }> => {
     if (!answerService.isReady()) {
@@ -260,14 +247,13 @@ export const LLMQueryApp: React.FC = () => {
       
       // Update available tags
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Tags updated after file creation:', allTags);
+      setAvailableTags(defaultTags);
+      log.info('Tags updated after file creation:', defaultTags);
     } catch (error) {
       log.error('Error creating file:', error);
       throw error;
     }
-  }, [fileService, tagService]);
+  }, [fileService]);
 
   const handleDeleteFile = useCallback(async (fileName: string): Promise<void> => {
     try {
@@ -281,14 +267,13 @@ export const LLMQueryApp: React.FC = () => {
       
       // Update available tags
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Tags updated after file deletion:', allTags);
+      setAvailableTags(defaultTags);
+      log.info('Tags updated after file deletion:', defaultTags);
     } catch (error) {
       log.error('Error deleting file:', error);
       throw error;
     }
-  }, [fileService, tagService]);
+  }, [fileService]);
 
   const handleRenameFile = useCallback(async (oldFileName: string, newFileName: string): Promise<void> => {
     try {
@@ -302,14 +287,13 @@ export const LLMQueryApp: React.FC = () => {
       
       // Update available tags
       const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Tags updated after file rename:', allTags);
+      setAvailableTags(defaultTags);
+      log.info('Tags updated after file rename:', defaultTags);
     } catch (error) {
       log.error('Error renaming file:', error);
       throw error;
     }
-  }, [fileService, tagService]);
+  }, [fileService]);
 
   const handlePushMessages = useCallback(async () => {
     if (chatMessages.length === 0) {
@@ -386,46 +370,6 @@ export const LLMQueryApp: React.FC = () => {
       setIsPushing(false);
     }
   }, [chatMessages, fileService]);
-
-  const handleCreateTag = useCallback(async (tagName: string): Promise<void> => {
-    try {
-      await tagService.createTag(tagName);
-      log.info('Tag created successfully:', tagName);
-      
-      // Refresh tags list
-      const defaultTags = TagService.createDefaultTagsFromFiles(fileList.map(f => f.name));
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Tags updated after tag creation:', allTags);
-      
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(`Tag ${tagName} created!`, ToastAndroid.SHORT);
-      }
-    } catch (error) {
-      log.error('Error creating tag:', error);
-      throw error;
-    }
-  }, [fileList, tagService]);
-
-  const handleDeleteTag = useCallback(async (tagName: string): Promise<void> => {
-    try {
-      await tagService.deleteTag(tagName);
-      log.info('Tag deleted successfully:', tagName);
-      
-      // Refresh tags list
-      const defaultTags = TagService.createDefaultTagsFromFiles(fileList.map(f => f.name));
-      const allTags = tagService.getAllTags(defaultTags);
-      setAvailableTags(allTags);
-      log.info('Tags updated after tag deletion:', allTags);
-      
-      if (Platform.OS === 'android') {
-        ToastAndroid.show(`Tag ${tagName} deleted!`, ToastAndroid.SHORT);
-      }
-    } catch (error) {
-      log.error('Error deleting tag:', error);
-      throw error;
-    }
-  }, [fileList, tagService]);
 
   const handleGroupMessages = useCallback(async () => {
     if (chatMessages.length < 2) {
@@ -556,8 +500,6 @@ export const LLMQueryApp: React.FC = () => {
           onPushMessages={handlePushMessages}
           onDeleteMessage={handleDeleteMessage}
           onUpdateMessage={handleUpdateMessage}
-          onCreateTag={handleCreateTag}
-          onDeleteTag={handleDeleteTag}
           messages={chatMessages}
           isGrouping={isGrouping}
           isPushing={isPushing}

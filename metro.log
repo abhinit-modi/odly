@@ -511,3 +511,793 @@ true
  LOG  [94m6:13:52 PM | INFO : Sending query to TinyLlama... [0m
  LOG  [94m6:13:52 PM | INFO : Prompt length: 324 chars [0m
  LOG  [94m6:14:11 PM | INFO : LLM response length: 765 chars [0m
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'tagService' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:17:45 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:17:45 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:17:45 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:17:45 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:17:45 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:17:45 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:17:45 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:17:45 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:17:45 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:17:45 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:17:45 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:17:45 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:17:45 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:17:45 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:17:45 PM | INFO : Loading file list... [0m
+ ERROR  ReferenceError: Property 'handleCreateTag' doesn't exist
+
+This error is located at:
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:17:45 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:17:45 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:17:53 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:17:53 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:17:53 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:17:53 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:17:53 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:17:53 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:17:53 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:17:53 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:17:53 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:17:53 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:17:53 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:17:53 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:17:53 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:17:53 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:17:53 PM | INFO : Loading file list... [0m
+ LOG  [94m6:17:53 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:17:53 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:17:53 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:17:53 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:17:53 PM | INFO : Voice module initialized successfully [0m
+ ERROR  ReferenceError: Property 'onCreateTag' doesn't exist
+
+This error is located at:
+    in ChatInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ ERROR  ReferenceError: Property 'onCreateTag' doesn't exist
+
+This error is located at:
+    in ChatInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:18:45 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:18:45 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:18:45 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:18:45 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:18:45 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:18:45 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:18:45 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:18:45 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:18:45 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:18:45 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:18:45 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:18:45 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:18:45 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:18:45 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:18:45 PM | INFO : Loading file list... [0m
+ ERROR  ReferenceError: Property 'onCreateTag' doesn't exist
+
+This error is located at:
+    in ChatInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:18:45 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:18:45 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:18:56 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:18:56 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:18:56 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:18:56 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:18:56 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:18:56 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:18:56 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:18:56 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:18:56 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:18:56 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:18:56 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:18:56 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:18:56 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:18:56 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:18:56 PM | INFO : Loading file list... [0m
+ ERROR  ReferenceError: Property 'showCreateTagModal' doesn't exist
+
+This error is located at:
+    in ChatInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:18:56 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:18:56 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:19:04 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:19:04 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:19:04 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:19:04 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:19:04 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:19:04 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:19:04 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:19:04 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:19:04 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:19:04 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:19:04 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:19:04 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:19:04 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:19:04 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:19:04 PM | INFO : Loading file list... [0m
+ ERROR  ReferenceError: Property 'showCreateTagModal' doesn't exist
+
+This error is located at:
+    in ChatInterface (created by LLMQueryApp)
+    in RCTView (created by View)
+    in View (created by LLMQueryApp)
+    in LLMQueryApp (created by App)
+    in App
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in RCTView (created by View)
+    in View (created by AppContainer)
+    in AppContainer
+    in odly(RootComponent), js engine: hermes
+ LOG  [94m6:19:04 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:19:04 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:19:23 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:19:23 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:19:23 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:19:23 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:19:23 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m6:19:23 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:19:23 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:19:23 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:19:23 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:19:23 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:19:23 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:19:23 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:19:23 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m6:19:23 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:19:23 PM | INFO : Loading file list... [0m
+ LOG  [94m6:19:23 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:19:23 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:19:23 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:19:23 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:19:23 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:19:44 PM | INFO : HandleQuery: Selected tags: 
+[
+  "<work>"
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Processing query: Summarize this [0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: File list: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:19:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:19:44 PM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m6:19:44 PM | INFO : Context is valid [0m
+ LOG  [94m6:19:44 PM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m6:19:44 PM | INFO : Prompt length: 325 chars [0m
+ LOG  [94m6:19:50 PM | INFO : LLM response length: 298 chars [0m

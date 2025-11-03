@@ -30,8 +30,6 @@ interface ChatInterfaceProps {
   onPushMessages: () => void;
   onDeleteMessage: (id: string) => void;
   onUpdateMessage: (id: string, newText: string, tags: string[]) => void;
-  onCreateTag: (tagName: string) => Promise<void>;
-  onDeleteTag: (tagName: string) => Promise<void>;
   messages: Message[];
   isGrouping: boolean;
   isPushing: boolean;
@@ -45,8 +43,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onPushMessages,
   onDeleteMessage,
   onUpdateMessage,
-  onCreateTag,
-  onDeleteTag,
   messages,
   isGrouping,
   isPushing,
@@ -56,9 +52,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
-  const [isCreatingTag, setIsCreatingTag] = useState(false);
-  const [showCreateTagModal, setShowCreateTagModal] = useState(false);
-  const [newTagName, setNewTagName] = useState('');
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -132,85 +125,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     });
   }, []);
 
-  const handleCreateTag = useCallback(() => {
-    if (Platform.OS === 'ios') {
-      setIsCreatingTag(true);
-      Alert.prompt(
-        'Create New Tag',
-        'Enter a name for the new tag (e.g. urgent, meeting):',
-        [
-          {
-            text: 'Cancel',
-            style: 'cancel',
-            onPress: () => setIsCreatingTag(false),
-          },
-          {
-            text: 'Create',
-            onPress: async (tagName) => {
-              if (tagName && tagName.trim()) {
-                try {
-                  await onCreateTag(tagName.trim());
-                } catch (error) {
-                  Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create tag');
-                }
-              }
-              setIsCreatingTag(false);
-            },
-          },
-        ],
-        'plain-text'
-      );
-    } else {
-      // Android: Use custom modal
-      setNewTagName('');
-      setShowCreateTagModal(true);
-    }
-  }, [onCreateTag]);
-
-  const handleConfirmCreateTag = useCallback(async () => {
-    if (newTagName.trim()) {
-      setIsCreatingTag(true);
-      setShowCreateTagModal(false);
-      try {
-        await onCreateTag(newTagName.trim());
-      } catch (error) {
-        Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create tag');
-      } finally {
-        setIsCreatingTag(false);
-        setNewTagName('');
-      }
-    }
-  }, [newTagName, onCreateTag]);
-
-  const handleDeleteTag = useCallback((tagName: string) => {
-    Alert.alert(
-      'Delete Tag',
-      `Are you sure you want to delete the tag ${tagName}?`,
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await onDeleteTag(tagName);
-              // Remove from selected tags if it was selected
-              setSelectedTags(prev => prev.filter(t => t !== tagName));
-              if (Platform.OS === 'android') {
-                ToastAndroid.show(`Tag ${tagName} deleted`, ToastAndroid.SHORT);
-              }
-            } catch (error) {
-              Alert.alert('Error', error instanceof Error ? error.message : 'Failed to delete tag');
-            }
-          },
-        },
-      ]
-    );
-  }, [onDeleteTag]);
-
   const handleTranscriptionComplete = useCallback((text: string) => {
     // Append transcribed text to existing input or replace if empty
     setInputText(prev => {
@@ -283,48 +197,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={0}
     >
-      {/* Create Tag Modal (Android) */}
-      <Modal
-        visible={showCreateTagModal}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowCreateTagModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Create New Tag {'{tag}'}</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="e.g. urgent, meeting, project..."
-              value={newTagName}
-              onChangeText={setNewTagName}
-              autoFocus
-              placeholderTextColor="#80868b"
-              returnKeyType="done"
-              onSubmitEditing={handleConfirmCreateTag}
-            />
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.modalCancelButton]}
-                onPress={() => {
-                  setShowCreateTagModal(false);
-                  setNewTagName('');
-                }}
-              >
-                <Text style={styles.modalCancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.modalCreateButton]}
-                onPress={handleConfirmCreateTag}
-                disabled={!newTagName.trim()}
-              >
-                <Text style={styles.modalCreateButtonText}>Create</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
       {/* Messages Section - Scrollable */}
       <ScrollView 
         ref={scrollViewRef}
@@ -431,51 +303,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             })}
           </ScrollView>
         )}
-
-        {/* User-Created Tags Row */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          style={styles.tagsScrollView}
-          contentContainerStyle={styles.tagsRow}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Create Tag Button */}
-          <TouchableOpacity
-            style={styles.createTagButton}
-            onPress={handleCreateTag}
-            disabled={isGrouping || isCreatingTag}
-          >
-            <Text style={styles.createTagButtonText}>+ Tag</Text>
-          </TouchableOpacity>
-
-          {/* User-Created Tags */}
-          {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
-            const isSelected = selectedTags.includes(tag.name);
-            
-            return (
-              <TouchableOpacity
-                key={tag.name}
-                style={[
-                  styles.tagButton,
-                  styles.tagButtonUserCreated,
-                  isSelected && styles.tagButtonUserCreatedSelected
-                ]}
-                onPress={() => toggleTag(tag.name)}
-                onLongPress={() => handleDeleteTag(tag.name)}
-                disabled={isGrouping}
-              >
-                <Text style={[
-                  styles.tagButtonText,
-                  styles.tagButtonTextUserCreated,
-                  isSelected && styles.tagButtonTextSelected
-                ]}>
-                  {tag.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
 
         <View style={styles.inputBar}>
           <View style={styles.inputContainer}>

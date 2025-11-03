@@ -1,5 +1,6 @@
 import { ChatMessage } from './ChatService';
 import { LLMService } from './LLMService';
+import { Tag } from './TagService';
 import { log } from '../utils/logger';
 
 export class GroupbyService {
@@ -19,17 +20,17 @@ export class GroupbyService {
 
   /**
    * Group messages by their first tag
-   * - For non-random tags: create bulleted list in timestamp order
-   * - For #random tag: use LLM to cluster similar messages
+   * - For non-random tags: create bulleted list in timestamp order, grouped by user_created tags
+   * - For <random> tag: use LLM to cluster similar messages
    */
-  public async groupMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
+  public async groupMessages(messages: ChatMessage[], availableTags: Tag[] = []): Promise<ChatMessage[]> {
     log.info('GroupbyService: Starting message grouping...');
     
     // Group messages by their first tag
     const groupedByTag: { [tag: string]: ChatMessage[] } = {};
     
     for (const message of messages) {
-      const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '#random';
+      const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '<random>';
       if (!groupedByTag[firstTag]) {
         groupedByTag[firstTag] = [];
       }
@@ -42,7 +43,7 @@ export class GroupbyService {
 
     // Process each group
     for (const [tag, groupMessages] of Object.entries(groupedByTag)) {
-      if (tag === '#random') {
+      if (tag === '<random>') {
         // Use LLM for random group
         log.info(`GroupbyService: Processing ${groupMessages.length} random messages with LLM...`);
         const llmGrouped = await this.groupWithLLM(groupMessages);
@@ -50,7 +51,7 @@ export class GroupbyService {
       } else {
         // Create bulleted list for non-random groups
         log.info(`GroupbyService: Creating bulleted list for ${tag} with ${groupMessages.length} messages`);
-        const bulletedMessage = this.createBulletedList(tag, groupMessages);
+        const bulletedMessage = this.createBulletedList(tag, groupMessages, availableTags);
         resultMessages.push(bulletedMessage);
       }
     }
@@ -61,24 +62,74 @@ export class GroupbyService {
 
   /**
    * Create a bulleted list message from a group of tagged messages
+   * Groups by user_created tags within the first-tag group
    */
-  private createBulletedList(tag: string, messages: ChatMessage[]): ChatMessage {
+  private createBulletedList(tag: string, messages: ChatMessage[], availableTags: Tag[]): ChatMessage {
     // Sort by timestamp
     const sortedMessages = [...messages].sort((a, b) => 
       new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
     );
 
-    // Create bulleted list - don't add bullet if text already starts with one
-    const bulletedText = sortedMessages
-      .map(msg => {
+    // Get set of user_created tag names for quick lookup (excluding the main grouping tag)
+    const userCreatedTagNames = new Set(
+      availableTags.filter(t => t.type === 'user_created' && t.name !== tag).map(t => t.name)
+    );
+
+    // Group messages by user_created tags (excluding the main grouping tag)
+    const messagesByUserTag: { [tagName: string]: ChatMessage[] } = {};
+    const messagesWithoutUserTags: ChatMessage[] = [];
+
+    for (const msg of sortedMessages) {
+      // Find user_created tags in this message (excluding the first/main tag)
+      const userTags = (msg.tags || [])
+        .filter(t => t !== tag && userCreatedTagNames.has(t));
+      
+      if (userTags.length > 0) {
+        // Group by each user_created tag
+        for (const userTag of userTags) {
+          if (!messagesByUserTag[userTag]) {
+            messagesByUserTag[userTag] = [];
+          }
+          messagesByUserTag[userTag].push(msg);
+        }
+      } else {
+        // No additional user_created tags
+        messagesWithoutUserTags.push(msg);
+      }
+    }
+
+    // Build the output text
+    const textParts: string[] = [];
+
+    // First, add messages without user_created tags
+    if (messagesWithoutUserTags.length > 0) {
+      const bulletedMessages = messagesWithoutUserTags.map(msg => {
         const trimmedText = msg.text.trim();
-        // Check if already starts with a bullet
         if (trimmedText.startsWith('•') || trimmedText.startsWith('-') || trimmedText.startsWith('*')) {
           return trimmedText;
         }
         return `• ${trimmedText}`;
-      })
-      .join('\n\n');
+      });
+      textParts.push(bulletedMessages.join('\n'));
+    }
+    
+    // Then, add groups by user_created tags
+    const userTagKeys = Object.keys(messagesByUserTag).sort();
+    for (const userTag of userTagKeys) {
+      const tagMessages = messagesByUserTag[userTag];
+      const bulletedMessages = tagMessages.map(msg => {
+        const trimmedText = msg.text.trim();
+        if (trimmedText.startsWith('•') || trimmedText.startsWith('-') || trimmedText.startsWith('*')) {
+          return trimmedText;
+        }
+        return `• ${trimmedText}`;
+      });
+      
+      // Format: user_created tag on new line, then messages
+      textParts.push(`${userTag}\n${bulletedMessages.filter(part => part.trim() !== '').join('\n')}`);
+    }
+
+    const bulletedText = textParts.filter(part => part.trim() !== '').join('\n');
 
     return {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -155,7 +206,7 @@ Important: Return ONLY the JSON array with FULL MESSAGE TEXTS, no other text bef
           return `• ${trimmedMsg}`;
         }).join('\n\n'),
         timestamp: new Date(),
-        tags: ['#random'],
+        tags: ['<random>'],
       }));
 
       log.info(`GroupbyService: Created ${groupedMessages.length} clustered groups for random messages`);

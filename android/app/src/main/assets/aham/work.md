@@ -1,2 +1,10 @@
-Work is a fundamental aspect of human existence, encompassing purposeful activities that contribute value, whether through employment, creative endeavors, or service. It provides structure, meaning, and a sense of accomplishment in daily life. The nature of work has evolved dramatically over time, from agricultural and manual labor to knowledge-based and digital professions. Effective work often requires focus, discipline, collaboration, and continuous learning. Finding work that aligns with one's values and interests can lead to greater satisfaction and fulfillment.
+{Engaging Lessons}
+* Agency colab with UI. 
+* Static lesson cards.
+* Maria and Mia work together
 
+{NLM}
+* Work with Kuba on agency for nlm
+
+{QDB}
+* Work with Mahir for scaling qdb

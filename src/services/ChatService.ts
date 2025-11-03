@@ -65,7 +65,7 @@ export class ChatService {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       text,
       timestamp: new Date(),
-      tags: tags && tags.length > 0 ? tags : ['#random'],
+      tags: tags
     };
 
     this.messages.push(message);
@@ -100,7 +100,7 @@ export class ChatService {
     this.messages[messageIndex] = {
       ...this.messages[messageIndex],
       text: newText,
-      tags: tags && tags.length > 0 ? tags : ['#random'],
+      tags: tags && tags.length > 0 ? tags : ['<random>'],
     };
 
     await this.persistMessages();

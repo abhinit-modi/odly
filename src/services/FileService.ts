@@ -154,17 +154,18 @@ export class FileService {
 
   /**
    * Check if the TinyLlama GGUF model exists in assets or external storage
+   * For release builds, copies model from assets to internal storage if needed
    */
   public async checkTinyLlamaModel(): Promise<{ exists: boolean; size: number; path: string }> {
     const modelFileName = 'tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf';
 
-    // Try multiple locations - prioritize internal storage and assets over Downloads
-    const internalPath = `${RNFS.DocumentDirectoryPath}/${modelFileName}`; // App internal storage (best access)
-    const assetsPath = `file:///android_asset/${modelFileName}`;          // App assets (bundled)
+    // App internal storage path (required for native library access)
+    const internalPath = `${RNFS.DocumentDirectoryPath}/${modelFileName}`;
     
     // Check internal storage first
     log.info(`Checking model at: ${internalPath}`);
     const internalExists = await RNFS.exists(internalPath);
+    
     if (internalExists) {
       const stats = await RNFS.stat(internalPath);
       log.info(`✓ Found model at: ${internalPath} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
@@ -175,15 +176,47 @@ export class FileService {
       };
     }
 
-    // For assets, RNFS.exists() doesn't work reliably on Android
-    // So we assume it exists there if bundled with the app
-    // The native llama.rn library will verify it can open the file
-    log.info(`Model not in internal storage, will use from assets: ${assetsPath}`);
-    return {
-      exists: true, // Assume it exists in assets (bundled with APK)
-      size: 637 * 1024 * 1024, // Approximate size in bytes (637MB)
-      path: assetsPath,
-    };
+    // Model not in internal storage - need to copy from assets
+    // This is required for release builds where native library needs real file path
+    log.info(`Model not in internal storage, copying from assets...`);
+    log.info(`This will take 30-60 seconds for the ~640MB model file...`);
+    
+    try {
+      // Use copyFileAssets for Android (works for bundled assets in release APK)
+      // The asset path should be relative to the assets folder
+      log.info(`Copying from assets/${modelFileName} to ${internalPath}`);
+      
+      await RNFS.copyFileAssets(modelFileName, internalPath);
+      
+      // Verify the copy succeeded
+      const copiedExists = await RNFS.exists(internalPath);
+      if (!copiedExists) {
+        log.error(`Model copy failed - file does not exist at ${internalPath} after copy`);
+        return {
+          exists: false,
+          size: 0,
+          path: internalPath,
+        };
+      }
+      
+      const stats = await RNFS.stat(internalPath);
+      log.info(`✓ Model copied successfully to internal storage: ${(stats.size / 1024 / 1024).toFixed(1)}MB`);
+      log.info(`✓ Model is now accessible at: ${internalPath}`);
+      
+      return {
+        exists: true,
+        size: stats.size,
+        path: internalPath,
+      };
+    } catch (error) {
+      log.error(`Failed to copy model from assets:`, error);
+      log.error(`Make sure the model file exists at: android/app/src/main/assets/${modelFileName}`);
+      return {
+        exists: false,
+        size: 0,
+        path: internalPath,
+      };
+    }
   }
    
   /**

@@ -54,25 +54,24 @@ export const LLMQueryApp: React.FC = () => {
       setIsInitializing(true);
       setInitializationError(null);
 
-      // Check TinyLlama model first
+      // Check TinyLlama model first (will auto-copy from assets on first launch)
       log.info('Checking TinyLlama GGUF model...');
+      log.info('Note: First launch will take 30-60 seconds to copy ~640MB model from assets');
       const modelCheck = await fileService.checkTinyLlamaModel();
       if (!modelCheck.exists) {
         const errorMsg = `TinyLlama model not found at: ${modelCheck.path}\n\n` +
           `Possible causes:\n` +
-          `1. Native module not compiled - Rebuild the app:\n` +
-          `   - Stop Metro bundler\n` +
-          `   - Run: cd android && ./gradlew clean\n` +
-          `   - Run: npm run android\n\n` +
-          `2. Model file missing - Ensure file exists at:\n` +
+          `1. Model file missing from APK - Ensure file exists at:\n` +
           `   android/app/src/main/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf\n\n` +
-          `3. Insufficient storage - Free up ~1GB on device\n\n` +
-          `Check Metro logs for detailed error information.`;
+          `2. Insufficient storage - Free up ~1GB on device\n\n` +
+          `3. File copy failed - Check device logs for details\n\n` +
+          `For debug builds: Rebuild the app with: npm run android\n` +
+          `For release builds: Rebuild the APK with: ./release.sh`;
         log.error(errorMsg);
         throw new Error(errorMsg);
       }
-      log.info(`TinyLlama model found: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
-      log.info(`TinyLlama model path: ${modelCheck.path}`);
+      log.info(`✓ TinyLlama model ready: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
+      log.info(`✓ Model path: ${modelCheck.path}`);
 
       // Load files from aham directory
       log.info('Loading files from aham directory...');

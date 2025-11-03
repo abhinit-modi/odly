@@ -164,9 +164,10 @@ echo -e "  Path: ${YELLOW}$RELEASE_APK_PATH${NC}"
 echo -e "  Size: ${YELLOW}$APK_SIZE${NC}"
 print_info "This APK includes:"
 echo "  • Optimized JavaScript bundle (no Metro needed)"
-echo "  • TinyLlama model (~700MB)"
+echo "  • TinyLlama model (~700MB) - will copy to internal storage on first launch"
 echo "  • All native libraries"
 echo "  • Markdown knowledge files"
+print_warning "IMPORTANT: First launch will take 30-60 seconds to copy model from APK to internal storage"
 
 # Uninstall old version if exists
 print_step "Checking for existing app installation..."

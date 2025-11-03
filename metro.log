@@ -1301,3 +1301,550 @@ true
  LOG  [94m6:19:44 PM | INFO : Sending query to TinyLlama... [0m
  LOG  [94m6:19:44 PM | INFO : Prompt length: 325 chars [0m
  LOG  [94m6:19:50 PM | INFO : LLM response length: 298 chars [0m
+ LOG  [94m6:21:14 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:21:14 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:21:14 PM | INFO : Voice module initialized successfully [0m
+ BUNDLE  ./index.android.js 
+
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  [94m6:24:23 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:24:23 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:24:23 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:23 PM | INFO : Model not in internal storage, will use from assets: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:23 PM | INFO : TinyLlama model found: 637.0MB [0m
+ LOG  [94m6:24:23 PM | INFO : TinyLlama model path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:23 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:24:23 PM | INFO : Android readFileAssets failed, trying iOS method... [0m
+ LOG  [93m6:24:23 PM | WARN : ⚠ Failed to read aham/fun.md: Asset file not found: aham/fun.md [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (98 bytes) [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (39 bytes) [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:24:23 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:24:23 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:24:23 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:24:23 PM | INFO : Model path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:23 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:24:23 PM | INFO : Initializing llama.rn with config: {
+  "model": "file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:24:23 PM | INFO : Using model path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [91m6:24:24 PM | ERROR : Failed to load TinyLlama model: Failed to initialize context [0m
+ LOG  [91m6:24:24 PM | ERROR : Model path attempted: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [91m6:24:24 PM | ERROR : Full error details: Failed to initialize context [0m
+ LOG  [91m6:24:24 PM | ERROR : Failed to initialize LLM context. This is often caused by:
+1. Model file not accessible (path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf)
+2. Insufficient device memory
+3. Model file corruption
+
+Try:
+- Ensure model is copied to internal storage
+- Free up device memory
+- Restart the app [0m
+ LOG  [91m6:24:24 PM | ERROR : Initialization error: Failed to initialize context: Failed to initialize context
+
+Failed to initialize LLM context. This is often caused by:
+1. Model file not accessible (path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf)
+2. Insufficient device memory
+3. Model file corruption
+
+Try:
+- Ensure model is copied to internal storage
+- Free up device memory
+- Restart the app [0m
+ LOG  [94m6:24:24 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:24:24 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:24:24 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:24:39 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:24:39 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:39 PM | INFO : Model not in internal storage, will use from assets: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:39 PM | INFO : TinyLlama model found: 637.0MB [0m
+ LOG  [94m6:24:39 PM | INFO : TinyLlama model path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:24:39 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:24:39 PM | INFO : Android readFileAssets failed, trying iOS method... [0m
+ LOG  [93m6:24:39 PM | WARN : ⚠ Failed to read aham/fun.md: Asset file not found: aham/fun.md [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (98 bytes) [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (39 bytes) [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:24:39 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:24:39 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:24:39 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [91m6:24:39 PM | ERROR : Initialization error: Failed to initialize context: Failed to initialize context
+
+Failed to initialize LLM context. This is often caused by:
+1. Model file not accessible (path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf)
+2. Insufficient device memory
+3. Model file corruption
+
+Try:
+- Ensure model is copied to internal storage
+- Free up device memory
+- Restart the app [0m
+ LOG  [94m6:24:39 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:24:39 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:24:39 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:26:39 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:26:39 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:26:39 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:39 PM | INFO : Model not in internal storage, copying from assets... [0m
+ LOG  [94m6:26:39 PM | INFO : Source path: undefined/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:39 PM | INFO : Destination path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:39 PM | INFO : This will take 30-60 seconds for the ~640MB model file... [0m
+ LOG  [94m6:26:39 PM | INFO : Trying alternative Android assets path: undefined/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [91m6:26:39 PM | ERROR : Model file not found in assets at undefined/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf or undefined/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [91m6:26:39 PM | ERROR : TinyLlama model not found at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+
+Possible causes:
+1. Native module not compiled - Rebuild the app:
+   - Stop Metro bundler
+   - Run: cd android && ./gradlew clean
+   - Run: npm run android
+
+2. Model file missing - Ensure file exists at:
+   android/app/src/main/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+
+3. Insufficient storage - Free up ~1GB on device
+
+Check Metro logs for detailed error information. [0m
+ LOG  [91m6:26:39 PM | ERROR : Initialization error: TinyLlama model not found at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+
+Possible causes:
+1. Native module not compiled - Rebuild the app:
+   - Stop Metro bundler
+   - Run: cd android && ./gradlew clean
+   - Run: npm run android
+
+2. Model file missing - Ensure file exists at:
+   android/app/src/main/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+
+3. Insufficient storage - Free up ~1GB on device
+
+Check Metro logs for detailed error information. [0m
+ LOG  [94m6:26:39 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:26:39 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:26:39 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:26:54 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:26:54 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:26:54 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:54 PM | INFO : Model not in internal storage, copying from assets... [0m
+ LOG  [94m6:26:54 PM | INFO : This will take 30-60 seconds for the ~640MB model file... [0m
+ LOG  [94m6:26:54 PM | INFO : Copying from assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf to /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Model copied successfully to internal storage: 637.8MB [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Model is now accessible at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:58 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m6:26:58 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:26:58 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:26:58 PM | INFO : Android readFileAssets failed, trying iOS method... [0m
+ LOG  [93m6:26:58 PM | WARN : ⚠ Failed to read aham/fun.md: Asset file not found: aham/fun.md [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (98 bytes) [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (39 bytes) [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:26:58 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:26:58 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:26:58 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [91m6:26:58 PM | ERROR : Initialization error: Failed to initialize context: Failed to initialize context
+
+Failed to initialize LLM context. This is often caused by:
+1. Model file not accessible (path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf)
+2. Insufficient device memory
+3. Model file corruption
+
+Try:
+- Ensure model is copied to internal storage
+- Free up device memory
+- Restart the app [0m
+ LOG  [94m6:26:58 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:26:58 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:26:58 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:27:26 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:27:26 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:27:26 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:26 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:27:26 PM | INFO : Android readFileAssets failed, trying iOS method... [0m
+ LOG  [93m6:27:26 PM | WARN : ⚠ Failed to read aham/fun.md: Asset file not found: aham/fun.md [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (98 bytes) [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (39 bytes) [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:27:26 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:27:26 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:27:26 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [91m6:27:26 PM | ERROR : Initialization error: Failed to initialize context: Failed to initialize context
+
+Failed to initialize LLM context. This is often caused by:
+1. Model file not accessible (path: file:///android_asset/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf)
+2. Insufficient device memory
+3. Model file corruption
+
+Try:
+- Ensure model is copied to internal storage
+- Free up device memory
+- Restart the app [0m
+ LOG  [94m6:27:26 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:27:26 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:27:26 PM | INFO : Voice module initialized successfully [0m
+ BUNDLE  ./index.android.js 
+
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  [94m6:30:20 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:30:20 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:30:20 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:30:20 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:30:20 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:20 PM | INFO : Model not in internal storage, copying from assets... [0m
+ LOG  [94m6:30:20 PM | INFO : This will take 30-60 seconds for the ~640MB model file... [0m
+ LOG  [94m6:30:20 PM | INFO : Copying from assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf to /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Model copied successfully to internal storage: 637.8MB [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Model is now accessible at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:25 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:30:25 PM | INFO : Android readFileAssets failed, trying iOS method... [0m
+ LOG  [93m6:30:25 PM | WARN : ⚠ Failed to read aham/fun.md: Asset file not found: aham/fun.md [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (98 bytes) [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (39 bytes) [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:30:25 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:30:25 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:30:25 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:30:25 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:25 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:30:25 PM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:30:25 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:30:26 PM | INFO : Context object type: object [0m
+ LOG  [94m6:30:26 PM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m6:30:26 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:30:26 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:30:26 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:30:26 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:30:26 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:30:26 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:30:26 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:30:26 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:30:26 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:30:26 PM | INFO : Loading file list... [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [94m6:30:27 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:30:27 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  }
+]
+[0m
+ LOG  [94m6:30:27 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:30:27 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:30:27 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:31:00 PM | INFO : HandleQuery: Selected tags: 
+[
+  "<work>"
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Processing query: Check my work [0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: File list: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:31:00 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (180 bytes) [0m
+ LOG  [94m6:31:00 PM | INFO : FileService: Created writable copy at /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:31:00 PM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m6:31:00 PM | INFO : Context is valid [0m
+ LOG  [94m6:31:00 PM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m6:31:00 PM | INFO : Prompt length: 323 chars [0m
+ LOG  [94m6:31:24 PM | INFO : LLM response length: 1434 chars [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (69 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Created writable copy at /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:32:00 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:32:00 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:32:09 PM | INFO : HandleQuery: Selected tags: 
+[
+  "<work>"
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Processing query: Read my work file [0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: File list: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:32:09 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:09 PM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m6:32:09 PM | INFO : Context is valid [0m
+ LOG  [94m6:32:09 PM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m6:32:09 PM | INFO : Prompt length: 327 chars [0m
+ LOG  [94m6:32:32 PM | INFO : LLM response length: 1416 chars [0m
+ LOG  [94m6:32:53 PM | INFO : HandleQuery: Selected tags: 
+[
+  "<work>"
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : HandleQuery: Filtering to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Processing query: Summarize this [0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Filtering to specific files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Getting list of aham files... [0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: File list: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Filtered to files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:32:53 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Loaded content from work.md [0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Successfully loaded files: 
+[
+  "work.md"
+]
+[0m
+ LOG  [94m6:32:53 PM | INFO : AnswerService: Querying LLM... [0m
+ LOG  [94m6:32:53 PM | INFO : Context is valid [0m
+ LOG  [94m6:32:53 PM | INFO : Sending query to TinyLlama... [0m
+ LOG  [94m6:32:53 PM | INFO : Prompt length: 324 chars [0m
+ LOG  [94m6:32:56 PM | INFO : LLM response length: 210 chars [0m

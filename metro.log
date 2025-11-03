@@ -8676,3 +8676,231 @@ true
 true
 [0m
  LOG  [94m5:15:00 PM | INFO : Voice module initialized successfully [0m
+error: Error: Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+  1 | import RNFS from 'react-native-fs';
+  2 | import { log } from '../utils/logger';
+> 3 | import AssetCopyModule from './AssetCopyModule';
+    |                              ^
+  4 | import { Platform } from 'react-native';
+  5 |
+  6 | log.info('✓ RNFS loaded in FileService');
+    at ModuleResolver.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph/ModuleResolution.js:112:15)
+    at DependencyGraph.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph.js:232:43)
+    at /Users/abhinitmodi/Dev/odly/node_modules/metro/src/lib/transformHelpers.js:156:21
+    at resolveDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:42:25)
+    at visit (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:83:30)
+    at async Promise.all (index 0)
+    at async buildSubgraph (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:103:3)
+    at async Graph._buildDelta (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:157:22)
+    at async Graph.traverseDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:49:19)
+    at async DeltaCalculator._getChangedDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/DeltaCalculator.js:187:42)
+ ERROR  [Error: undefined Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+[0m [90m 1 |[39m [36mimport[39m [33mRNFS[39m [36mfrom[39m [32m'react-native-fs'[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { log } [36mfrom[39m [32m'../utils/logger'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m [33mAssetCopyModule[39m [36mfrom[39m [32m'./AssetCopyModule'[39m[33m;[39m
+ [90m   |[39m                              [31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m { [33mPlatform[39m } [36mfrom[39m [32m'react-native'[39m[33m;[39m
+ [90m 5 |[39m
+ [90m 6 |[39m log[33m.[39minfo([32m'✓ RNFS loaded in FileService'[39m)[33m;[39m[0m]
+error: Error: Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+  1 | import RNFS from 'react-native-fs';
+  2 | import { log } from '../utils/logger';
+> 3 | import AssetCopyModule from './AssetCopyModule';
+    |                              ^
+  4 | import { Platform } from 'react-native';
+  5 |
+  6 | log.info('✓ RNFS loaded in FileService');
+    at ModuleResolver.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph/ModuleResolution.js:112:15)
+    at DependencyGraph.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph.js:232:43)
+    at /Users/abhinitmodi/Dev/odly/node_modules/metro/src/lib/transformHelpers.js:156:21
+    at resolveDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:42:25)
+    at visit (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:83:30)
+    at async Promise.all (index 0)
+    at async buildSubgraph (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:103:3)
+    at async Graph._buildDelta (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:157:22)
+    at async Graph.traverseDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:49:19)
+    at async DeltaCalculator._getChangedDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/DeltaCalculator.js:187:42)
+ ERROR  [Error: undefined Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+[0m [90m 1 |[39m [36mimport[39m [33mRNFS[39m [36mfrom[39m [32m'react-native-fs'[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { log } [36mfrom[39m [32m'../utils/logger'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m [33mAssetCopyModule[39m [36mfrom[39m [32m'./AssetCopyModule'[39m[33m;[39m
+ [90m   |[39m                              [31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m { [33mPlatform[39m } [36mfrom[39m [32m'react-native'[39m[33m;[39m
+ [90m 5 |[39m
+ [90m 6 |[39m log[33m.[39minfo([32m'✓ RNFS loaded in FileService'[39m)[33m;[39m[0m]
+error: Error: Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+  1 | import RNFS from 'react-native-fs';
+  2 | import { log } from '../utils/logger';
+> 3 | import AssetCopyModule from './AssetCopyModule';
+    |                              ^
+  4 | import { Platform } from 'react-native';
+  5 |
+  6 | log.info('✓ RNFS loaded in FileService');
+    at ModuleResolver.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph/ModuleResolution.js:112:15)
+    at DependencyGraph.resolveDependency (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/node-haste/DependencyGraph.js:232:43)
+    at /Users/abhinitmodi/Dev/odly/node_modules/metro/src/lib/transformHelpers.js:156:21
+    at resolveDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:42:25)
+    at visit (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:83:30)
+    at async Promise.all (index 0)
+    at async buildSubgraph (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/buildSubgraph.js:103:3)
+    at async Graph._buildDelta (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:157:22)
+    at async Graph.traverseDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/Graph.js:49:19)
+    at async DeltaCalculator._getChangedDependencies (/Users/abhinitmodi/Dev/odly/node_modules/metro/src/DeltaBundler/DeltaCalculator.js:187:42)
+ ERROR  [Error: undefined Unable to resolve module ./AssetCopyModule from /Users/abhinitmodi/Dev/odly/src/services/FileService.ts: 
+
+None of these files exist:
+  * src/services/AssetCopyModule(.android.js|.native.js|.js|.android.jsx|.native.jsx|.jsx|.android.json|.native.json|.json|.android.ts|.native.ts|.ts|.android.tsx|.native.tsx|.tsx)
+  * src/services/AssetCopyModule
+[0m [90m 1 |[39m [36mimport[39m [33mRNFS[39m [36mfrom[39m [32m'react-native-fs'[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { log } [36mfrom[39m [32m'../utils/logger'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m [33mAssetCopyModule[39m [36mfrom[39m [32m'./AssetCopyModule'[39m[33m;[39m
+ [90m   |[39m                              [31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m { [33mPlatform[39m } [36mfrom[39m [32m'react-native'[39m[33m;[39m
+ [90m 5 |[39m
+ [90m 6 |[39m log[33m.[39minfo([32m'✓ RNFS loaded in FileService'[39m)[33m;[39m[0m]
+ LOG  [94m5:24:49 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m5:24:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  Running "odly" with {"rootTag":51}
+ LOG  [94m5:25:22 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m5:25:22 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m5:25:22 PM | INFO : TinyLlama model found: 637.8MB [0m
+ LOG  [94m5:25:22 PM | INFO : TinyLlama model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m5:25:22 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (216 bytes) [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (381 bytes) [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (453 bytes) [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (428 bytes) [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (575 bytes) [0m
+ LOG  [94m5:25:22 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m5:25:22 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m5:25:22 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m5:25:22 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m5:25:22 PM | INFO : Initializing chat service... [0m
+ LOG  [94m5:25:22 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m5:25:22 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m5:25:22 PM | INFO : ChatService: Loaded 0 chat messages from storage [0m
+ LOG  [94m5:25:22 PM | INFO : Chat service initialized [0m
+ LOG  [94m5:25:22 PM | INFO : Initializing tag service... [0m
+ LOG  [94m5:25:22 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m5:25:22 PM | INFO : TagService: Storage path: /data/user/0/com.odly/files/user_tags.json [0m
+ LOG  [94m5:25:22 PM | INFO : TagService: Loaded 3 user-created tags from storage [0m
+ LOG  [94m5:25:22 PM | INFO : Tag service initialized [0m
+ LOG  [94m5:25:22 PM | INFO : Loading file list... [0m
+ LOG  [94m5:25:22 PM | INFO : File list loaded: 
+[
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m5:25:22 PM | INFO : Available tags: 
+[
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  },
+  {
+    "name": "{GenBio}",
+    "type": "user_created"
+  },
+  {
+    "name": "{LiquidAI}",
+    "type": "user_created"
+  },
+  {
+    "name": "{odly}",
+    "type": "user_created"
+  }
+]
+[0m
+ LOG  [94m5:25:22 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m5:25:22 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m5:25:22 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m5:25:24 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m5:25:24 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m5:25:48 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m5:25:48 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m5:25:48 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m5:25:50 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m5:25:50 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m5:25:50 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m5:25:53 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m5:25:53 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m5:25:55 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m5:25:55 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m5:25:56 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m5:25:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m5:26:09 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m5:26:09 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m

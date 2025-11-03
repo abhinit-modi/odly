@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import { QueryInterface } from './QueryInterface';
 import { ChatInterface } from './ChatInterface';
@@ -18,6 +19,7 @@ import { FileService } from '../services/FileService';
 import { AnswerService } from '../services/AnswerService';
 import { ChatService } from '../services/ChatService';
 import { GroupbyService } from '../services/GroupbyService';
+import { TagService, Tag } from '../services/TagService';
 import { log } from '../utils/logger';
 
 type TabType = 'search' | 'chat' | 'files';
@@ -34,13 +36,14 @@ export const LLMQueryApp: React.FC = () => {
   const [isGrouping, setIsGrouping] = useState(false);
   const [isPushing, setIsPushing] = useState(false);
   const [fileList, setFileList] = useState<Array<{ name: string; path: string }>>([]);
-  const [availableTags, setAvailableTags] = useState<string[]>([]);
+  const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
   const llmService = LLMService.getInstance();
   const fileService = FileService.getInstance();
   const answerService = AnswerService.getInstance();
   const chatService = ChatService.getInstance();
   const groupbyService = GroupbyService.getInstance();
+  const tagService = TagService.getInstance();
 
   // Initialize the app
   useEffect(() => {
@@ -56,7 +59,18 @@ export const LLMQueryApp: React.FC = () => {
       log.info('Checking TinyLlama GGUF model...');
       const modelCheck = await fileService.checkTinyLlamaModel();
       if (!modelCheck.exists) {
-        throw new Error(`TinyLlama model not found at: ${modelCheck.path}`);
+        const errorMsg = `TinyLlama model not found at: ${modelCheck.path}\n\n` +
+          `Possible causes:\n` +
+          `1. Native module not compiled - Rebuild the app:\n` +
+          `   - Stop Metro bundler\n` +
+          `   - Run: cd android && ./gradlew clean\n` +
+          `   - Run: npm run android\n\n` +
+          `2. Model file missing - Ensure file exists at:\n` +
+          `   android/app/src/main/assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf\n\n` +
+          `3. Insufficient storage - Free up ~1GB on device\n\n` +
+          `Check Metro logs for detailed error information.`;
+        log.error(errorMsg);
+        throw new Error(errorMsg);
       }
       log.info(`TinyLlama model found: ${(modelCheck.size / 1024 / 1024).toFixed(1)}MB`);
       log.info(`TinyLlama model path: ${modelCheck.path}`);
@@ -88,16 +102,28 @@ export const LLMQueryApp: React.FC = () => {
         // Continue even if chat fails - don't block the app
       }
 
+      // Initialize tag service
+      log.info('Initializing tag service...');
+      try {
+        await tagService.initialize();
+        log.info('Tag service initialized');
+      } catch (tagError) {
+        log.error('Tag service initialization failed, continuing anyway:', tagError);
+      }
+
       // Load file list for file explorer and generate tags
       log.info('Loading file list...');
       const ahamFiles = await fileService.getAhamFileList();
       setFileList(ahamFiles);
       log.info('File list loaded:', ahamFiles);
       
-      // Generate tags from file list (remove .md extension and add # prefix)
-      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
-      setAvailableTags(tags);
-      log.info('Available tags:', tags);
+      // Generate default tags from file list
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      
+      // Combine with user-created tags
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Available tags:', allTags);
 
     } catch (error) {
       log.error('Initialization error:', error);
@@ -112,7 +138,7 @@ export const LLMQueryApp: React.FC = () => {
     } finally {
       setIsInitializing(false);
     }
-  }, [llmService, fileService, answerService, chatService]);
+  }, [llmService, fileService, answerService, chatService, tagService]);
 
   const handleQuery = useCallback(async (query: string, selectedTags: string[]): Promise<{ answer: string; sources: string[] }> => {
     if (!answerService.isReady()) {
@@ -233,14 +259,15 @@ export const LLMQueryApp: React.FC = () => {
       log.info('File list refreshed after creation:', ahamFiles);
       
       // Update available tags
-      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
-      setAvailableTags(tags);
-      log.info('Tags updated after file creation:', tags);
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file creation:', allTags);
     } catch (error) {
       log.error('Error creating file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
 
   const handleDeleteFile = useCallback(async (fileName: string): Promise<void> => {
     try {
@@ -253,14 +280,15 @@ export const LLMQueryApp: React.FC = () => {
       log.info('File list refreshed after deletion:', ahamFiles);
       
       // Update available tags
-      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
-      setAvailableTags(tags);
-      log.info('Tags updated after file deletion:', tags);
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file deletion:', allTags);
     } catch (error) {
       log.error('Error deleting file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
 
   const handleRenameFile = useCallback(async (oldFileName: string, newFileName: string): Promise<void> => {
     try {
@@ -273,14 +301,15 @@ export const LLMQueryApp: React.FC = () => {
       log.info('File list refreshed after rename:', ahamFiles);
       
       // Update available tags
-      const tags = ahamFiles.map(file => `#${file.name.replace('.md', '')}`);
-      setAvailableTags(tags);
-      log.info('Tags updated after file rename:', tags);
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after file rename:', allTags);
     } catch (error) {
       log.error('Error renaming file:', error);
       throw error;
     }
-  }, [fileService]);
+  }, [fileService, tagService]);
 
   const handlePushMessages = useCallback(async () => {
     if (chatMessages.length === 0) {
@@ -295,7 +324,7 @@ export const LLMQueryApp: React.FC = () => {
       const messagesByTag: { [tag: string]: Array<{ text: string; timestamp: Date }> } = {};
       
       for (const message of chatMessages) {
-        const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '#random';
+        const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '<random>';
         if (!messagesByTag[firstTag]) {
           messagesByTag[firstTag] = [];
         }
@@ -358,6 +387,46 @@ export const LLMQueryApp: React.FC = () => {
     }
   }, [chatMessages, fileService]);
 
+  const handleCreateTag = useCallback(async (tagName: string): Promise<void> => {
+    try {
+      await tagService.createTag(tagName);
+      log.info('Tag created successfully:', tagName);
+      
+      // Refresh tags list
+      const defaultTags = TagService.createDefaultTagsFromFiles(fileList.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after tag creation:', allTags);
+      
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(`Tag ${tagName} created!`, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      log.error('Error creating tag:', error);
+      throw error;
+    }
+  }, [fileList, tagService]);
+
+  const handleDeleteTag = useCallback(async (tagName: string): Promise<void> => {
+    try {
+      await tagService.deleteTag(tagName);
+      log.info('Tag deleted successfully:', tagName);
+      
+      // Refresh tags list
+      const defaultTags = TagService.createDefaultTagsFromFiles(fileList.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after tag deletion:', allTags);
+      
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(`Tag ${tagName} deleted!`, ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      log.error('Error deleting tag:', error);
+      throw error;
+    }
+  }, [fileList, tagService]);
+
   const handleGroupMessages = useCallback(async () => {
     if (chatMessages.length < 2) {
       return;
@@ -373,7 +442,7 @@ export const LLMQueryApp: React.FC = () => {
       log.info('Messages backed up successfully');
       
       // Use GroupbyService to group messages by tags
-      const groupedMessages = await groupbyService.groupMessages(chatMessages);
+      const groupedMessages = await groupbyService.groupMessages(chatMessages, availableTags);
       
       log.info(`GroupbyService returned ${groupedMessages.length} grouped messages`);
 
@@ -408,7 +477,7 @@ export const LLMQueryApp: React.FC = () => {
     } finally {
       setIsGrouping(false);
     }
-  }, [chatMessages, chatService, groupbyService]);
+  }, [chatMessages, chatService, groupbyService, availableTags]);
 
   if (isInitializing) {
     return (
@@ -437,7 +506,37 @@ export const LLMQueryApp: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.header}>
+        {/* Left button - Clear (only in chat tab) */}
+        {activeTab === 'chat' && chatMessages.length > 0 ? (
+          <TouchableOpacity 
+            style={styles.headerButton}
+            onPress={handleClearMessages}
+            disabled={isGrouping || isPushing}
+          >
+            <Text style={[styles.headerButtonIcon, (isGrouping || isPushing) && styles.headerButtonDisabled]}>🧹</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.headerButton} />
+        )}
+
         <Text style={styles.headerTitle}>🏝️Rūḥ</Text>
+
+        {/* Right button - Save (only in chat tab) */}
+        {activeTab === 'chat' && chatMessages.length > 0 ? (
+          <TouchableOpacity 
+            style={styles.headerButton}
+            onPress={handlePushMessages}
+            disabled={isGrouping || isPushing}
+          >
+            {isPushing ? (
+              <ActivityIndicator color="#8B6F47" size="small" />
+            ) : (
+              <Text style={[styles.headerButtonIcon, (isGrouping || isPushing) && styles.headerButtonDisabled]}>🧰</Text>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.headerButton} />
+        )}
       </View>
       
       {/* Tab Content */}
@@ -457,6 +556,8 @@ export const LLMQueryApp: React.FC = () => {
           onPushMessages={handlePushMessages}
           onDeleteMessage={handleDeleteMessage}
           onUpdateMessage={handleUpdateMessage}
+          onCreateTag={handleCreateTag}
+          onDeleteTag={handleDeleteTag}
           messages={chatMessages}
           isGrouping={isGrouping}
           isPushing={isPushing}
@@ -577,36 +678,39 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#00CED1',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 24,
+    paddingHorizontal: 16,
+    paddingTop: Platform.OS === 'ios' ? 50 : 40,
+    paddingBottom: 12,
     borderBottomWidth: 2,
     borderBottomColor: '#008B8B',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   headerTitle: {
-    fontSize: 42,
+    fontSize: 24,
     fontWeight: '900',
     color: '#8B6F47',
-    marginBottom: 4,
-    letterSpacing: 1,
     textAlign: 'center',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    flex: 1,
   },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#FFEB3B',
-    lineHeight: 20,
-    fontWeight: '800',
-    textAlign: 'center',
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    textShadowColor: '#006064',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
+  headerButton: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerButtonIcon: {
+    fontSize: 24,
+  },
+  headerButtonDisabled: {
+    opacity: 0.3,
   },
   tabBar: {
     flexDirection: 'row',

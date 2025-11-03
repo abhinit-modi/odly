@@ -10,8 +10,11 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  Modal,
+  ToastAndroid,
 } from 'react-native';
 import { AudioRecorderButton } from './AudioRecorderButton';
+import { Tag } from '../services/TagService';
 
 interface Message {
   id: string;
@@ -27,10 +30,12 @@ interface ChatInterfaceProps {
   onPushMessages: () => void;
   onDeleteMessage: (id: string) => void;
   onUpdateMessage: (id: string, newText: string, tags: string[]) => void;
+  onCreateTag: (tagName: string) => Promise<void>;
+  onDeleteTag: (tagName: string) => Promise<void>;
   messages: Message[];
   isGrouping: boolean;
   isPushing: boolean;
-  availableTags: string[];
+  availableTags: Tag[];
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -40,6 +45,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onPushMessages,
   onDeleteMessage,
   onUpdateMessage,
+  onCreateTag,
+  onDeleteTag,
   messages,
   isGrouping,
   isPushing,
@@ -49,6 +56,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
+  const [isCreatingTag, setIsCreatingTag] = useState(false);
+  const [showCreateTagModal, setShowCreateTagModal] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -86,7 +96,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           onPress: () => {
             setEditingMessageId(message.id);
             setInputText(message.text);
-            setSelectedTags(message.tags || []);
+            setSelectedTags((message.tags || []));
           }
         },
         {
@@ -122,6 +132,85 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     });
   }, []);
 
+  const handleCreateTag = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      setIsCreatingTag(true);
+      Alert.prompt(
+        'Create New Tag',
+        'Enter a name for the new tag (e.g. urgent, meeting):',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => setIsCreatingTag(false),
+          },
+          {
+            text: 'Create',
+            onPress: async (tagName) => {
+              if (tagName && tagName.trim()) {
+                try {
+                  await onCreateTag(tagName.trim());
+                } catch (error) {
+                  Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create tag');
+                }
+              }
+              setIsCreatingTag(false);
+            },
+          },
+        ],
+        'plain-text'
+      );
+    } else {
+      // Android: Use custom modal
+      setNewTagName('');
+      setShowCreateTagModal(true);
+    }
+  }, [onCreateTag]);
+
+  const handleConfirmCreateTag = useCallback(async () => {
+    if (newTagName.trim()) {
+      setIsCreatingTag(true);
+      setShowCreateTagModal(false);
+      try {
+        await onCreateTag(newTagName.trim());
+      } catch (error) {
+        Alert.alert('Error', error instanceof Error ? error.message : 'Failed to create tag');
+      } finally {
+        setIsCreatingTag(false);
+        setNewTagName('');
+      }
+    }
+  }, [newTagName, onCreateTag]);
+
+  const handleDeleteTag = useCallback((tagName: string) => {
+    Alert.alert(
+      'Delete Tag',
+      `Are you sure you want to delete the tag ${tagName}?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await onDeleteTag(tagName);
+              // Remove from selected tags if it was selected
+              setSelectedTags(prev => prev.filter(t => t !== tagName));
+              if (Platform.OS === 'android') {
+                ToastAndroid.show(`Tag ${tagName} deleted`, ToastAndroid.SHORT);
+              }
+            } catch (error) {
+              Alert.alert('Error', error instanceof Error ? error.message : 'Failed to delete tag');
+            }
+          },
+        },
+      ]
+    );
+  }, [onDeleteTag]);
+
   const handleTranscriptionComplete = useCallback((text: string) => {
     // Append transcribed text to existing input or replace if empty
     setInputText(prev => {
@@ -145,12 +234,97 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   };
 
+  // Render message text with styled user_created hashtags
+  const renderMessageText = (text: string) => {
+    // Get set of user_created tag names for styling
+    const userCreatedTagNames = new Set(
+      availableTags.filter(t => t.type === 'user_created').map(t => t.name)
+    );
+
+    // Split text into lines and filter out empty lines
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    const elements: React.ReactNode[] = [];
+
+    lines.forEach((line, lineIndex) => {
+      const trimmedLine = line.trim();
+      
+      // Check if line is a user_created tag (may or may not have bullet)
+      // Remove bullet prefix if present for checking
+      const lineWithoutBullet = trimmedLine.replace(/^[•\-\*]\s*/, '');
+      
+      // User_created tags use {tag} syntax
+      if (lineWithoutBullet.startsWith('{') && lineWithoutBullet.includes('}') && userCreatedTagNames.has(lineWithoutBullet)) {
+        // Render as section divider with tag title
+        elements.push(
+          <View key={`section-${lineIndex}`} style={styles.sectionDivider}>
+            <View style={styles.dividerLine} />
+            <View style={styles.sectionTagContainer}>
+              <Text style={styles.sectionTagText}>{lineWithoutBullet}</Text>
+            </View>
+            <View style={styles.dividerLine} />
+          </View>
+        );
+      } else {
+        // Render as regular text
+        elements.push(
+          <Text key={`text-${lineIndex}`} style={styles.messageText}>
+            {trimmedLine}
+          </Text>
+        );
+      }
+    });
+
+    return <View style={styles.messageTextContainer}>{elements}</View>;
+  };
+
   return (
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={0}
     >
+      {/* Create Tag Modal (Android) */}
+      <Modal
+        visible={showCreateTagModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowCreateTagModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Create New Tag {'{tag}'}</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="e.g. urgent, meeting, project..."
+              value={newTagName}
+              onChangeText={setNewTagName}
+              autoFocus
+              placeholderTextColor="#80868b"
+              returnKeyType="done"
+              onSubmitEditing={handleConfirmCreateTag}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCancelButton]}
+                onPress={() => {
+                  setShowCreateTagModal(false);
+                  setNewTagName('');
+                }}
+              >
+                <Text style={styles.modalCancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCreateButton]}
+                onPress={handleConfirmCreateTag}
+                disabled={!newTagName.trim()}
+              >
+                <Text style={styles.modalCreateButtonText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       {/* Messages Section - Scrollable */}
       <ScrollView 
         ref={scrollViewRef}
@@ -178,14 +352,38 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               >
                 {message.tags && message.tags.length > 0 && (
                   <View style={styles.tagsContainer}>
-                    {message.tags.map((tag, idx) => (
-                      <View key={idx} style={styles.messageTag}>
-                        <Text style={styles.messageTagText}>{tag}</Text>
-                      </View>
-                    ))}
+                    {message.tags
+                      .sort((a, b) => {
+                        // Sort so default tags come first, then user-created tags
+                        const tagObjA = availableTags.find(t => t.name === a);
+                        const tagObjB = availableTags.find(t => t.name === b);
+                        const isUserCreatedA = tagObjA?.type === 'user_created';
+                        const isUserCreatedB = tagObjB?.type === 'user_created';
+                        
+                        // If both same type, maintain original order
+                        if (isUserCreatedA === isUserCreatedB) return 0;
+                        // Default tags (false) come before user-created (true)
+                        return isUserCreatedA ? 1 : -1;
+                      })
+                      .map((tag, idx) => {
+                        const tagObj = availableTags.find(t => t.name === tag);
+                        const isUserCreated = tagObj?.type === 'user_created';
+                        
+                        return (
+                          <View 
+                            key={idx} 
+                            style={[
+                              styles.messageTag,
+                              isUserCreated && styles.messageTagUserCreated
+                            ]}
+                          >
+                            <Text style={styles.messageTagText}>{tag}</Text>
+                          </View>
+                        );
+                      })}
                   </View>
                 )}
-                <Text style={styles.messageText}>{message.text}</Text>
+                {renderMessageText(message.text)}
                 <Text style={styles.messageTime}>
                   {formatTime(message.timestamp)}
                 </Text>
@@ -198,38 +396,43 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         )}
       </ScrollView>
 
-      {/* Action Buttons - Above Input Area */}
-      {messages.length > 0 && (
-        <View style={styles.actionButtonsContainer}>
-          <View style={styles.actionButtonsRow}>
-            <TouchableOpacity 
-              style={styles.clearButton}
-              onPress={onClearMessages}
-              disabled={isGrouping || isPushing}
-            >
-              <Text style={styles.clearButtonText}>🧹 Clear</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[
-                styles.pushButton,
-                (isGrouping || isPushing) && styles.buttonDisabled
-              ]}
-              onPress={onPushMessages}
-              disabled={isGrouping || isPushing}
-            >
-              {isPushing ? (
-                <ActivityIndicator color="#FFFFFF" size="small" />
-              ) : (
-                <Text style={styles.pushButtonText}>🧰 Save</Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-
       {/* Input Bar - Fixed at Bottom */}
       <View style={styles.inputBarContainer}>
-        {/* Tags Row */}
+        {/* Default Tags Row */}
+        {availableTags.filter(tag => tag.type === 'default').length > 0 && (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.tagsScrollView}
+            contentContainerStyle={styles.tagsRow}
+            keyboardShouldPersistTaps="handled"
+          >
+            {availableTags.filter(tag => tag.type === 'default').map((tag) => {
+              const isSelected = selectedTags.includes(tag.name);
+              
+              return (
+                <TouchableOpacity
+                  key={tag.name}
+                  style={[
+                    styles.tagButton,
+                    isSelected && styles.tagButtonSelected
+                  ]}
+                  onPress={() => toggleTag(tag.name)}
+                  disabled={isGrouping}
+                >
+                  <Text style={[
+                    styles.tagButtonText,
+                    isSelected && styles.tagButtonTextSelected
+                  ]}>
+                    {tag.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        )}
+
+        {/* User-Created Tags Row */}
         <ScrollView 
           horizontal 
           showsHorizontalScrollIndicator={false}
@@ -237,24 +440,41 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           contentContainerStyle={styles.tagsRow}
           keyboardShouldPersistTaps="handled"
         >
-          {availableTags.map((tag) => (
-            <TouchableOpacity
-              key={tag}
-              style={[
-                styles.tagButton,
-                selectedTags.includes(tag) && styles.tagButtonSelected
-              ]}
-              onPress={() => toggleTag(tag)}
-              disabled={isGrouping}
-            >
-              <Text style={[
-                styles.tagButtonText,
-                selectedTags.includes(tag) && styles.tagButtonTextSelected
-              ]}>
-                {tag}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {/* Create Tag Button */}
+          <TouchableOpacity
+            style={styles.createTagButton}
+            onPress={handleCreateTag}
+            disabled={isGrouping || isCreatingTag}
+          >
+            <Text style={styles.createTagButtonText}>+ Tag</Text>
+          </TouchableOpacity>
+
+          {/* User-Created Tags */}
+          {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
+            const isSelected = selectedTags.includes(tag.name);
+            
+            return (
+              <TouchableOpacity
+                key={tag.name}
+                style={[
+                  styles.tagButton,
+                  styles.tagButtonUserCreated,
+                  isSelected && styles.tagButtonUserCreatedSelected
+                ]}
+                onPress={() => toggleTag(tag.name)}
+                onLongPress={() => handleDeleteTag(tag.name)}
+                disabled={isGrouping}
+              >
+                <Text style={[
+                  styles.tagButtonText,
+                  styles.tagButtonTextUserCreated,
+                  isSelected && styles.tagButtonTextSelected
+                ]}>
+                  {tag.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         <View style={styles.inputBar}>
@@ -440,10 +660,10 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 16,
     color: '#004D40',
-    lineHeight: 24,
+    lineHeight: 20,
     fontWeight: '600',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-    marginBottom: 8,
+    marginBottom: 2,
   },
   messageTime: {
     fontSize: 12,
@@ -460,6 +680,21 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingRight: 10,
   },
+  createTagButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#9C27B0',
+    backgroundColor: '#FFFFFF',
+    borderStyle: 'dashed',
+  },
+  createTagButtonText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#9C27B0',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
   tagButton: {
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -468,14 +703,24 @@ const styles = StyleSheet.create({
     borderColor: '#00BCD4',
     backgroundColor: '#FFFFFF',
   },
+  tagButtonUserCreated: {
+    borderColor: '#9C27B0',
+    borderWidth: 2,
+  },
   tagButtonSelected: {
     backgroundColor: '#00BCD4',
+  },
+  tagButtonUserCreatedSelected: {
+    backgroundColor: '#9C27B0',
   },
   tagButtonText: {
     fontSize: 13,
     fontWeight: '700',
     color: '#00BCD4',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  tagButtonTextUserCreated: {
+    color: '#9C27B0',
   },
   tagButtonTextSelected: {
     color: '#FFFFFF',
@@ -491,6 +736,9 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 10,
     backgroundColor: '#00BCD4',
+  },
+  messageTagUserCreated: {
+    backgroundColor: '#9C27B0',
   },
   messageTagText: {
     fontSize: 11,
@@ -547,6 +795,97 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     marginTop: 4,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 24,
+    width: '80%',
+    maxWidth: 400,
+    borderWidth: 2,
+    borderColor: '#9C27B0',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#9C27B0',
+    marginBottom: 16,
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalInput: {
+    borderWidth: 2,
+    borderColor: '#9C27B0',
+    borderRadius: 12,
+    padding: 12,
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 20,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalButton: {
+    flex: 1,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  modalCancelButton: {
+    backgroundColor: '#EEEEEE',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+  },
+  modalCancelButtonText: {
+    color: '#666666',
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalCreateButton: {
+    backgroundColor: '#9C27B0',
+    borderWidth: 1,
+    borderColor: '#7B1FA2',
+  },
+  modalCreateButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  messageTextContainer: {
+    marginBottom: 4,
+  },
+  sectionDivider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 12,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 2,
+    backgroundColor: '#9C27B0',
+  },
+  sectionTagContainer: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    backgroundColor: '#9C27B0',
+    borderRadius: 12,
+    marginHorizontal: 8,
+  },
+  sectionTagText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
 });
 

@@ -12,13 +12,14 @@ import {
   Platform,
 } from 'react-native';
 import { log } from '../utils/logger';
+import { Tag } from '../services/TagService';
 
 interface QueryInterfaceProps {
   onQuery: (query: string, selectedTags: string[]) => Promise<{ answer: string; sources: string[] }>;
   isLoading: boolean;
   filesLoaded: boolean;
   availableFiles: string[];
-  availableTags: string[];
+  availableTags: Tag[];
 }
 
 export const QueryInterface: React.FC<QueryInterfaceProps> = ({
@@ -157,33 +158,76 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
 
       {/* Search Bar - Fixed at Bottom */}
       <View style={styles.searchBarContainer}>
-        {/* Tags Row */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          style={styles.tagsScrollView}
-          contentContainerStyle={styles.tagsRow}
-          keyboardShouldPersistTaps="handled"
-        >
-          {availableTags.map((tag) => (
-            <TouchableOpacity
-              key={tag}
-              style={[
-                styles.tagButton,
-                selectedTags.includes(tag) && styles.tagButtonSelected
-              ]}
-              onPress={() => toggleTag(tag)}
-              disabled={isLoading}
-            >
-              <Text style={[
-                styles.tagButtonText,
-                selectedTags.includes(tag) && styles.tagButtonTextSelected
-              ]}>
-                {tag}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        {/* Default Tags Row */}
+        {availableTags.filter(tag => tag.type === 'default').length > 0 && (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.tagsScrollView}
+            contentContainerStyle={styles.tagsRow}
+            keyboardShouldPersistTaps="handled"
+          >
+            {availableTags.filter(tag => tag.type === 'default').map((tag) => {
+              const isSelected = selectedTags.includes(tag.name);
+              
+              return (
+                <TouchableOpacity
+                  key={tag.name}
+                  style={[
+                    styles.tagButton,
+                    isSelected && styles.tagButtonSelected
+                  ]}
+                  onPress={() => toggleTag(tag.name)}
+                  disabled={isLoading}
+                >
+                  <Text style={[
+                    styles.tagButtonText,
+                    isSelected && styles.tagButtonTextSelected
+                  ]}>
+                    {tag.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        )}
+
+        {/* User-Created Tags Row */}
+        {availableTags.filter(tag => tag.type === 'user_created').length > 0 && (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            style={styles.tagsScrollView}
+            contentContainerStyle={styles.tagsRow}
+            keyboardShouldPersistTaps="handled"
+          >
+            {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
+              const isSelected = selectedTags.includes(tag.name);
+              
+              return (
+                <TouchableOpacity
+                  key={tag.name}
+                  style={[
+                    styles.tagButton,
+                    styles.tagButtonUserCreated,
+                    isSelected && styles.tagButtonUserCreatedSelected
+                  ]}
+                  onPress={() => toggleTag(tag.name)}
+                  disabled={isLoading}
+                >
+                  <Text style={[
+                    styles.tagButtonText,
+                    styles.tagButtonTextUserCreated,
+                    isSelected && styles.tagButtonTextSelected
+                  ]}>
+                    {tag.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        )}
+
 
         <View style={styles.searchBar}>
           <View style={styles.searchInputContainer}>
@@ -497,14 +541,24 @@ const styles = StyleSheet.create({
     borderColor: '#00BCD4',
     backgroundColor: '#FFFFFF',
   },
+  tagButtonUserCreated: {
+    borderColor: '#9C27B0',
+    borderWidth: 2,
+  },
   tagButtonSelected: {
     backgroundColor: '#00BCD4',
+  },
+  tagButtonUserCreatedSelected: {
+    backgroundColor: '#9C27B0',
   },
   tagButtonText: {
     fontSize: 13,
     fontWeight: '700',
     color: '#00BCD4',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  tagButtonTextUserCreated: {
+    color: '#9C27B0',
   },
   tagButtonTextSelected: {
     color: '#FFFFFF',

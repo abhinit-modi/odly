@@ -144,6 +144,19 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
     setHasUnsavedChanges(true);
   }, []);
 
+  // Process file content to convert {tag} into markdown heading 4 for display
+  const processContentForDisplay = useCallback((content: string) => {
+    // Convert lines that are just {tag} into #### {tag}
+    return content.split('\n').map(line => {
+      const trimmedLine = line.trim();
+      // Check if line matches {tag} pattern (starts with { and ends with })
+      if (trimmedLine.match(/^\{[^}]+\}$/)) {
+        return `#### ${trimmedLine}`;
+      }
+      return line;
+    }).join('\n');
+  }, []);
+
   const handleCreateFile = useCallback(async () => {
     if (!newFileName.trim()) {
       Alert.alert('Error', 'Please enter a file name');
@@ -307,7 +320,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
             contentContainerStyle={styles.markdownContainer}
           >
             <Markdown style={markdownStyles}>
-              {fileContent || 'No content'}
+              {processContentForDisplay(fileContent) || 'No content'}
             </Markdown>
           </ScrollView>
         ) : (
@@ -417,7 +430,6 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
           onPress={() => setIsCreatingFile(true)}
         >
           <Text style={styles.createFileIcon}>➕</Text>
-          <Text style={styles.createFileText}>Create New File</Text>
         </TouchableOpacity>
 
         {files.length === 0 ? (
@@ -616,7 +628,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#7CB342',
     borderRadius: 12,
-    padding: 16,
+    padding: 12,
     marginBottom: 20,
     borderWidth: 2,
     borderColor: '#558B2F',
@@ -625,16 +637,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
+    alignSelf: 'flex-start',
+    width: 48,
+    height: 48,
   },
   createFileIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  createFileText: {
     fontSize: 16,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },
   modalOverlay: {
     position: 'absolute',
@@ -754,6 +762,20 @@ const markdownStyles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 8,
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  heading4: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#9C27B0',
+    marginTop: 16,
+    marginBottom: 8,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    backgroundColor: '#F3E5F5',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderLeftWidth: 4,
+    borderLeftColor: '#9C27B0',
   },
   paragraph: {
     marginBottom: 12,

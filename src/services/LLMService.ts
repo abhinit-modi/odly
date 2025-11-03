@@ -58,22 +58,21 @@ export class LLMService {
         log.info('✓ Loaded llama.rn module');
       }
       
+      // Model path should now be in internal storage (copied from assets)
+      // Use the path directly as it's now a standard file system path
       const initConfig = {
         model: this.modelPath,
         use_mlock: false,       // Disable mlock to reduce memory pressure
-        n_ctx: 2048,            // Fast mode - still handles all 4 files comfortably
+        n_ctx: 1024,            // Reduced from 2048 to prevent memory issues - still sufficient for most queries
         n_batch: 256,           // Fast mode - good balance
         n_threads: 2,           // Fast mode - efficient threading
         n_gpu_layers: 0,        // CPU only for compatibility
       };
       
       log.info('Initializing llama.rn with config:', JSON.stringify(initConfig, null, 2));
+      log.info(`Using model path: ${this.modelPath}`);
       
       const newContext = await this.llamaRnModule.initLlama(initConfig);
-      
-      if (!newContext) {
-        throw new Error('initLlama returned null or undefined context');
-      }
       
       // Store the context as a class property to prevent garbage collection
       this.context = newContext;
@@ -97,7 +96,26 @@ export class LLMService {
     } catch (error) {
       this.isInitialized = false;
       this.context = null;
-      log.error('Failed to load TinyLlama model:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      log.error('Failed to load TinyLlama model:', errorMessage);
+      log.error('Model path attempted:', this.modelPath);
+      log.error('Full error details:', error);
+      
+      // Provide more helpful error message
+      if (errorMessage.includes('Failed to initialize context') || errorMessage.includes('initialize context')) {
+        const helpfulMessage = 
+          `Failed to initialize LLM context. This is often caused by:\n` +
+          `1. Model file not accessible (path: ${this.modelPath})\n` +
+          `2. Insufficient device memory\n` +
+          `3. Model file corruption\n` +
+          `\nTry:\n` +
+          `- Ensure model is copied to internal storage\n` +
+          `- Free up device memory\n` +
+          `- Restart the app`;
+        log.error(helpfulMessage);
+        throw new Error(`Failed to initialize context: ${errorMessage}\n\n${helpfulMessage}`);
+      }
+      
       throw error;
     }
   }

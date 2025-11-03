@@ -1,5 +1,7 @@
 import RNFS from 'react-native-fs';
 import { log } from '../utils/logger';
+import AssetCopyModule from './AssetCopyModule';
+import { Platform } from 'react-native';
 
 log.info('✓ RNFS loaded in FileService');
 
@@ -154,13 +156,13 @@ export class FileService {
 
   /**
    * Check if the TinyLlama GGUF model exists in assets or external storage
+   * Copies model from assets to internal storage if needed (llama.rn needs accessible file path)
    */
   public async checkTinyLlamaModel(): Promise<{ exists: boolean; size: number; path: string }> {
     const modelFileName = 'tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf';
     
-    // Try multiple locations - prioritize internal storage and assets over Downloads
-    const internalPath = `${RNFS.DocumentDirectoryPath}/${modelFileName}`; // App internal storage (best access)
-    const assetsPath = `file:///android_asset/${modelFileName}`;          // App assets (bundled)
+    // Internal storage path (preferred - llama.rn can access this directly)
+    const internalPath = `${RNFS.DocumentDirectoryPath}/${modelFileName}`;
     
     // Check internal storage first
     log.info(`Checking model at: ${internalPath}`);
@@ -175,15 +177,112 @@ export class FileService {
       };
     }
     
-    // For assets, RNFS.exists() doesn't work reliably on Android
-    // So we assume it exists there if bundled with the app
-    // The native llama.rn library will verify it can open the file
-    log.info(`Model not in internal storage, will use from assets: ${assetsPath}`);
-    return {
-      exists: true, // Assume it exists in assets (bundled with APK)
-      size: 637 * 1024 * 1024, // Approximate size in bytes (637MB)
-      path: assetsPath,
-    };
+    // Model not in internal storage - copy from assets
+    // llama.rn cannot directly read from Android assets, so we must copy it to internal storage
+    log.info(`Model not in internal storage, copying from assets...`);
+    
+    if (Platform.OS === 'android') {
+      // Check if native module is available
+      if (!AssetCopyModule) {
+        const errorMsg = `AssetCopyModule not available. Please rebuild the app:\n` +
+          `1. Stop Metro bundler\n` +
+          `2. Run: cd android && ./gradlew clean\n` +
+          `3. Run: npm run android\n` +
+          `\nThis is required to compile the native module that copies the model from assets.`;
+        log.error(errorMsg);
+        return {
+          exists: false,
+          size: 0,
+          path: internalPath,
+        };
+      }
+      
+      try {
+        log.info(`Checking if model exists in assets: ${modelFileName}`);
+        // Check if asset exists first
+        const assetExists = await AssetCopyModule!.assetExists(modelFileName);
+        
+        if (!assetExists) {
+          const errorMsg = `Model file not found in assets: ${modelFileName}\n` +
+            `Expected location: android/app/src/main/assets/${modelFileName}\n` +
+            `Make sure the file exists and rebuild the app.`;
+          log.error(errorMsg);
+          return {
+            exists: false,
+            size: 0,
+            path: internalPath,
+          };
+        }
+        
+        log.info(`✓ Model found in assets, copying to internal storage...`);
+        log.info(`Destination: ${internalPath}`);
+        log.info(`This may take 30-60 seconds for a 600MB+ file...`);
+        
+        // Copy from assets to internal storage using native module
+        const copyResult = await AssetCopyModule!.copyAssetToInternalStorage(modelFileName, internalPath);
+        log.info(`Copy operation completed, result: ${copyResult}`);
+        
+        // Wait a moment for file system to sync
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Verify the copy was successful
+        const copiedExists = await RNFS.exists(internalPath);
+        if (copiedExists) {
+          const stats = await RNFS.stat(internalPath);
+          const sizeMB = (stats.size / 1024 / 1024).toFixed(1);
+          log.info(`✓ Successfully copied model to: ${internalPath} (${sizeMB}MB)`);
+          
+          // Verify file size is reasonable (at least 100MB)
+          if (stats.size < 100 * 1024 * 1024) {
+            log.warn(`Warning: Copied file size seems too small (${sizeMB}MB). Expected ~600MB+`);
+          }
+          
+          return {
+            exists: true,
+            size: stats.size,
+            path: internalPath,
+          };
+        } else {
+          const errorMsg = `Copy completed but file not found at destination: ${internalPath}\n` +
+            `The native module reported success but the file is missing.`;
+          log.error(errorMsg);
+          throw new Error(errorMsg);
+        }
+      } catch (error) {
+        log.error('Error copying model from assets:', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        log.error(`Failed to copy model: ${errorMessage}`);
+        log.error(`Please ensure:`);
+        log.error(`1. Model file exists in android/app/src/main/assets/${modelFileName}`);
+        log.error(`2. App has been rebuilt after adding the native module`);
+        log.error(`3. Device has sufficient storage space (~1GB free)`);
+        return {
+          exists: false,
+          size: 0,
+          path: internalPath,
+        };
+      }
+    } else {
+      // iOS - try bundle path
+      const bundlePath = `${RNFS.MainBundlePath}/${modelFileName}`;
+      const bundleExists = await RNFS.exists(bundlePath);
+      if (bundleExists) {
+        const stats = await RNFS.stat(bundlePath);
+        log.info(`✓ Found model in bundle: ${bundlePath} (${(stats.size / 1024 / 1024).toFixed(1)}MB)`);
+        return {
+          exists: true,
+          size: stats.size,
+          path: bundlePath,
+        };
+      }
+      
+      log.error(`Model not found in bundle: ${bundlePath}`);
+      return {
+        exists: false,
+        size: 0,
+        path: internalPath,
+      };
+    }
   }
 
   /**
@@ -207,7 +306,7 @@ export class FileService {
    */
   public async getAhamFileList(): Promise<Array<{ name: string; path: string }>> {
     const ahamDirPath = `${RNFS.DocumentDirectoryPath}/aham`;
-    const assetAhamFiles = ['gig.md', 'fun.md', 'love.md', 'play.md', 'work.md'];
+    const assetAhamFiles = ['gig.md', 'love.md', 'play.md', 'work.md', 'random.md'];
     const fileSet = new Set<string>();
     
     // Add default asset files
@@ -419,15 +518,15 @@ export class FileService {
 
   /**
    * Append messages to an aham file based on tag
-   * @param tag The tag that determines which file to append to (e.g., '#gig' -> gig.md)
+   * @param tag The tag that determines which file to append to (e.g., '<gig>' or '{project}' -> gig.md or project.md)
    * @param messages Array of message objects with text and timestamp
    */
   public async appendToAhamFile(
     tag: string,
     messages: Array<{ text: string; timestamp: Date }>
   ): Promise<void> {
-    // Map tag to file name (remove # and add .md extension)
-    const tagName = tag.replace('#', '');
+    // Map tag to file name (remove < > { } and add .md extension)
+    const tagName = tag.replace(/[<>{}]/g, '');
     const fileName = `${tagName}.md`;
     const ahamDirPath = `${RNFS.DocumentDirectoryPath}/aham`;
     const filePath = `${ahamDirPath}/${fileName}`;
@@ -461,11 +560,37 @@ export class FileService {
         log.info(`FileService: Read existing content from ${fileName}`);
       }
 
-      // Format messages with timestamps
+      // Format messages with timestamps and proper markdown structure
       const newContent = messages
         .map(msg => {
           const timestamp = new Date(msg.timestamp).toLocaleString();
-          return `**[${timestamp}]**\n${msg.text}`;
+          
+          // Parse message text to format user_created tags as headers
+          const lines = msg.text.split('\n').filter(line => line.trim() !== '');
+          const formattedLines: string[] = [];
+          
+          for (const line of lines) {
+            const trimmedLine = line.trim();
+            // Remove bullet prefix for checking if it's a tag
+            const lineWithoutBullet = trimmedLine.replace(/^[•\-\*]\s*/, '');
+            
+            // Check if line is a tag (default <tag> or user_created {tag})
+            const isTag = (lineWithoutBullet.startsWith('<') && lineWithoutBullet.includes('>')) ||
+                         (lineWithoutBullet.startsWith('{') && lineWithoutBullet.includes('}'));
+            
+            if (isTag) {
+              // Format as simple header line
+              formattedLines.push(`\n${lineWithoutBullet}\n`);
+            } else {
+              // Convert bullet • to markdown * 
+              const formattedLine = trimmedLine
+                .replace(/^•\s*/, '* ')
+                .replace(/^-\s*/, '* ');
+              formattedLines.push(formattedLine);
+            }
+          }
+          
+          return `**[${timestamp}]**\n${formattedLines.join('\n')}`;
         })
         .join('\n\n');
 

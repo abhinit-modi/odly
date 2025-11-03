@@ -13,6 +13,8 @@
     "warmup": "./warmup.sh",
     "reload": "./reload.sh",
     "release": "./release.sh",
+    "debug": "./debug-build.sh",
+    "sync-files": "./sync-files.sh",
     "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "bundle:ios": "react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios",
     "build:android:release": "npm run bundle:android && cd android && ./gradlew assembleRelease",

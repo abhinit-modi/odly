@@ -72,7 +72,7 @@ See [cursor_logs/DEVELOPMENT.md](./cursor_logs/DEVELOPMENT.md) for detailed deve
 
 #### 💭 Chat (Default)
 - Capture thoughts and notes in a conversation-style interface
-- Tag messages for organization (`#work`, `#fun`, `#love`, `#play`, `#gig`, or `#random`)
+- Tag messages for organization (default: `<work>`, `<fun>`, `<love>`, `<play>`, `<gig>`, `<random>`; custom: `{urgent}`, `{meeting}`)
 - Edit and delete messages
 - **Group Messages**: AI-powered message grouping by semantic similarity
 - **Push to Files**: Export tagged messages to corresponding markdown files in bulk
@@ -280,7 +280,7 @@ For detailed release build information, see [RELEASE_GUIDE.md](./RELEASE_GUIDE.m
 
 **Capturing Thoughts:**
 1. Type your message in the input field
-2. Add tags using `#work`, `#fun`, `#love`, `#play`, `#gig`, or `#random`
+2. Add tags: default tags `<work>`, `<fun>`, `<love>`, `<play>`, `<gig>`, `<random>` or create custom tags `{urgent}`, `{project}`, etc.
 3. Tap "Save" to persist the message
 4. Messages are stored locally and persist across app restarts
 
@@ -299,7 +299,8 @@ For detailed release build information, see [RELEASE_GUIDE.md](./RELEASE_GUIDE.m
 
 **Push Workflow:**
 - Exports messages to `aham/` files based on first tag
-- Example: Message tagged `#work #project` goes to `work.md`
+- Example: Message tagged `<work> {project}` goes to `work.md`
+- Custom tags `{project}` create new markdown files
 - Appends to existing file content
 - Clears conversation after successful push
 - Bulk operation across all messages
@@ -404,6 +405,14 @@ Knowledge files are stored in the `aham/` directory:
 2. Rebuild app for changes to take effect
 3. Files must be in markdown format
 
+**Sync Files from Device:**
+If you've created or edited files on your device, you can copy them back to the repo:
+```bash
+npm run sync-files     # Pull all .md files from connected device
+# or
+./sync-files.sh        # Direct usage
+```
+
 ---
 
 ## 🐛 Troubleshooting
@@ -495,6 +504,8 @@ npm run lint        # Run ESLint
 npm test            # Run Jest tests
 npm run warmup      # Complete setup and launch
 npm run reload      # Fast reload during development
+npm run sync-files  # Pull .md files from device to repo
+npm run release     # Build and deploy release APK
 ```
 
 ### Adding Features

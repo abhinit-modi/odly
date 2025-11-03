@@ -7,6 +7,7 @@ export { FileService } from './services/FileService';
 export { AnswerService } from './services/AnswerService';
 export { ChatService } from './services/ChatService';
 export { GroupbyService } from './services/GroupbyService';
+export { TagService, Tag, TagType } from './services/TagService';
 
 // Components
 export { QueryInterface } from './components/QueryInterface';

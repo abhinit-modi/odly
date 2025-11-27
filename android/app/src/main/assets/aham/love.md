@@ -1,15 +1,8 @@
-{Watch}
-
-* lecture 3
-
-{Eat}
-
-* agent around it
+{Do}
+* kaun mera
 
 {Go}
+* Tulum
 
-* google api integration
-
-{Do}
-
-* kaun mera
+{Watch}
+* Masaan

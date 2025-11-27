@@ -31,6 +31,9 @@ interface ChatInterfaceProps {
   onDeleteMessage: (id: string) => void;
   onUpdateMessage: (id: string, newText: string, tags: string[]) => void;
   onCreateTag: (tagName: string) => Promise<void>;
+  onEditTag: (oldTagName: string, newTagName: string) => Promise<void>;
+  onDeleteTag: (tagName: string) => Promise<void>;
+  onGetFilteredUserTags: (selectedDefaultTagNames: string[]) => Tag[];
   messages: Message[];
   isGrouping: boolean;
   isPushing: boolean;
@@ -45,6 +48,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onDeleteMessage,
   onUpdateMessage,
   onCreateTag,
+  onEditTag,
+  onDeleteTag,
+  onGetFilteredUserTags,
   messages,
   isGrouping,
   isPushing,
@@ -55,7 +61,32 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [showCreateTagModal, setShowCreateTagModal] = useState(false);
   const [newTagName, setNewTagName] = useState('');
+  const [showEditTagModal, setShowEditTagModal] = useState(false);
+  const [editingTagName, setEditingTagName] = useState('');
+  const [editTagNewName, setEditTagNewName] = useState('');
   const scrollViewRef = useRef<ScrollView>(null);
+  const userTagsScrollViewRef = useRef<ScrollView>(null);
+
+  // Get default tags that are currently selected
+  const selectedDefaultTags = selectedTags.filter(tag => 
+    availableTags.find(t => t.name === tag)?.type === 'default'
+  );
+
+  // Get filtered user-created tags based on selected default tags
+  const filteredUserCreatedTags = React.useMemo(() => {
+    // Extract default tag names (remove <> brackets)
+    const defaultTagNames = selectedDefaultTags.map(tag => tag.replace(/[<>]/g, ''));
+    
+    // Get user-created tags associated with these default tags
+    return onGetFilteredUserTags(defaultTagNames);
+  }, [selectedDefaultTags, onGetFilteredUserTags]);
+
+  // Reset user-created tags scroll position when default tag changes
+  useEffect(() => {
+    if (userTagsScrollViewRef.current) {
+      userTagsScrollViewRef.current.scrollTo({ x: 0, animated: false });
+    }
+  }, [selectedDefaultTags]);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -121,10 +152,26 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const toggleTag = useCallback((tag: string) => {
     setSelectedTags(prev => {
+      // Check if this is a default tag (starts with < and ends with >)
+      const isDefaultTag = tag.startsWith('<') && tag.endsWith('>');
+      const isUserCreatedTag = tag.startsWith('{') && tag.endsWith('}');
+      
       if (prev.includes(tag)) {
+        // If tag is already selected, deselect it
         return prev.filter(t => t !== tag);
       } else {
-        return [...prev, tag];
+        if (isDefaultTag) {
+          // If selecting a new default tag, clear all previous tags
+          // (both default and user-created) to start fresh
+          return [tag];
+        } else if (isUserCreatedTag) {
+          // If selecting a user-created tag, keep the default tag and replace user-created tag
+          const currentDefaultTag = prev.find(t => t.startsWith('<') && t.endsWith('>'));
+          return currentDefaultTag ? [currentDefaultTag, tag] : [tag];
+        } else {
+          // Other tags - just add
+          return [...prev, tag];
+        }
       }
     });
   }, []);
@@ -167,6 +214,95 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       }
     }
   }, [newTagName, onCreateTag]);
+
+  const handleTagLongPress = useCallback((tagName: string) => {
+    Alert.alert(
+      'Tag Actions',
+      `What would you like to do with ${tagName}?`,
+      [
+        {
+          text: 'Edit',
+          onPress: () => {
+            setEditingTagName(tagName);
+            // Remove the curly braces for editing
+            const nameWithoutBraces = tagName.replace(/^\{|\}$/g, '');
+            setEditTagNewName(nameWithoutBraces);
+            setShowEditTagModal(true);
+          }
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            Alert.alert(
+              'Delete Tag',
+              `Are you sure you want to delete ${tagName}?`,
+              [
+                { text: 'Cancel', style: 'cancel' },
+                { 
+                  text: 'Delete',
+                  style: 'destructive',
+                  onPress: async () => {
+                    try {
+                      await onDeleteTag(tagName);
+                      // Remove tag from selected tags if it was selected
+                      setSelectedTags(prev => prev.filter(t => t !== tagName));
+                      if (Platform.OS === 'android') {
+                        ToastAndroid.show(`Tag ${tagName} deleted!`, ToastAndroid.SHORT);
+                      } else {
+                        Alert.alert('Success', `Tag ${tagName} deleted!`);
+                      }
+                    } catch (error) {
+                      const errorMessage = error instanceof Error ? error.message : 'Failed to delete tag';
+                      if (Platform.OS === 'android') {
+                        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+                      } else {
+                        Alert.alert('Error', errorMessage);
+                      }
+                    }
+                  }
+                }
+              ]
+            );
+          }
+        },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  }, [onDeleteTag]);
+
+  const handleEditTag = useCallback(async () => {
+    const trimmedTagName = editTagNewName.trim();
+    if (!trimmedTagName) {
+      return;
+    }
+
+    try {
+      await onEditTag(editingTagName, trimmedTagName);
+      
+      // Update selected tags if the edited tag was selected
+      setSelectedTags(prev => 
+        prev.map(t => t === editingTagName ? `{${trimmedTagName}}` : t)
+      );
+      
+      setShowEditTagModal(false);
+      setEditingTagName('');
+      setEditTagNewName('');
+      
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(`Tag updated to {${trimmedTagName}}!`, ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Success', `Tag updated to {${trimmedTagName}}!`);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to edit tag';
+      if (Platform.OS === 'android') {
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
+      } else {
+        Alert.alert('Error', errorMessage);
+      }
+    }
+  }, [editingTagName, editTagNewName, onEditTag]);
 
   const formatTime = (date: Date) => {
     const hours = date.getHours();
@@ -333,26 +469,29 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </ScrollView>
         )}
 
-        {/* User-Created Tags Row */}
-        {(availableTags.filter(tag => tag.type === 'user_created').length > 0 || true) && (
+        {/* User-Created Tags Row - Only shown for selected default tag(s) */}
+        {(filteredUserCreatedTags.length > 0 || selectedDefaultTags.length > 0) && (
           <ScrollView 
+            ref={userTagsScrollViewRef}
             horizontal 
             showsHorizontalScrollIndicator={false}
             style={styles.tagsScrollView}
             contentContainerStyle={styles.tagsRow}
             keyboardShouldPersistTaps="handled"
           >
-            {/* Create Tag Button */}
-            <TouchableOpacity
-              style={styles.createTagButton}
-              onPress={() => setShowCreateTagModal(true)}
-              disabled={isGrouping}
-            >
-              <Text style={styles.createTagButtonText}>+</Text>
-            </TouchableOpacity>
+            {/* Create Tag Button - Only shown when at least one default tag is selected */}
+            {selectedDefaultTags.length > 0 && (
+              <TouchableOpacity
+                style={styles.createTagButton}
+                onPress={() => setShowCreateTagModal(true)}
+                disabled={isGrouping}
+              >
+                <Text style={styles.createTagButtonText}>+</Text>
+              </TouchableOpacity>
+            )}
 
-            {/* User Created Tags */}
-            {availableTags.filter(tag => tag.type === 'user_created').map((tag) => {
+            {/* User Created Tags - Filtered by selected default tags */}
+            {filteredUserCreatedTags.map((tag) => {
               const isSelected = selectedTags.includes(tag.name);
               
               return (
@@ -364,6 +503,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     isSelected && styles.tagButtonUserCreatedSelected
                   ]}
                   onPress={() => toggleTag(tag.name)}
+                  onLongPress={() => handleTagLongPress(tag.name)}
                   disabled={isGrouping}
                 >
                   <Text style={[
@@ -411,10 +551,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <TouchableOpacity
             style={[
               styles.groupButton,
-              (isGrouping || messages.length < 2) && styles.buttonDisabled
+              isGrouping && styles.buttonDisabled
             ]}
             onPress={onGroupMessages}
-            disabled={isGrouping || messages.length < 2}
+            disabled={isGrouping}
           >
             {isGrouping ? (
               <ActivityIndicator color="#00BCD4" size="small" />
@@ -459,6 +599,48 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 onPress={handleCreateTag}
               >
                 <Text style={styles.modalCreateButtonText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Edit Tag Modal */}
+      <Modal
+        visible={showEditTagModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowEditTagModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Edit Tag</Text>
+            <Text style={styles.modalSubtitle}>Editing: {editingTagName}</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Enter new tag name..."
+              value={editTagNewName}
+              onChangeText={setEditTagNewName}
+              placeholderTextColor="#999"
+              autoFocus
+              maxLength={30}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCancelButton]}
+                onPress={() => {
+                  setShowEditTagModal(false);
+                  setEditingTagName('');
+                  setEditTagNewName('');
+                }}
+              >
+                <Text style={styles.modalCancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalCreateButton]}
+                onPress={handleEditTag}
+              >
+                <Text style={styles.modalCreateButtonText}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -758,6 +940,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#9C27B0',
     marginBottom: 16,
+    textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 12,
     textAlign: 'center',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
   },

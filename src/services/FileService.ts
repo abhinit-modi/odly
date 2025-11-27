@@ -492,8 +492,11 @@ export class FileService {
             // Remove bullet prefix for checking if it's a tag
             const lineWithoutBullet = trimmedLine.replace(/^[•\-\*]\s*/, '');
             
-            // Check if line is a tag (user_created tag with < >)
-            if (lineWithoutBullet.startsWith('<') && lineWithoutBullet.includes('>')) {
+            // Check if line is a tag (default tag with <> or user_created tag with {})
+            const isDefaultTag = lineWithoutBullet.startsWith('<') && lineWithoutBullet.includes('>');
+            const isUserCreatedTag = lineWithoutBullet.startsWith('{') && lineWithoutBullet.includes('}');
+            
+            if (isDefaultTag || isUserCreatedTag) {
               // Format as simple header line
               formattedLines.push(`\n${lineWithoutBullet}\n`);
             } else {

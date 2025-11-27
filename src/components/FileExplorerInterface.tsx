@@ -262,6 +262,117 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
     setRenameFileName('');
   }, []);
 
+  const handleOrganize = useCallback(() => {
+    if (!selectedFile || !fileContent.trim()) {
+      Alert.alert('Error', 'No content to organize');
+      return;
+    }
+
+    try {
+      // Split by horizontal line separator
+      const groups = fileContent.split(/\n---\n/).map(g => g.trim());
+      
+      if (groups.length === 0) {
+        Alert.alert('Error', 'No content groups found');
+        return;
+      }
+
+      // Process master item (first group)
+      const masterContent = groups[0];
+      const masterDict = processContentGroup(masterContent, false);
+
+      // Process children items (remaining groups)
+      for (let i = 1; i < groups.length; i++) {
+        const childContent = groups[i];
+        const childDict = processContentGroup(childContent, true);
+        
+        // Merge child into master
+        for (const [key, values] of Object.entries(childDict)) {
+          if (masterDict[key]) {
+            masterDict[key].push(...values);
+          } else {
+            masterDict[key] = values;
+          }
+        }
+      }
+
+      // Render organized content
+      const organizedContent = renderOrganizedContent(masterDict);
+      setFileContent(organizedContent);
+      setHasUnsavedChanges(true);
+
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Content organized successfully!', ToastAndroid.SHORT);
+      } else {
+        Alert.alert('Success', 'Content organized successfully!');
+      }
+    } catch (error) {
+      log.error('Error organizing content:', error);
+      Alert.alert('Error', 'Failed to organize content');
+    }
+  }, [selectedFile, fileContent]);
+
+  const processContentGroup = (content: string, isChild: boolean): Record<string, string[]> => {
+    const dict: Record<string, string[]> = {};
+    
+    // Trim newlines at beginning and end
+    let processedContent = content.trim();
+    
+    // For children, ignore the first line (date)
+    if (isChild) {
+      const lines = processedContent.split('\n');
+      if (lines.length > 1) {
+        processedContent = lines.slice(1).join('\n');
+      } else {
+        return dict; // No content after date
+      }
+    }
+    
+    // Split by pattern {alphanumeric} - regex to match {tag}
+    const tagPattern = /\{[^\}]+\}/g;
+    const matches = Array.from(processedContent.matchAll(tagPattern));
+    
+    if (matches.length === 0) {
+      return dict;
+    }
+    
+    for (let i = 0; i < matches.length; i++) {
+      const match = matches[i];
+      const tag = match[0];
+      const startIndex = match.index! + tag.length;
+      const endIndex = i < matches.length - 1 ? matches[i + 1].index! : processedContent.length;
+      
+      const contentBetween = processedContent.substring(startIndex, endIndex).trim();
+      
+      // Split by newline and remove empty lines
+      const lines = contentBetween.split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+      
+      // Ensure each line starts with *
+      const formattedLines = lines.map(line => {
+        if (line.startsWith('*') || line.startsWith(' *')) {
+          return line;
+        }
+        return `* ${line}`;
+      });
+      
+      dict[tag] = formattedLines;
+    }
+    
+    return dict;
+  };
+
+  const renderOrganizedContent = (dict: Record<string, string[]>): string => {
+    const sections: string[] = [];
+    
+    for (const [key, values] of Object.entries(dict)) {
+      sections.push(`${key}\n${values.join('\n')}\n`);
+    }
+    
+    return sections.join('\n');
+  };
+
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -281,7 +392,7 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
         {/* Editor Header */}
         <View style={styles.editorHeader}>
           <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-            <Text style={styles.backButtonText}>← Back</Text>
+            <Text style={styles.backButtonText}>←</Text>
           </TouchableOpacity>
           <Text style={styles.fileName} numberOfLines={1}>
             {selectedFile.name}
@@ -292,23 +403,31 @@ export const FileExplorerInterface: React.FC<FileExplorerInterfaceProps> = ({
               style={styles.editButton}
               onPress={handleEnterEditMode}
             >
-              <Text style={styles.editButtonText}>Edit ✏️</Text>
+              <Text style={styles.editButtonText}>✏️</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={[
-                styles.saveButton,
-                (isSaving || !hasUnsavedChanges) && styles.buttonDisabled
-              ]}
-              onPress={handleSave}
-              disabled={isSaving || !hasUnsavedChanges}
-            >
-              {isSaving ? (
-                <ActivityIndicator color="#FFFFFF" size="small" />
-              ) : (
-                <Text style={styles.saveButtonText}>💾</Text>
-              )}
-            </TouchableOpacity>
+            <View style={styles.headerButtons}>
+              <TouchableOpacity
+                style={styles.organizeButton}
+                onPress={handleOrganize}
+              >
+                <Text style={styles.organizeButtonText}>📋</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.saveButton,
+                  (isSaving || !hasUnsavedChanges) && styles.buttonDisabled
+                ]}
+                onPress={handleSave}
+                disabled={isSaving || !hasUnsavedChanges}
+              >
+                {isSaving ? (
+                  <ActivityIndicator color="#FFFFFF" size="small" />
+                ) : (
+                  <Text style={styles.saveButtonText}>💾</Text>
+                )}
+              </TouchableOpacity>
+            </View>
           )}
         </View>
 
@@ -558,14 +677,16 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: '#00BCD4',
     borderRadius: 12,
-    minWidth: 80,
+    minWidth: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   backButtonText: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: '900',
     color: '#FFFFFF',
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
     textAlign: 'center',
+    marginTop: -6,
   },
   fileName: {
     flex: 1,
@@ -576,30 +697,46 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 8,
   },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+  },
+  organizeButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: '#A67C52',
+    borderRadius: 12,
+    minWidth: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  organizeButtonText: {
+    fontSize: 20,
+  },
   saveButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#7CB342',
     borderRadius: 12,
-    minWidth: 80,
+    minWidth: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
   saveButtonText: {
-    fontSize: 24,
+    fontSize: 20,
   },
   editButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#FF9800',
     borderRadius: 12,
-    minWidth: 80,
+    minWidth: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   editButtonText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    fontSize: 20,
     textAlign: 'center',
   },
   buttonDisabled: {

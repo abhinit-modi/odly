@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to push .md files from local development environment to device
+# Script to push .md files and user_tags.json from local development environment to device
 # Pushes to DocumentDirectory (writable location on device)
 # Usage: ./push-files.sh [options] [device_id]
 #   Options:
@@ -17,6 +17,8 @@ NC='\033[0m'
 APP_PACKAGE="com.odly"
 DEVICE_DIR="/data/data/${APP_PACKAGE}/files/aham"
 LOCAL_DIR="android/app/src/main/assets/aham"
+DEVICE_FILES_DIR="/data/data/${APP_PACKAGE}/files"
+LOCAL_ASSETS_DIR="android/app/src/main/assets"
 
 # Parse arguments
 AUTO_CONFIRM=false
@@ -184,6 +186,40 @@ for file in "$LOCAL_DIR"/*.md; do
     fi
 done
 
+# Push user_tags.json file if it exists
+USER_TAGS_FILE="$LOCAL_ASSETS_DIR/user_tags.json"
+if [ -f "$USER_TAGS_FILE" ]; then
+    printf "\n${CYAN}Pushing user_tags.json...${NC}\n"
+    TEMP_FILE="/sdcard/user_tags.json.tmp"
+    DEST_FILE="$DEVICE_FILES_DIR/user_tags.json"
+    
+    # Push to temp location
+    adb -s $DEVICE_ID push "$USER_TAGS_FILE" "$TEMP_FILE" >/dev/null 2>&1
+    
+    if [ $? -eq 0 ]; then
+        # Copy to app directory
+        adb -s $DEVICE_ID shell "cat $TEMP_FILE | run-as $APP_PACKAGE tee $DEST_FILE >/dev/null 2>&1 && run-as $APP_PACKAGE chmod 600 $DEST_FILE 2>&1" >/dev/null 2>&1
+        
+        if [ $? -eq 0 ]; then
+            FILE_CHECK=$(adb -s $DEVICE_ID shell "run-as $APP_PACKAGE test -f $DEST_FILE && echo 'exists'" 2>/dev/null | tr -d '\r')
+            
+            if [ "$FILE_CHECK" = "exists" ]; then
+                adb -s $DEVICE_ID shell "rm $TEMP_FILE" 2>/dev/null
+                FILE_SIZE=$(stat -f%z "$USER_TAGS_FILE" 2>/dev/null || stat -c%s "$USER_TAGS_FILE" 2>/dev/null)
+                printf "${GREEN}  ✓ Pushed user_tags.json (${FILE_SIZE} bytes)${NC}\n"
+            else
+                printf "${RED}  ✗ Failed to verify user_tags.json on device${NC}\n"
+                adb -s $DEVICE_ID shell "rm $TEMP_FILE" 2>/dev/null
+            fi
+        else
+            printf "${RED}  ✗ Failed to copy user_tags.json to app directory${NC}\n"
+            adb -s $DEVICE_ID shell "rm $TEMP_FILE" 2>/dev/null
+        fi
+    else
+        printf "${RED}  ✗ Failed to push user_tags.json to temp location${NC}\n"
+    fi
+fi
+
 # Verify files on device
 printf "\n${CYAN}Verifying files on device...${NC}\n"
 printf "${GREEN}✓ Files now on device:${NC}\n"
@@ -195,6 +231,13 @@ adb -s $DEVICE_ID shell "run-as $APP_PACKAGE ls -lh $DEVICE_DIR/ 2>/dev/null" | 
     FILE_SIZE=$(echo "$line" | awk '{print $5}')
     echo "  - $FILENAME ($FILE_SIZE)"
 done
+
+# Also show user_tags.json if it exists
+if adb -s $DEVICE_ID shell "run-as $APP_PACKAGE test -f $DEVICE_FILES_DIR/user_tags.json && echo 'exists'" 2>/dev/null | grep -q "exists"; then
+    USER_TAGS_INFO=$(adb -s $DEVICE_ID shell "run-as $APP_PACKAGE ls -lh $DEVICE_FILES_DIR/user_tags.json 2>/dev/null" | tr -d '\r')
+    FILE_SIZE=$(echo "$USER_TAGS_INFO" | awk '{print $5}')
+    echo "  - user_tags.json ($FILE_SIZE)"
+fi
 
 # Summary
 printf "\n${CYAN}╔═══════════════════════════════════════════════════════════╗${NC}\n"

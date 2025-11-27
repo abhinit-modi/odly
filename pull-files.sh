@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Script to pull .md files from device to local development environment
+# Script to pull .md files and user tags from device to local development environment
 # Pulls from DocumentDirectory (edited files) and optionally from APK assets (bundled files)
+# Also pulls user_tags.json file
 # Usage: ./pull-files.sh [options] [device_id]
 #   Options:
 #     -f, --force    Extract files from APK assets (even if not edited)
@@ -16,7 +17,9 @@ NC='\033[0m'
 
 APP_PACKAGE="com.odly"
 DEVICE_DIR="/data/data/${APP_PACKAGE}/files/aham"
+DEVICE_FILES_DIR="/data/data/${APP_PACKAGE}/files"
 LOCAL_DIR="android/app/src/main/assets/aham"
+LOCAL_ASSETS_DIR="android/app/src/main/assets"
 TEMP_DIR="/tmp/odly_apk_extract"
 
 # Parse arguments
@@ -27,13 +30,15 @@ DEVICE_ID=""
 show_help() {
     echo "Usage: ./pull-files.sh [options] [device_id]"
     echo ""
+    echo "Pulls .md files and user_tags.json from device to local development environment."
+    echo ""
     echo "Options:"
     echo "  -f, --force    Extract files from APK assets (even if not edited)"
     echo "  -y, --yes      Skip confirmation prompts (auto-confirm)"
     echo "  -h, --help     Show this help message"
     echo ""
     echo "Examples:"
-    echo "  ./pull-files.sh                    # Pull only edited files from device"
+    echo "  ./pull-files.sh                    # Pull edited files and tags from device"
     echo "  ./pull-files.sh -f                 # Pull edited files + extract from APK"
     echo "  ./pull-files.sh -y                 # Auto-confirm all prompts"
     echo "  ./pull-files.sh -f -y              # Force APK extraction with auto-confirm"
@@ -77,8 +82,10 @@ echo "║         📥 Pull Files from Device to Local 📥            ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 printf "${NC}\n"
 printf "${BLUE}Device: ${DEVICE_ID}${NC}\n"
-printf "${BLUE}Source: ${DEVICE_DIR}${NC}\n"
-printf "${BLUE}Destination: ${LOCAL_DIR}${NC}\n"
+printf "${BLUE}MD Files Source: ${DEVICE_DIR}${NC}\n"
+printf "${BLUE}MD Files Destination: ${LOCAL_DIR}${NC}\n"
+printf "${BLUE}Tags File Source: ${DEVICE_FILES_DIR}/user_tags.json${NC}\n"
+printf "${BLUE}Tags File Destination: ${LOCAL_ASSETS_DIR}/user_tags.json${NC}\n"
 echo ""
 
 # Create local directory if it doesn't exist
@@ -175,6 +182,33 @@ else
     done
 fi
 
+# Pull user_tags.json file
+printf "\n${CYAN}Checking for user_tags.json...${NC}\n"
+USER_TAGS_FILE="$DEVICE_FILES_DIR/user_tags.json"
+LOCAL_TAGS_FILE="$LOCAL_ASSETS_DIR/user_tags.json"
+
+# Create local assets directory if it doesn't exist
+if [ ! -d "$LOCAL_ASSETS_DIR" ]; then
+    mkdir -p "$LOCAL_ASSETS_DIR"
+fi
+
+# Try to read the user_tags.json file from device
+TAGS_CONTENT=$(adb -s $DEVICE_ID exec-out "run-as $APP_PACKAGE cat $USER_TAGS_FILE 2>/dev/null" 2>/dev/null)
+
+if [ $? -ne 0 ] || [ -z "$TAGS_CONTENT" ]; then
+    # Try direct access (requires root)
+    TAGS_CONTENT=$(adb -s $DEVICE_ID exec-out "cat $USER_TAGS_FILE 2>/dev/null" 2>/dev/null)
+fi
+
+if [ $? -eq 0 ] && [ ! -z "$TAGS_CONTENT" ]; then
+    echo "$TAGS_CONTENT" > "$LOCAL_TAGS_FILE"
+    FILE_SIZE=$(stat -f%z "$LOCAL_TAGS_FILE" 2>/dev/null || stat -c%s "$LOCAL_TAGS_FILE" 2>/dev/null)
+    printf "${GREEN}✓ Pulled user_tags.json (${FILE_SIZE} bytes)${NC}\n"
+else
+    printf "${YELLOW}⚠ user_tags.json not found on device or is empty${NC}\n"
+    printf "${YELLOW}ℹ This is normal if no tags have been created yet.${NC}\n"
+fi
+
 # Optionally extract files from APK assets (files that haven't been edited on device)
 if [ "$FORCE_APK_EXTRACT" = true ]; then
     EXTRACT_APK=false
@@ -260,9 +294,9 @@ echo ""
 # List local files
 LOCAL_FILES=$(ls -1 $LOCAL_DIR/*.md 2>/dev/null)
 if [ -z "$LOCAL_FILES" ]; then
-    printf "${YELLOW}⚠ No files in ${LOCAL_DIR}${NC}\n"
+    printf "${YELLOW}⚠ No .md files in ${LOCAL_DIR}${NC}\n"
 else
-    printf "${GREEN}Files now in ${LOCAL_DIR}:${NC}\n"
+    printf "${GREEN}Markdown files in ${LOCAL_DIR}:${NC}\n"
     echo "$LOCAL_FILES" | while read -r file; do
         FILENAME=$(basename "$file")
         FILE_SIZE=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null)
@@ -271,12 +305,22 @@ else
     done
 fi
 
+# Show user_tags.json status
+if [ -f "$LOCAL_ASSETS_DIR/user_tags.json" ]; then
+    printf "\n${GREEN}User tags file:${NC}\n"
+    FILE_SIZE=$(stat -f%z "$LOCAL_ASSETS_DIR/user_tags.json" 2>/dev/null || stat -c%s "$LOCAL_ASSETS_DIR/user_tags.json" 2>/dev/null)
+    MODIFIED=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M:%S" "$LOCAL_ASSETS_DIR/user_tags.json" 2>/dev/null || stat -c "%y" "$LOCAL_ASSETS_DIR/user_tags.json" 2>/dev/null | cut -d'.' -f1)
+    echo "  - user_tags.json (${FILE_SIZE} bytes) [Modified: $MODIFIED]"
+fi
+
 printf "\n${GREEN}✓ Pull complete!${NC}\n"
 echo ""
 printf "${CYAN}💡 Next steps:${NC}\n"
-printf "${YELLOW}   Review the files: ls -lh ${LOCAL_DIR}${NC}\n"
+printf "${YELLOW}   Review the files:${NC}\n"
+printf "${YELLOW}     ls -lh ${LOCAL_DIR}${NC}\n"
+printf "${YELLOW}     cat ${LOCAL_ASSETS_DIR}/user_tags.json${NC}\n"
 printf "${YELLOW}   If satisfied, commit them:${NC}\n"
-printf "${YELLOW}     git add ${LOCAL_DIR}${NC}\n"
-printf "${YELLOW}     git commit -m \"Update markdown files from device\"${NC}\n"
+printf "${YELLOW}     git add ${LOCAL_DIR} ${LOCAL_ASSETS_DIR}/user_tags.json${NC}\n"
+printf "${YELLOW}     git commit -m \"Update markdown files and user tags from device\"${NC}\n"
 echo ""
 

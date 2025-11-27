@@ -205,11 +205,26 @@ export const LLMQueryApp: React.FC = () => {
     try {
       await chatService.saveMessage(message, tags);
       setChatMessages(chatService.getMessages());
+      
+      // Update tag mapping: associate user-created tags with default tags
+      const defaultTags = tags.filter(tag => tag.startsWith('<') && tag.endsWith('>'));
+      const userCreatedTags = tags.filter(tag => tag.startsWith('{') && tag.endsWith('}'));
+      
+      if (defaultTags.length > 0 && userCreatedTags.length > 0) {
+        // Add each user-created tag to each default tag's mapping
+        defaultTags.forEach(defaultTag => {
+          const defaultTagName = defaultTag.replace(/[<>]/g, '');
+          userCreatedTags.forEach(userTag => {
+            tagService.addTagToMapping(defaultTagName, userTag);
+          });
+        });
+        log.info('Updated tag mappings:', { defaultTags, userCreatedTags });
+      }
     } catch (error) {
       log.error('Error saving message:', error);
       Alert.alert('Error', 'Failed to save message');
     }
-  }, [chatService]);
+  }, [chatService, tagService]);
 
   const handleClearMessages = useCallback(async () => {
     Alert.alert(
@@ -254,6 +269,22 @@ export const LLMQueryApp: React.FC = () => {
     try {
       await chatService.updateMessage(id, newText, tags);
       setChatMessages(chatService.getMessages());
+      
+      // Update tag mapping: associate user-created tags with default tags
+      const defaultTags = tags.filter(tag => tag.startsWith('<') && tag.endsWith('>'));
+      const userCreatedTags = tags.filter(tag => tag.startsWith('{') && tag.endsWith('}'));
+      
+      if (defaultTags.length > 0 && userCreatedTags.length > 0) {
+        // Add each user-created tag to each default tag's mapping
+        defaultTags.forEach(defaultTag => {
+          const defaultTagName = defaultTag.replace(/[<>]/g, '');
+          userCreatedTags.forEach(userTag => {
+            tagService.addTagToMapping(defaultTagName, userTag);
+          });
+        });
+        log.info('Updated tag mappings after message edit:', { defaultTags, userCreatedTags });
+      }
+      
       if (Platform.OS === 'android') {
         ToastAndroid.show('Message updated', ToastAndroid.SHORT);
       }
@@ -261,7 +292,7 @@ export const LLMQueryApp: React.FC = () => {
       log.error('Error updating message:', error);
       Alert.alert('Error', 'Failed to update message');
     }
-  }, [chatService]);
+  }, [chatService, tagService]);
 
   const handleLoadFile = useCallback(async (filePath: string): Promise<string> => {
     try {
@@ -361,87 +392,87 @@ export const LLMQueryApp: React.FC = () => {
     }
   }, [tagService, fileService]);
 
-  const handlePushMessages = useCallback(async () => {
-    if (chatMessages.length === 0) {
-      return;
-    }
-
-    setIsPushing(true);
+  const handleEditTag = useCallback(async (oldTagName: string, newTagName: string): Promise<void> => {
     try {
-      log.info('Pushing messages to aham files...');
-
-      // Group messages by their first tag
-      const messagesByTag: { [tag: string]: Array<{ text: string; timestamp: Date }> } = {};
+      await tagService.editTag(oldTagName, newTagName);
+      log.info('Tag edited successfully:', oldTagName, '->', newTagName);
       
-      for (const message of chatMessages) {
-        const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '<random>';
-        if (!messagesByTag[firstTag]) {
-          messagesByTag[firstTag] = [];
+      // Update tag name in all mappings
+      tagService.updateTagInMappings(oldTagName, `{${newTagName}}`);
+      
+      // Refresh available tags (merge default and user-created)
+      const ahamFiles = await fileService.getAhamFileList();
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after tag edit:', allTags);
+      
+      // Update chat messages that have the old tag
+      const updatedMessages = chatMessages.map(message => {
+        if (message.tags && message.tags.includes(oldTagName)) {
+          return {
+            ...message,
+            tags: message.tags.map((tag: string) => tag === oldTagName ? `{${newTagName}}` : tag)
+          };
         }
-        messagesByTag[firstTag].push({
-          text: message.text,
-          timestamp: message.timestamp,
-        });
-      }
-
-      log.info('Grouped messages by tags:', Object.keys(messagesByTag));
-
-      // Append to each corresponding file
-      let successCount = 0;
-      let failCount = 0;
-
-      for (const [tag, messages] of Object.entries(messagesByTag)) {
-        try {
-          await fileService.appendToAhamFile(tag, messages);
-          successCount++;
-          log.info(`✓ Pushed ${messages.length} messages to ${tag}`);
-        } catch (error) {
-          failCount++;
-          log.error(`✗ Failed to push messages to ${tag}:`, error);
-        }
-      }
-
-      // Show result and clear if successful
-      if (failCount === 0) {
-        // Clear conversation history on success
-        await chatService.clearAllMessages();
-        setChatMessages([]);
-        
-        if (Platform.OS === 'android') {
-          ToastAndroid.show(
-            `Pushed ${chatMessages.length} messages to ${successCount} files!`,
-            ToastAndroid.LONG
-          );
-        } else {
-          Alert.alert('Success', `Pushed ${chatMessages.length} messages to ${successCount} files!`);
-        }
-      } else {
-        if (Platform.OS === 'android') {
-          ToastAndroid.show(
-            `Pushed to ${successCount} files, ${failCount} failed`,
-            ToastAndroid.LONG
-          );
-        } else {
-          Alert.alert('Partial Success', `Pushed to ${successCount} files, ${failCount} failed`);
-        }
+        return message;
+      });
+      
+      // If any messages were updated, save them
+      if (JSON.stringify(updatedMessages) !== JSON.stringify(chatMessages)) {
+        await chatService.replaceMessages(updatedMessages);
+        setChatMessages(chatService.getMessages());
+        log.info('Chat messages updated with new tag name');
       }
     } catch (error) {
-      log.error('Error pushing messages:', error);
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('Failed to push messages', ToastAndroid.LONG);
-      } else {
-        Alert.alert('Error', 'Failed to push messages');
-      }
-    } finally {
-      setIsPushing(false);
+      log.error('Error editing tag:', error);
+      throw error;
     }
-  }, [chatMessages, fileService]);
+  }, [tagService, fileService, chatMessages, chatService]);
+
+  const handleDeleteTag = useCallback(async (tagName: string): Promise<void> => {
+    try {
+      await tagService.deleteTag(tagName);
+      log.info('Tag deleted successfully:', tagName);
+      
+      // Remove tag from all mappings
+      tagService.removeTagFromAllMappings(tagName);
+      
+      // Refresh available tags (merge default and user-created)
+      const ahamFiles = await fileService.getAhamFileList();
+      const defaultTags = TagService.createDefaultTagsFromFiles(ahamFiles.map(f => f.name));
+      const allTags = tagService.getAllTags(defaultTags);
+      setAvailableTags(allTags);
+      log.info('Tags updated after tag deletion:', allTags);
+      
+      // Update chat messages that have the deleted tag (remove it from tags array)
+      const updatedMessages = chatMessages.map(message => {
+        if (message.tags && message.tags.includes(tagName)) {
+          return {
+            ...message,
+            tags: message.tags.filter((tag: string) => tag !== tagName)
+          };
+        }
+        return message;
+      });
+      
+      // If any messages were updated, save them
+      if (JSON.stringify(updatedMessages) !== JSON.stringify(chatMessages)) {
+        await chatService.replaceMessages(updatedMessages);
+        setChatMessages(chatService.getMessages());
+        log.info('Chat messages updated - removed deleted tag');
+      }
+    } catch (error) {
+      log.error('Error deleting tag:', error);
+      throw error;
+    }
+  }, [tagService, fileService, chatMessages, chatService]);
+
+  const handleGetFilteredUserTags = useCallback((selectedDefaultTagNames: string[]): Tag[] => {
+    return tagService.getUserTagsForDefaultTags(selectedDefaultTagNames);
+  }, [tagService]);
 
   const handleGroupMessages = useCallback(async () => {
-    if (chatMessages.length < 2) {
-      return;
-    }
-
     setIsGrouping(true);
     try {
       log.info('Starting message grouping with GroupbyService...');
@@ -488,6 +519,98 @@ export const LLMQueryApp: React.FC = () => {
       setIsGrouping(false);
     }
   }, [chatMessages, chatService, groupbyService, availableTags]);
+
+  const handlePushMessages = useCallback(async () => {
+    if (chatMessages.length === 0) {
+      return;
+    }
+
+    // First, group messages before pushing (simulate clicking group button)
+    log.info('Grouping messages before push...');
+    await handleGroupMessages();
+    log.info('Grouping completed, proceeding with push...');
+
+    // Get the updated messages after grouping
+    const updatedMessages = chatService.getMessages();
+    if (updatedMessages.length === 0) {
+      log.info('No messages to push after grouping');
+      return;
+    }
+
+    setIsPushing(true);
+    try {
+      log.info('Pushing messages to aham files...');
+
+      // Group messages by their first tag
+      const messagesByTag: { [tag: string]: Array<{ text: string; timestamp: Date }> } = {};
+      
+      for (const message of updatedMessages) {
+        const firstTag = message.tags && message.tags.length > 0 ? message.tags[0] : '<random>';
+        if (!messagesByTag[firstTag]) {
+          messagesByTag[firstTag] = [];
+        }
+        messagesByTag[firstTag].push({
+          text: message.text,
+          timestamp: message.timestamp,
+        });
+      }
+
+      log.info('Grouped messages by tags:', Object.keys(messagesByTag));
+
+      // Append to each corresponding file
+      let successCount = 0;
+      let failCount = 0;
+
+      for (const [tag, messages] of Object.entries(messagesByTag)) {
+        try {
+          await fileService.appendToAhamFile(tag, messages);
+          successCount++;
+          log.info(`✓ Pushed ${messages.length} messages to ${tag}`);
+        } catch (error) {
+          failCount++;
+          log.error(`✗ Failed to push messages to ${tag}:`, error);
+        }
+      }
+
+      // Show result and clear if successful
+      if (failCount === 0) {
+        // Clear conversation history on success
+        await chatService.clearAllMessages();
+        setChatMessages([]);
+        
+        // Rebuild tag mapping since files have been updated
+        await tagService.rebuildTagMapping();
+        log.info('Tag mapping rebuilt after push');
+        
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `Pushed ${updatedMessages.length} messages to ${successCount} files!`,
+            ToastAndroid.LONG
+          );
+        } else {
+          Alert.alert('Success', `Pushed ${updatedMessages.length} messages to ${successCount} files!`);
+        }
+      } else {
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `Pushed to ${successCount} files, ${failCount} failed`,
+            ToastAndroid.LONG
+          );
+        } else {
+          Alert.alert('Partial Success', `Pushed to ${successCount} files, ${failCount} failed`);
+        }
+      }
+    } catch (error) {
+      log.error('Error pushing messages:', error);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Failed to push messages', ToastAndroid.LONG);
+      } else {
+        Alert.alert('Error', 'Failed to push messages');
+      }
+    } finally {
+      setIsPushing(false);
+    }
+  }, [chatMessages, chatService, fileService, handleGroupMessages]);
 
   if (isInitializing) {
     return (
@@ -567,6 +690,9 @@ export const LLMQueryApp: React.FC = () => {
           onDeleteMessage={handleDeleteMessage}
           onUpdateMessage={handleUpdateMessage}
           onCreateTag={handleCreateTag}
+          onEditTag={handleEditTag}
+          onDeleteTag={handleDeleteTag}
+          onGetFilteredUserTags={handleGetFilteredUserTags}
           messages={chatMessages}
           isGrouping={isGrouping}
           isPushing={isPushing}

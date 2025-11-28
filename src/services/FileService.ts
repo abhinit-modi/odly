@@ -153,6 +153,88 @@ export class FileService {
   }
 
   /**
+   * Initialize file assets by copying from bundled assets to writable storage
+   * This copies:
+   * - All .md files from assets/aham/ to DocumentDirectory/aham/
+   * - user_tags.json from assets/ to DocumentDirectory/
+   * Only copies if files don't already exist (first run)
+   */
+  public async initializeAssets(): Promise<void> {
+    try {
+      log.info('FileService: Initializing assets...');
+      
+      // List of all .md files in aham directory that should be copied
+      const ahamFiles = [
+        'aham/gig.md',
+        'aham/love.md', 
+        'aham/play.md',
+        'aham/work.md',
+        'aham/random.md',
+        'aham/vent.md',
+        'aham/read.md',
+        'aham/fun.md'
+      ];
+      
+      // Ensure aham directory exists
+      const ahamDirPath = `${RNFS.DocumentDirectoryPath}/aham`;
+      const dirExists = await RNFS.exists(ahamDirPath);
+      if (!dirExists) {
+        await RNFS.mkdir(ahamDirPath);
+        log.info(`FileService: Created aham directory at ${ahamDirPath}`);
+      }
+      
+      // Copy each .md file if it doesn't exist
+      let copiedCount = 0;
+      let skippedCount = 0;
+      
+      for (const assetPath of ahamFiles) {
+        const fileName = assetPath.split('/').pop() || '';
+        const destPath = `${RNFS.DocumentDirectoryPath}/${assetPath}`;
+        
+        // Check if file already exists in DocumentDirectory
+        const exists = await RNFS.exists(destPath);
+        if (!exists) {
+          try {
+            // Copy from bundled assets
+            await RNFS.copyFileAssets(assetPath, destPath);
+            copiedCount++;
+            log.info(`FileService: ✓ Copied ${fileName} from assets`);
+          } catch (error) {
+            // File might not exist in assets, that's okay
+            log.warn(`FileService: Could not copy ${fileName} from assets:`, error);
+          }
+        } else {
+          skippedCount++;
+          log.debug(`FileService: Skipped ${fileName} (already exists)`);
+        }
+      }
+      
+      log.info(`FileService: Copied ${copiedCount} files, skipped ${skippedCount} existing files`);
+      
+      // Copy user_tags.json if it doesn't exist
+      const userTagsPath = `${RNFS.DocumentDirectoryPath}/user_tags.json`;
+      const userTagsExists = await RNFS.exists(userTagsPath);
+      
+      if (!userTagsExists) {
+        try {
+          await RNFS.copyFileAssets('user_tags.json', userTagsPath);
+          log.info('FileService: ✓ Copied user_tags.json from assets');
+        } catch (error) {
+          // File might not exist in assets, that's okay - TagService will create it
+          log.info('FileService: user_tags.json not found in assets, TagService will create it');
+        }
+      } else {
+        log.info('FileService: user_tags.json already exists, skipping');
+      }
+      
+      log.info('FileService: Asset initialization complete');
+    } catch (error) {
+      log.error('FileService: Error initializing assets:', error);
+      // Don't throw - app should continue even if asset copying fails
+    }
+  }
+
+  /**
    * Check if the TinyLlama GGUF model exists in assets or external storage
    * For release builds, copies model from assets to internal storage if needed
    */

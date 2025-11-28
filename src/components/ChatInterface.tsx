@@ -30,7 +30,7 @@ interface ChatInterfaceProps {
   onPushMessages: () => void;
   onDeleteMessage: (id: string) => void;
   onUpdateMessage: (id: string, newText: string, tags: string[]) => void;
-  onCreateTag: (tagName: string) => Promise<void>;
+  onCreateTag: (tagName: string, defaultTag?: string) => Promise<void>;
   onEditTag: (oldTagName: string, newTagName: string) => Promise<void>;
   onDeleteTag: (tagName: string) => Promise<void>;
   onGetFilteredUserTags: (selectedDefaultTagNames: string[]) => Tag[];
@@ -197,7 +197,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
 
     try {
-      await onCreateTag(trimmedTagName);
+      // Get the currently selected default tag (if any)
+      const currentDefaultTag = selectedDefaultTags.length > 0 
+        ? selectedDefaultTags[0].replace(/[<>]/g, '') 
+        : undefined;
+      
+      await onCreateTag(trimmedTagName, currentDefaultTag);
       setShowCreateTagModal(false);
       setNewTagName('');
       if (Platform.OS === 'android') {
@@ -213,7 +218,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         Alert.alert('Error', errorMessage);
       }
     }
-  }, [newTagName, onCreateTag]);
+  }, [newTagName, onCreateTag, selectedDefaultTags]);
 
   const handleTagLongPress = useCallback((tagName: string) => {
     Alert.alert(

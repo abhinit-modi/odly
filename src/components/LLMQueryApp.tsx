@@ -55,6 +55,11 @@ export const LLMQueryApp: React.FC = () => {
       setIsInitializing(true);
       setInitializationError(null);
 
+      // Initialize assets (copy .md files and user_tags.json from bundle on first launch)
+      log.info('Initializing assets from bundle...');
+      await fileService.initializeAssets();
+      log.info('✓ Assets initialized');
+
       // Check TinyLlama model first (will auto-copy from assets on first launch)
       log.info('Checking TinyLlama GGUF model...');
       log.info('Note: First launch will take 30-60 seconds to copy ~640MB model from assets');
@@ -375,10 +380,17 @@ export const LLMQueryApp: React.FC = () => {
     }
   }, [fileService, tagService]);
 
-  const handleCreateTag = useCallback(async (tagName: string): Promise<void> => {
+  const handleCreateTag = useCallback(async (tagName: string, defaultTag?: string): Promise<void> => {
     try {
       await tagService.createTag(tagName);
       log.info('Tag created successfully:', tagName);
+      
+      // If a default tag was provided, add the new user tag to its mapping
+      if (defaultTag) {
+        const formattedUserTag = tagName.startsWith('{') ? tagName : `{${tagName}}`;
+        tagService.addTagToMapping(defaultTag, formattedUserTag);
+        log.info(`Added new tag ${formattedUserTag} to mapping for ${defaultTag}`);
+      }
       
       // Refresh available tags (merge default and user-created)
       const ahamFiles = await fileService.getAhamFileList();

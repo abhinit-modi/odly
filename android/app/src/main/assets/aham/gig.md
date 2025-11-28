@@ -40,3 +40,10 @@
 * Pytorch profiler
 * Bits and bytes
 * https://youtu.be/DdsVwTodycw?si=iJk5549AWlkDI3NI
+
+{projects}
+* Use liquidAI to build an agency server for mobile
+* e2e tuning for a gen bio use case
+* e2e use case for a small on device model
+* Create a repo with orpo, dpo and Lora tuning on a use case, quantize it during training, use accelerate fsdp and deepspeed zero on sagemaker for training, and deploy it on vllm
+* Repo for creating agentic apps of your own using on device models. The framework will have support for on-device storage, inference. Make it easy to create a service. Run it on iOS too

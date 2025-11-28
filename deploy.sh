@@ -96,9 +96,10 @@ if [[ "$INSTALL_CONFIRM" =~ ^[Yy]$ ]]; then
     printf "${GREEN}✓ Debug APK installed successfully${NC}\n\n"
     
     printf "${CYAN}💡 Next steps:${NC}\n"
-    printf "${YELLOW}   1. Open the app and edit some files${NC}\n"
-    printf "${YELLOW}   2. Run ./pull-files.sh to pull edited files${NC}\n"
-    printf "${YELLOW}   3. App works without Metro running! 🎉${NC}\n"
+    printf "${YELLOW}   1. Open the app (it will auto-copy assets on first run)${NC}\n"
+    printf "${YELLOW}   2. Edit files in the app${NC}\n"
+    printf "${YELLOW}   3. Run ./pull-files.sh to pull edited files${NC}\n"
+    printf "${YELLOW}   4. App works without Metro running! 🎉${NC}\n"
 else
     printf "${GREEN}✓ APK built at: ${DEBUG_APK}${NC}\n"
     printf "${CYAN}💡 Install manually with: adb install ${DEBUG_APK}${NC}\n"

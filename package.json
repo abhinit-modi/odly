@@ -12,7 +12,7 @@
     "test-setup": "node scripts/test-setup.js",
     "warmup": "./warmup.sh",
     "reload": "./reload.sh",
-    "release": "./release.sh",
+    "deploy": "./deploy.sh",
     "push-files": "./push-files.sh",
     "pull-files": "./pull-files.sh",
     "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",

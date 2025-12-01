@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import { PasscodeService } from '../services/PasscodeService';
-import { logger } from '../utils/logger';
+import { log } from '../utils/logger';
 
 interface PasscodeScreenProps {
   onUnlock: () => void;
@@ -21,14 +21,23 @@ export const PasscodeScreen: React.FC<PasscodeScreenProps> = ({ onUnlock }) => {
   const [confirmPasscode, setConfirmPasscode] = useState('');
   const [isConfirming, setIsConfirming] = useState(false);
   const [error, setError] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     checkPasscodeExists();
   }, []);
 
   const checkPasscodeExists = async () => {
-    const hasPasscode = await PasscodeService.hasPasscode();
-    setIsSettingPasscode(!hasPasscode);
+    try {
+      log.info('Checking if passcode exists...');
+      const hasPasscode = await PasscodeService.hasPasscode();
+      log.info('Passcode exists check result:', { hasPasscode });
+      setIsSettingPasscode(!hasPasscode);
+      setIsReady(true);
+    } catch (error) {
+      log.error('Error checking passcode existence:', error);
+      setIsReady(true);
+    }
   };
 
   const handlePasscodeInput = (value: string) => {
@@ -64,14 +73,10 @@ export const PasscodeScreen: React.FC<PasscodeScreenProps> = ({ onUnlock }) => {
 
     try {
       await PasscodeService.setPasscode(passcode);
-      Alert.alert('Success', 'Passcode set successfully');
-      setPasscode('');
-      setConfirmPasscode('');
-      setIsConfirming(false);
-      setIsSettingPasscode(false);
+      log.info('Passcode set successfully');
       onUnlock();
     } catch (error) {
-      logger.error('Error setting passcode:', error);
+      log.error('Error setting passcode:', error);
       setError('Failed to set passcode');
     }
   };
@@ -82,13 +87,21 @@ export const PasscodeScreen: React.FC<PasscodeScreenProps> = ({ onUnlock }) => {
       return;
     }
 
-    const isValid = await PasscodeService.verifyPasscode(passcode);
-    
-    if (isValid) {
-      setPasscode('');
-      onUnlock();
-    } else {
-      setError('Incorrect passcode');
+    try {
+      log.info('Verifying passcode...');
+      const isValid = await PasscodeService.verifyPasscode(passcode);
+      log.info('Verification result:', { isValid });
+      
+      if (isValid) {
+        setPasscode('');
+        onUnlock();
+      } else {
+        setError('Incorrect passcode');
+        setPasscode('');
+      }
+    } catch (error) {
+      log.error('Error during passcode verification:', error);
+      setError('Error verifying passcode. Please try again.');
       setPasscode('');
     }
   };
@@ -118,7 +131,17 @@ export const PasscodeScreen: React.FC<PasscodeScreenProps> = ({ onUnlock }) => {
   };
 
   const currentPasscode = isConfirming ? confirmPasscode : passcode;
-  const showSubmitButton = currentPasscode.length === 4;
+  const showSubmitButton = currentPasscode.length === 4 && isReady;
+
+  if (!isReady) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -128,6 +151,7 @@ export const PasscodeScreen: React.FC<PasscodeScreenProps> = ({ onUnlock }) => {
         
         <View style={styles.passcodeContainer}>
           <TextInput
+            key={isConfirming ? 'confirm' : 'enter'}
             style={styles.input}
             value={currentPasscode}
             onChangeText={handlePasscodeInput}

@@ -91,7 +91,7 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
         {!hasSearched && !isLoading && (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateIcon}>🧞</Text>
-            <Text style={styles.emptyStateTitle}>Hukum...</Text>
+            <Text style={styles.emptyStateTitle}></Text>
           </View>
         )}
 
@@ -196,7 +196,7 @@ export const QueryInterface: React.FC<QueryInterfaceProps> = ({
           <View style={styles.searchInputContainer}>
             <TextInput
               style={styles.searchInput}
-              placeholder="Khoj"
+              placeholder=""
               value={query}
               onChangeText={setQuery}
               editable={!isLoading && filesLoaded}

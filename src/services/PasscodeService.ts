@@ -1,5 +1,5 @@
 import RNFS from 'react-native-fs';
-import { logger } from '../utils/logger';
+import { log } from '../utils/logger';
 
 const PASSCODE_FILE = `${RNFS.DocumentDirectoryPath}/.odly_passcode`;
 
@@ -13,9 +13,9 @@ export class PasscodeService {
         throw new Error('Passcode must be exactly 4 digits');
       }
       await RNFS.writeFile(PASSCODE_FILE, passcode, 'utf8');
-      logger.info('Passcode set successfully');
+      log.info('Passcode set successfully');
     } catch (error) {
-      logger.error('Error setting passcode:', error);
+      log.error('Error setting passcode:', error);
       throw error;
     }
   }
@@ -26,13 +26,22 @@ export class PasscodeService {
   static async getPasscode(): Promise<string | null> {
     try {
       const exists = await RNFS.exists(PASSCODE_FILE);
+      log.info('Getting passcode', { fileExists: exists, filePath: PASSCODE_FILE });
+      
       if (!exists) {
+        log.warn('Passcode file does not exist');
         return null;
       }
+      
       const passcode = await RNFS.readFile(PASSCODE_FILE, 'utf8');
+      log.info('Passcode read from file', { 
+        length: passcode?.length,
+        isValid: PasscodeService.isValidPasscode(passcode)
+      });
+      
       return passcode;
     } catch (error) {
-      logger.error('Error getting passcode:', error);
+      log.error('Error getting passcode:', error);
       return null;
     }
   }
@@ -44,7 +53,7 @@ export class PasscodeService {
     try {
       return await RNFS.exists(PASSCODE_FILE);
     } catch (error) {
-      logger.error('Error checking passcode:', error);
+      log.error('Error checking passcode:', error);
       return false;
     }
   }
@@ -55,9 +64,15 @@ export class PasscodeService {
   static async verifyPasscode(enteredPasscode: string): Promise<boolean> {
     try {
       const storedPasscode = await PasscodeService.getPasscode();
+      log.info('Passcode verification', { 
+        hasStoredPasscode: !!storedPasscode,
+        storedLength: storedPasscode?.length,
+        enteredLength: enteredPasscode.length,
+        match: storedPasscode === enteredPasscode
+      });
       return storedPasscode === enteredPasscode;
     } catch (error) {
-      logger.error('Error verifying passcode:', error);
+      log.error('Error verifying passcode:', error);
       return false;
     }
   }
@@ -71,9 +86,9 @@ export class PasscodeService {
       if (exists) {
         await RNFS.unlink(PASSCODE_FILE);
       }
-      logger.info('Passcode cleared');
+      log.info('Passcode cleared');
     } catch (error) {
-      logger.error('Error clearing passcode:', error);
+      log.error('Error clearing passcode:', error);
       throw error;
     }
   }

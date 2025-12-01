@@ -378,7 +378,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         {messages.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateIcon}>💭</Text>
-            <Text style={styles.emptyStateTitle}>Irshaad...</Text>
+            <Text style={styles.emptyStateTitle}></Text>
           </View>
         ) : (
           <View style={styles.messagesList}>
@@ -532,7 +532,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             />
             <TextInput
               style={styles.textInput}
-              placeholder={editingMessageId ? "Edit your message..." : "Arz kiya hai..."}
+              placeholder={editingMessageId ? "Edit your message..." : ""}
               value={inputText}
               onChangeText={setInputText}
               placeholderTextColor="#80868b"
@@ -543,14 +543,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               editable={!isGrouping && !isPushing}
             />
             <TouchableOpacity
-              style={[
-                styles.sendButton,
-                (!inputText.trim() || isGrouping) && styles.buttonDisabled
-              ]}
+              style={styles.sendButton}
               onPress={handleSend}
               disabled={!inputText.trim() || isGrouping}
             >
-              <Text style={styles.sendButtonText}>💬</Text>
+              <Text style={styles.sendButtonText}>✒️</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity

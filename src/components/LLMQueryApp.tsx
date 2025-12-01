@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { QueryInterface } from './QueryInterface';
 import { ChatInterface } from './ChatInterface';
@@ -664,7 +665,11 @@ export const LLMQueryApp: React.FC = () => {
           <View style={styles.headerButton} />
         )}
 
-        <Text style={styles.headerTitle}>🏝️Rūḥ</Text>
+        <Image 
+          source={require('../../assets/logo.jpeg')} 
+          style={styles.headerLogo}
+          resizeMode="contain"
+        />
 
         {/* Right button - Save (only in chat tab) */}
         {activeTab === 'chat' && chatMessages.length > 0 ? (
@@ -840,11 +845,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: '900',
-    color: '#8B6F47',
+    color: '#4A5568',
     textAlign: 'center',
     fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+    flex: 1,
+  },
+  headerLogo: {
+    width: 40,
+    height: 40,
     flex: 1,
   },
   headerButton: {

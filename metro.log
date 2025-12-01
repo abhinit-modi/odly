@@ -1,7 +1,7 @@
-(node:1245) ExperimentalWarning: CommonJS module /usr/local/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /usr/local/lib/node_modules/npm/node_modules/supports-color/index.js using require().
+(node:94382) ExperimentalWarning: CommonJS module /usr/local/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /usr/local/lib/node_modules/npm/node_modules/supports-color/index.js using require().
 Support for loading ES Module in require() is an experimental feature and might change at any time
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:1274) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:94412) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 info Welcome to React Native v0.74
 info Starting dev server on port 8081...
@@ -32,41 +32,52 @@ info Dev server ready
  BUNDLE  ./index.android.js 
 
  LOG  Running "odly" with {"rootTag":11}
+ BUNDLE  ./index.android.js 
+
+ LOG  Running "odly" with {"rootTag":11}
+ BUNDLE  ./index.android.js 
+
+ LOG  Running "odly" with {"rootTag":11}
  LOG  TagService: Storage path: /data/user/0/com.odly/files/user_tags.json
- LOG  [94m11:31:34 AM | INFO : ✓ LlamaRn native module loaded successfully [0m
- LOG  [94m11:31:34 AM | INFO : ✓ RNFS loaded in FileService [0m
- LOG  [94m11:31:34 AM | INFO : Initializing assets from bundle... [0m
- LOG  [94m11:31:34 AM | INFO : FileService: Initializing assets... [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped gig.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped love.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped play.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped work.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped random.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped vent.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped read.md (already exists) [0m
- LOG  [37m11:31:34 AM | DEBUG : FileService: Skipped fun.md (already exists) [0m
- LOG  [94m11:31:34 AM | INFO : FileService: Copied 0 files, skipped 8 existing files [0m
- LOG  [94m11:31:34 AM | INFO : FileService: user_tags.json already exists, skipping [0m
- LOG  [94m11:31:34 AM | INFO : FileService: Asset initialization complete [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Assets initialized [0m
- LOG  [94m11:31:34 AM | INFO : Checking TinyLlama GGUF model... [0m
- LOG  [94m11:31:34 AM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
- LOG  [94m11:31:34 AM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
- LOG  [94m11:31:34 AM | INFO : Loading files from aham directory... [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1682 bytes) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read file: aham/gig.md [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read file: aham/fun.md [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read file: aham/love.md [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read file: aham/play.md [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Read file: aham/work.md [0m
- LOG  [94m11:31:34 AM | INFO : Files loaded successfully: 
+ LOG  [94m6:27:43 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:27:43 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:27:43 PM | INFO : Initializing assets from bundle... [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: Initializing assets... [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: Created aham directory at /data/user/0/com.odly/files/aham [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied gig.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied love.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied play.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied work.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied random.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied vent.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied read.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied fun.md from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: Copied 8 files, skipped 0 existing files [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: ✓ Copied user_tags.json from assets [0m
+ LOG  [94m6:27:43 PM | INFO : FileService: Asset initialization complete [0m
+ LOG  [94m6:27:43 PM | INFO : ✓ Assets initialized [0m
+ LOG  [94m6:27:43 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:27:43 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:27:43 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:43 PM | INFO : Model not in internal storage, copying from assets... [0m
+ LOG  [94m6:27:43 PM | INFO : This will take 30-60 seconds for the ~640MB model file... [0m
+ LOG  [94m6:27:43 PM | INFO : Copying from assets/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf to /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Model copied successfully to internal storage: 637.8MB [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Model is now accessible at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:49 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1843 bytes) [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:27:49 PM | INFO : Files loaded successfully: 
 [
   "aham/gig.md",
   "aham/fun.md",
@@ -75,11 +86,11 @@ info Dev server ready
   "aham/work.md"
 ]
 [0m
- LOG  [94m11:31:34 AM | INFO : Initializing TinyLlama GGUF model... [0m
- LOG  [94m11:31:34 AM | INFO : Loading TinyLlama GGUF model... [0m
- LOG  [94m11:31:34 AM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
- LOG  [94m11:31:34 AM | INFO : ✓ Loaded llama.rn module [0m
- LOG  [94m11:31:34 AM | INFO : Initializing llama.rn with config: {
+ LOG  [94m6:27:49 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:27:49 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:27:49 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:27:49 PM | INFO : Initializing llama.rn with config: {
   "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
   "use_mlock": false,
   "n_ctx": 1024,
@@ -87,22 +98,22 @@ info Dev server ready
   "n_threads": 2,
   "n_gpu_layers": 0
 } [0m
- LOG  [94m11:31:34 AM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
- LOG  [94m11:31:35 AM | INFO : Context object type: object [0m
- LOG  [94m11:31:35 AM | INFO : Context has completion method: 
+ LOG  [94m6:27:49 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:27:49 PM | INFO : Context object type: object [0m
+ LOG  [94m6:27:49 PM | INFO : Context has completion method: 
 true
 [0m
- LOG  [94m11:31:35 AM | INFO : ✓ Context validation successful [0m
- LOG  [94m11:31:35 AM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
- LOG  [94m11:31:35 AM | INFO : ✓ Context properly initialized and stored [0m
- LOG  [94m11:31:35 AM | INFO : TinyLlama model initialized successfully [0m
- LOG  [94m11:31:35 AM | INFO : Initializing chat service... [0m
- LOG  [94m11:31:35 AM | INFO : ChatService: Starting initialization... [0m
- LOG  [94m11:31:35 AM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
- LOG  [94m11:31:35 AM | INFO : ChatService: Loaded 2 chat messages from storage [0m
- LOG  [94m11:31:35 AM | INFO : Chat service initialized [0m
- LOG  [94m11:31:35 AM | INFO : Loading file list... [0m
- LOG  [94m11:31:35 AM | INFO : File list loaded: 
+ LOG  [94m6:27:49 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:27:49 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:27:49 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:27:49 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:27:49 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:27:49 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:27:49 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:27:49 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:27:49 PM | INFO : Loading file list... [0m
+ LOG  [94m6:27:49 PM | INFO : File list loaded: 
 [
   {
     "name": "fun.md",
@@ -138,41 +149,41 @@ true
   }
 ]
 [0m
- LOG  [94m11:31:35 AM | INFO : Initializing TagService... [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Starting initialization... [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Building tag mapping from markdown files... [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped play -> [{cricket}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped random -> [{call}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
- LOG  [94m11:31:35 AM | INFO : TagService: Tag mapping built for 8 default tags [0m
- LOG  [94m11:31:35 AM | INFO : TagService initialized [0m
- LOG  [94m11:31:35 AM | INFO : Extracting {tags} from markdown files... [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/fun.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/gig.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/love.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/play.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/random.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/read.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/vent.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
- LOG  [94m11:31:35 AM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ LOG  [94m6:27:49 PM | INFO : Initializing TagService... [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Building tag mapping from markdown files... [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped play -> [{cricket}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped random -> [{call}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
+ LOG  [94m6:27:49 PM | INFO : TagService: Tag mapping built for 8 default tags [0m
+ LOG  [94m6:27:49 PM | INFO : TagService initialized [0m
+ LOG  [94m6:27:49 PM | INFO : Extracting {tags} from markdown files... [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/fun.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/read.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/vent.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
+ LOG  [94m6:27:49 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
  WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
  WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
- LOG  [94m11:31:35 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
- LOG  [94m11:31:35 AM | INFO : Found 19 tags in curly braces: 
+ LOG  [94m6:27:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:27:50 PM | INFO : Found 19 tags in curly braces: 
 [
   "call",
   "Do",
@@ -195,26 +206,26 @@ true
   "QDB"
 ]
 [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
- LOG  [37m11:31:35 AM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
- LOG  [94m11:31:35 AM | INFO : Available tags (default + user-created): 
+ LOG  [37m6:27:50 PM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
+ LOG  [37m6:27:50 PM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
+ LOG  [94m6:27:50 PM | INFO : Available tags (default + user-created): 
 [
   {
     "name": "<fun>",
@@ -345,101 +356,1371 @@ true
   }
 ]
 [0m
- LOG  [94m11:31:35 AM | INFO : Initializing Voice module... [0m
- LOG  [94m11:31:35 AM | INFO : Voice recognition available: 
+ LOG  [94m6:27:50 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:27:50 PM | INFO : Voice recognition available: 
 true
 [0m
- LOG  [94m11:31:35 AM | INFO : Voice module initialized successfully [0m
- LOG  [94m11:31:48 AM | INFO : Starting message grouping with GroupbyService... [0m
- LOG  [94m11:31:48 AM | INFO : Backing up messages... [0m
- LOG  [94m11:31:48 AM | INFO : ChatService: Messages backed up successfully [0m
- LOG  [94m11:31:48 AM | INFO : Messages backed up successfully [0m
- LOG  [94m11:31:48 AM | INFO : GroupbyService: Starting message grouping... [0m
- LOG  [94m11:31:48 AM | INFO : GroupbyService: Groups created: 
-[
-  "<gig>"
-]
-[0m
- LOG  [94m11:31:48 AM | INFO : GroupbyService: Creating bulleted list for <gig> with 2 messages [0m
- LOG  [94m11:31:48 AM | INFO : GroupbyService: Grouping complete, created 1 result messages [0m
- LOG  [94m11:31:48 AM | INFO : GroupbyService returned 1 grouped messages [0m
- LOG  [94m11:31:48 AM | INFO : ChatService: Messages persisted successfully [0m
- LOG  [94m11:31:48 AM | INFO : Message grouping completed successfully [0m
- LOG  [94m11:31:49 AM | INFO : Grouping messages before push... [0m
- LOG  [94m11:31:49 AM | INFO : Starting message grouping with GroupbyService... [0m
- LOG  [94m11:31:49 AM | INFO : Backing up messages... [0m
- LOG  [94m11:31:49 AM | INFO : ChatService: Messages backed up successfully [0m
- LOG  [94m11:31:49 AM | INFO : Messages backed up successfully [0m
- LOG  [94m11:31:49 AM | INFO : GroupbyService: Starting message grouping... [0m
- LOG  [94m11:31:49 AM | INFO : GroupbyService: Groups created: 
-[
-  "<gig>"
-]
-[0m
- LOG  [94m11:31:49 AM | INFO : GroupbyService: Creating bulleted list for <gig> with 1 messages [0m
- LOG  [94m11:31:49 AM | INFO : GroupbyService: Grouping complete, created 1 result messages [0m
- LOG  [94m11:31:49 AM | INFO : GroupbyService returned 1 grouped messages [0m
- LOG  [94m11:31:49 AM | INFO : ChatService: Messages persisted successfully [0m
- LOG  [94m11:31:49 AM | INFO : Message grouping completed successfully [0m
- LOG  [94m11:31:49 AM | INFO : Grouping completed, proceeding with push... [0m
- LOG  [94m11:31:49 AM | INFO : Pushing messages to aham files... [0m
- LOG  [94m11:31:49 AM | INFO : Grouped messages by tags: 
-[
-  "<gig>"
-]
-[0m
- LOG  [94m11:31:49 AM | INFO : FileService: Appending 1 messages to gig.md [0m
- LOG  [94m11:31:50 AM | INFO : FileService: Read existing content from gig.md [0m
- LOG  [94m11:31:50 AM | INFO : FileService: Successfully appended to gig.md at /data/user/0/com.odly/files/aham/gig.md [0m
- LOG  [94m11:31:50 AM | INFO : ✓ Pushed 1 messages to <gig> [0m
- LOG  [94m11:31:50 AM | INFO : ChatService: Messages persisted successfully [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Building tag mapping from markdown files... [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped play -> [{cricket}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped random -> [{call}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
- LOG  [94m11:31:50 AM | INFO : TagService: Tag mapping built for 8 default tags [0m
- LOG  [94m11:31:50 AM | INFO : Tag mapping rebuilt after push [0m
- LOG  [94m11:31:53 AM | INFO : FileService: Loading file for editing: aham/gig.md [0m
- LOG  [94m11:31:53 AM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
- LOG  [94m11:32:01 AM | INFO : FileService: Saving file: aham/gig.md [0m
- LOG  [94m11:32:01 AM | INFO : FileService: Successfully saved to /data/user/0/com.odly/files/aham/gig.md [0m
- ERROR  Error: [@RNC/AsyncStorage]: NativeModule: AsyncStorage is null.
-
-To fix this issue try these steps:
-
-  • Uninstall, rebuild and restart the app.
-
-  • Run the packager with `--reset-cache` flag.
-
-  • If you are using CocoaPods on iOS, run `pod install` in the `ios` directory, then rebuild and re-run the app.
-
-  • Make sure your project's `package.json` depends on `@react-native-async-storage/async-storage`, even if you only depend on it indirectly through other dependencies. CLI only autolinks native modules found in your `package.json`.
-
-  • If this happens while testing with Jest, check out how to integrate AsyncStorage here: https://react-native-async-storage.github.io/async-storage/docs/advanced/jest
-
-If none of these fix the issue, please open an issue on the GitHub repository: https://github.com/react-native-async-storage/async-storage/issues
-, js engine: hermes [Component Stack]
+ LOG  [94m6:27:50 PM | INFO : Voice module initialized successfully [0m
  BUNDLE  ./index.android.js 
 
  LOG  Running "odly" with {"rootTag":11}
- ERROR  Error: [@RNC/AsyncStorage]: NativeModule: AsyncStorage is null.
+ BUNDLE  ./index.android.js 
 
-To fix this issue try these steps:
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  TagService: Storage path: /data/user/0/com.odly/files/user_tags.json
+ LOG  [94m6:28:43 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:28:43 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:28:43 PM | INFO : Initializing assets from bundle... [0m
+ LOG  [94m6:28:43 PM | INFO : FileService: Initializing assets... [0m
+ LOG  [37m6:28:43 PM | DEBUG : FileService: Skipped gig.md (already exists) [0m
+ LOG  [37m6:28:43 PM | DEBUG : FileService: Skipped love.md (already exists) [0m
+ LOG  [37m6:28:43 PM | DEBUG : FileService: Skipped play.md (already exists) [0m
+ LOG  [37m6:28:43 PM | DEBUG : FileService: Skipped work.md (already exists) [0m
+ LOG  [37m6:28:44 PM | DEBUG : FileService: Skipped random.md (already exists) [0m
+ LOG  [37m6:28:44 PM | DEBUG : FileService: Skipped vent.md (already exists) [0m
+ LOG  [37m6:28:44 PM | DEBUG : FileService: Skipped read.md (already exists) [0m
+ LOG  [37m6:28:44 PM | DEBUG : FileService: Skipped fun.md (already exists) [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Copied 0 files, skipped 8 existing files [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: user_tags.json already exists, skipping [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Asset initialization complete [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Assets initialized [0m
+ LOG  [94m6:28:44 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:28:44 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:28:44 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:44 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1843 bytes) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:28:44 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:28:44 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:28:44 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:28:44 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:28:44 PM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:28:44 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:44 PM | INFO : Context object type: object [0m
+ LOG  [94m6:28:44 PM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:28:44 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:28:44 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:28:44 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:28:44 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:28:44 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:28:44 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:28:44 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:28:44 PM | INFO : Loading file list... [0m
+ LOG  [94m6:28:44 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "read.md",
+    "path": "aham/read.md"
+  },
+  {
+    "name": "vent.md",
+    "path": "aham/vent.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:28:44 PM | INFO : Initializing TagService... [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Building tag mapping from markdown files... [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped play -> [{cricket}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped random -> [{call}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
+ LOG  [94m6:28:44 PM | INFO : TagService: Tag mapping built for 8 default tags [0m
+ LOG  [94m6:28:44 PM | INFO : TagService initialized [0m
+ LOG  [94m6:28:44 PM | INFO : Extracting {tags} from markdown files... [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/fun.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/read.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/vent.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
+ LOG  [94m6:28:44 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [94m6:28:44 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:28:44 PM | INFO : Found 19 tags in curly braces: 
+[
+  "call",
+  "Do",
+  "GenBio",
+  "LiquidAI",
+  "odly",
+  "Ideas",
+  "jobs",
+  "study",
+  "projects",
+  "Go",
+  "Watch",
+  "cricket",
+  "adulting",
+  "tech",
+  "rel",
+  "gen",
+  "Lessons",
+  "NBLM",
+  "QDB"
+]
+[0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
+ LOG  [37m6:28:44 PM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
+ LOG  [94m6:28:44 PM | INFO : Available tags (default + user-created): 
+[
+  {
+    "name": "<fun>",
+    "type": "default"
+  },
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<read>",
+    "type": "default"
+  },
+  {
+    "name": "<vent>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  },
+  {
+    "name": "{call}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Do}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{GenBio}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{LiquidAI}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{odly}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Ideas}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{jobs}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{study}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Go}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Watch}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{cricket}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{adulting}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{tech}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{rel}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{gen}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Lessons}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{QDB}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{projects}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{guitar}",
+    "type": "user_created",
+    "visible": true
+  }
+]
+[0m
+ LOG  [94m6:28:44 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:28:44 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:28:44 PM | INFO : Voice module initialized successfully [0m
+ BUNDLE  ./index.android.js 
 
-  • Uninstall, rebuild and restart the app.
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  TagService: Storage path: /data/user/0/com.odly/files/user_tags.json
+ LOG  [94m6:28:56 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:28:56 PM | INFO : Initializing assets from bundle... [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Initializing assets... [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped gig.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped love.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped play.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped work.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped random.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped vent.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped read.md (already exists) [0m
+ LOG  [37m6:28:56 PM | DEBUG : FileService: Skipped fun.md (already exists) [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Copied 0 files, skipped 8 existing files [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: user_tags.json already exists, skipping [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Asset initialization complete [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Assets initialized [0m
+ LOG  [94m6:28:56 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:28:56 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:28:56 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:56 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1843 bytes) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:28:56 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:28:56 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:28:56 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:28:56 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:28:56 PM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:28:56 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:28:56 PM | INFO : Context object type: object [0m
+ LOG  [94m6:28:56 PM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:28:56 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:28:56 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:28:56 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:28:56 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:28:56 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:28:56 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:28:56 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:28:56 PM | INFO : Loading file list... [0m
+ LOG  [94m6:28:56 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "read.md",
+    "path": "aham/read.md"
+  },
+  {
+    "name": "vent.md",
+    "path": "aham/vent.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:28:56 PM | INFO : Initializing TagService... [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Building tag mapping from markdown files... [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped play -> [{cricket}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped random -> [{call}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
+ LOG  [94m6:28:56 PM | INFO : TagService: Tag mapping built for 8 default tags [0m
+ LOG  [94m6:28:56 PM | INFO : TagService initialized [0m
+ LOG  [94m6:28:56 PM | INFO : Extracting {tags} from markdown files... [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/fun.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/read.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/vent.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
+ LOG  [94m6:28:56 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [94m6:28:56 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:28:56 PM | INFO : Found 19 tags in curly braces: 
+[
+  "call",
+  "Do",
+  "GenBio",
+  "LiquidAI",
+  "odly",
+  "Ideas",
+  "jobs",
+  "study",
+  "projects",
+  "Go",
+  "Watch",
+  "cricket",
+  "adulting",
+  "tech",
+  "rel",
+  "gen",
+  "Lessons",
+  "NBLM",
+  "QDB"
+]
+[0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
+ LOG  [37m6:28:56 PM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
+ LOG  [94m6:28:56 PM | INFO : Available tags (default + user-created): 
+[
+  {
+    "name": "<fun>",
+    "type": "default"
+  },
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<read>",
+    "type": "default"
+  },
+  {
+    "name": "<vent>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  },
+  {
+    "name": "{call}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Do}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{GenBio}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{LiquidAI}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{odly}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Ideas}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{jobs}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{study}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Go}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Watch}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{cricket}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{adulting}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{tech}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{rel}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{gen}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Lessons}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{QDB}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{projects}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{guitar}",
+    "type": "user_created",
+    "visible": true
+  }
+]
+[0m
+ LOG  [94m6:28:56 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:28:56 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:28:56 PM | INFO : Voice module initialized successfully [0m
+ BUNDLE  ./index.android.js 
 
-  • Run the packager with `--reset-cache` flag.
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  [94m6:31:46 PM | INFO : Checking if passcode exists... [0m
+ LOG  [94m6:31:47 PM | INFO : Passcode exists check result: 
+{
+  "hasPasscode": true
+}
+[0m
+ LOG  [94m6:31:49 PM | INFO : Verifying passcode... [0m
+ LOG  [94m6:31:49 PM | INFO : Getting passcode 
+{
+  "fileExists": true,
+  "filePath": "/data/user/0/com.odly/files/.odly_passcode"
+}
+[0m
+ LOG  TagService: Storage path: /data/user/0/com.odly/files/user_tags.json
+ LOG  [94m6:31:49 PM | INFO : Passcode read from file 
+{
+  "length": 4,
+  "isValid": true
+}
+[0m
+ LOG  [94m6:31:49 PM | INFO : Passcode verification 
+{
+  "hasStoredPasscode": true,
+  "storedLength": 4,
+  "enteredLength": 4,
+  "match": true
+}
+[0m
+ LOG  [94m6:31:49 PM | INFO : Verification result: 
+{
+  "isValid": true
+}
+[0m
+ LOG  [94m6:31:49 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:31:49 PM | INFO : Initializing assets from bundle... [0m
+ LOG  [94m6:31:49 PM | INFO : FileService: Initializing assets... [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped gig.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped love.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped play.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped work.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped random.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped vent.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped read.md (already exists) [0m
+ LOG  [37m6:31:49 PM | DEBUG : FileService: Skipped fun.md (already exists) [0m
+ LOG  [94m6:31:49 PM | INFO : FileService: Copied 0 files, skipped 8 existing files [0m
+ LOG  [94m6:31:49 PM | INFO : FileService: user_tags.json already exists, skipping [0m
+ LOG  [94m6:31:49 PM | INFO : FileService: Asset initialization complete [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Assets initialized [0m
+ LOG  [94m6:31:49 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:31:49 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:31:49 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:49 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1843 bytes) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:31:49 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:31:49 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:31:49 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:31:49 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:31:49 PM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:31:49 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:49 PM | INFO : Context object type: object [0m
+ LOG  [94m6:31:49 PM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:31:49 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:31:49 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:31:49 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:31:49 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:31:49 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:31:49 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:31:49 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:31:49 PM | INFO : Loading file list... [0m
+ LOG  [94m6:31:49 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "read.md",
+    "path": "aham/read.md"
+  },
+  {
+    "name": "vent.md",
+    "path": "aham/vent.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:31:49 PM | INFO : Initializing TagService... [0m
+ LOG  [94m6:31:49 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Building tag mapping from markdown files... [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped play -> [{cricket}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped random -> [{call}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
+ LOG  [94m6:31:50 PM | INFO : TagService: Tag mapping built for 8 default tags [0m
+ LOG  [94m6:31:50 PM | INFO : TagService initialized [0m
+ LOG  [94m6:31:50 PM | INFO : Extracting {tags} from markdown files... [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/fun.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/read.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/vent.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
+ LOG  [94m6:31:50 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [94m6:31:50 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:31:50 PM | INFO : Found 19 tags in curly braces: 
+[
+  "call",
+  "Do",
+  "GenBio",
+  "LiquidAI",
+  "odly",
+  "Ideas",
+  "jobs",
+  "study",
+  "projects",
+  "Go",
+  "Watch",
+  "cricket",
+  "adulting",
+  "tech",
+  "rel",
+  "gen",
+  "Lessons",
+  "NBLM",
+  "QDB"
+]
+[0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
+ LOG  [37m6:31:50 PM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
+ LOG  [94m6:31:50 PM | INFO : Available tags (default + user-created): 
+[
+  {
+    "name": "<fun>",
+    "type": "default"
+  },
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<read>",
+    "type": "default"
+  },
+  {
+    "name": "<vent>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  },
+  {
+    "name": "{call}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Do}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{GenBio}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{LiquidAI}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{odly}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Ideas}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{jobs}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{study}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Go}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Watch}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{cricket}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{adulting}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{tech}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{rel}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{gen}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Lessons}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{QDB}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{projects}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{guitar}",
+    "type": "user_created",
+    "visible": true
+  }
+]
+[0m
+ LOG  [94m6:31:50 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:31:50 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:31:50 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:31:52 PM | INFO : Checking if passcode exists... [0m
+ LOG  [94m6:31:52 PM | INFO : Passcode exists check result: 
+{
+  "hasPasscode": true
+}
+[0m
+ BUNDLE  ./index.android.js 
 
-  • If you are using CocoaPods on iOS, run `pod install` in the `ios` directory, then rebuild and re-run the app.
-
-  • Make sure your project's `package.json` depends on `@react-native-async-storage/async-storage`, even if you only depend on it indirectly through other dependencies. CLI only autolinks native modules found in your `package.json`.
-
-  • If this happens while testing with Jest, check out how to integrate AsyncStorage here: https://react-native-async-storage.github.io/async-storage/docs/advanced/jest
-
-If none of these fix the issue, please open an issue on the GitHub repository: https://github.com/react-native-async-storage/async-storage/issues
-, js engine: hermes [Component Stack]
+ LOG  Running "odly" with {"rootTag":11}
+ LOG  [94m6:31:55 PM | INFO : Checking if passcode exists... [0m
+ LOG  [94m6:31:55 PM | INFO : Passcode exists check result: 
+{
+  "hasPasscode": true
+}
+[0m
+ LOG  [94m6:31:57 PM | INFO : Verifying passcode... [0m
+ LOG  [94m6:31:57 PM | INFO : Getting passcode 
+{
+  "fileExists": true,
+  "filePath": "/data/user/0/com.odly/files/.odly_passcode"
+}
+[0m
+ LOG  TagService: Storage path: /data/user/0/com.odly/files/user_tags.json
+ LOG  [94m6:31:58 PM | INFO : Passcode read from file 
+{
+  "length": 4,
+  "isValid": true
+}
+[0m
+ LOG  [94m6:31:58 PM | INFO : Passcode verification 
+{
+  "hasStoredPasscode": true,
+  "storedLength": 4,
+  "enteredLength": 4,
+  "match": true
+}
+[0m
+ LOG  [94m6:31:58 PM | INFO : Verification result: 
+{
+  "isValid": true
+}
+[0m
+ LOG  [94m6:31:58 PM | INFO : ✓ LlamaRn native module loaded successfully [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ RNFS loaded in FileService [0m
+ LOG  [94m6:31:58 PM | INFO : Initializing assets from bundle... [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Initializing assets... [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped gig.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped love.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped play.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped work.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped random.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped vent.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped read.md (already exists) [0m
+ LOG  [37m6:31:58 PM | DEBUG : FileService: Skipped fun.md (already exists) [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Copied 0 files, skipped 8 existing files [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: user_tags.json already exists, skipping [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Asset initialization complete [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Assets initialized [0m
+ LOG  [94m6:31:58 PM | INFO : Checking TinyLlama GGUF model... [0m
+ LOG  [94m6:31:58 PM | INFO : Note: First launch will take 30-60 seconds to copy ~640MB model from assets [0m
+ LOG  [94m6:31:58 PM | INFO : Checking model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Found model at: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf (637.8MB) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ TinyLlama model ready: 637.8MB [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:58 PM | INFO : Loading files from aham directory... [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/gig.md (1843 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read file: aham/gig.md [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/fun.md (48 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read file: aham/fun.md [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/love.md (49 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read file: aham/love.md [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/play.md (38 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read file: aham/play.md [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read asset file from Android assets: aham/work.md (222 bytes) [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Read file: aham/work.md [0m
+ LOG  [94m6:31:58 PM | INFO : Files loaded successfully: 
+[
+  "aham/gig.md",
+  "aham/fun.md",
+  "aham/love.md",
+  "aham/play.md",
+  "aham/work.md"
+]
+[0m
+ LOG  [94m6:31:58 PM | INFO : Initializing TinyLlama GGUF model... [0m
+ LOG  [94m6:31:58 PM | INFO : Loading TinyLlama GGUF model... [0m
+ LOG  [94m6:31:58 PM | INFO : Model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Loaded llama.rn module [0m
+ LOG  [94m6:31:58 PM | INFO : Initializing llama.rn with config: {
+  "model": "/data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+  "use_mlock": false,
+  "n_ctx": 1024,
+  "n_batch": 256,
+  "n_threads": 2,
+  "n_gpu_layers": 0
+} [0m
+ LOG  [94m6:31:58 PM | INFO : Using model path: /data/user/0/com.odly/files/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf [0m
+ LOG  [94m6:31:58 PM | INFO : Context object type: object [0m
+ LOG  [94m6:31:58 PM | INFO : Context has completion method: 
+true
+[0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Context validation successful [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ TinyLlama GGUF model loaded successfully! [0m
+ LOG  [94m6:31:58 PM | INFO : ✓ Context properly initialized and stored [0m
+ LOG  [94m6:31:58 PM | INFO : TinyLlama model initialized successfully [0m
+ LOG  [94m6:31:58 PM | INFO : Initializing chat service... [0m
+ LOG  [94m6:31:58 PM | INFO : ChatService: Starting initialization... [0m
+ LOG  [94m6:31:58 PM | INFO : ChatService: Storage path: /data/user/0/com.odly/files/chat_messages.json [0m
+ LOG  [94m6:31:58 PM | INFO : ChatService: No stored messages found, starting fresh [0m
+ LOG  [94m6:31:58 PM | INFO : Chat service initialized [0m
+ LOG  [94m6:31:58 PM | INFO : Loading file list... [0m
+ LOG  [94m6:31:58 PM | INFO : File list loaded: 
+[
+  {
+    "name": "fun.md",
+    "path": "aham/fun.md"
+  },
+  {
+    "name": "gig.md",
+    "path": "aham/gig.md"
+  },
+  {
+    "name": "love.md",
+    "path": "aham/love.md"
+  },
+  {
+    "name": "play.md",
+    "path": "aham/play.md"
+  },
+  {
+    "name": "random.md",
+    "path": "aham/random.md"
+  },
+  {
+    "name": "read.md",
+    "path": "aham/read.md"
+  },
+  {
+    "name": "vent.md",
+    "path": "aham/vent.md"
+  },
+  {
+    "name": "work.md",
+    "path": "aham/work.md"
+  }
+]
+[0m
+ LOG  [94m6:31:58 PM | INFO : Initializing TagService... [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Starting initialization... [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Loaded 19 visible user-created tags from storage [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Total tags in storage (including hidden): 20 [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Building tag mapping from markdown files... [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped gig -> [{GenBio}, {LiquidAI}, {odly}, {Ideas}, {call}, {jobs}, {study}, {projects}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped love -> [{Do}, {Go}, {Watch}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped play -> [{cricket}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped work -> [{Lessons}, {QDB}, {call}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped random -> [{call}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped vent -> [{rel}, {gen}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped read -> [{adulting}, {tech}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Mapped fun -> [{call}, {Do}] [0m
+ LOG  [94m6:31:58 PM | INFO : TagService: Tag mapping built for 8 default tags [0m
+ LOG  [94m6:31:58 PM | INFO : TagService initialized [0m
+ LOG  [94m6:31:58 PM | INFO : Extracting {tags} from markdown files... [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/fun.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/fun.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/gig.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/gig.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/love.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/love.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/play.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/play.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/random.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/random.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/read.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/read.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/vent.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/vent.md [0m
+ LOG  [94m6:31:58 PM | INFO : FileService: Loading file for editing: aham/work.md [0m
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `addListener` method. [Component Stack]
+ WARN  `new NativeEventEmitter()` was called with a non-null argument without the required `removeListeners` method. [Component Stack]
+ LOG  [94m6:31:58 PM | INFO : FileService: Loaded from writable storage: /data/user/0/com.odly/files/aham/work.md [0m
+ LOG  [94m6:31:58 PM | INFO : Found 19 tags in curly braces: 
+[
+  "call",
+  "Do",
+  "GenBio",
+  "LiquidAI",
+  "odly",
+  "Ideas",
+  "jobs",
+  "study",
+  "projects",
+  "Go",
+  "Watch",
+  "cricket",
+  "adulting",
+  "tech",
+  "rel",
+  "gen",
+  "Lessons",
+  "NBLM",
+  "QDB"
+]
+[0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {call} already exists or failed to create: Tag {call} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {Do} already exists or failed to create: Tag {Do} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {GenBio} already exists or failed to create: Tag {GenBio} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {LiquidAI} already exists or failed to create: Tag {LiquidAI} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {odly} already exists or failed to create: Tag {odly} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {Ideas} already exists or failed to create: Tag {Ideas} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {jobs} already exists or failed to create: Tag {jobs} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {study} already exists or failed to create: Tag {study} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {projects} already exists or failed to create: Tag {projects} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {Go} already exists or failed to create: Tag {Go} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {Watch} already exists or failed to create: Tag {Watch} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {cricket} already exists or failed to create: Tag {cricket} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {adulting} already exists or failed to create: Tag {adulting} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {tech} already exists or failed to create: Tag {tech} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {rel} already exists or failed to create: Tag {rel} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {gen} already exists or failed to create: Tag {gen} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {Lessons} already exists or failed to create: Tag {Lessons} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {NBLM} already exists or failed to create: Tag {NBLM} already exists [0m
+ LOG  [37m6:31:58 PM | DEBUG : Tag {QDB} already exists or failed to create: Tag {QDB} already exists [0m
+ LOG  [94m6:31:58 PM | INFO : Available tags (default + user-created): 
+[
+  {
+    "name": "<fun>",
+    "type": "default"
+  },
+  {
+    "name": "<gig>",
+    "type": "default"
+  },
+  {
+    "name": "<love>",
+    "type": "default"
+  },
+  {
+    "name": "<play>",
+    "type": "default"
+  },
+  {
+    "name": "<random>",
+    "type": "default"
+  },
+  {
+    "name": "<read>",
+    "type": "default"
+  },
+  {
+    "name": "<vent>",
+    "type": "default"
+  },
+  {
+    "name": "<work>",
+    "type": "default"
+  },
+  {
+    "name": "{call}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Do}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{GenBio}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{LiquidAI}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{odly}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Ideas}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{jobs}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{study}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Go}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Watch}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{cricket}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{adulting}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{tech}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{rel}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{gen}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{Lessons}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{QDB}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{projects}",
+    "type": "user_created",
+    "visible": true
+  },
+  {
+    "name": "{guitar}",
+    "type": "user_created",
+    "visible": true
+  }
+]
+[0m
+ LOG  [94m6:31:58 PM | INFO : Initializing Voice module... [0m
+ LOG  [94m6:31:58 PM | INFO : Voice recognition available: 
+true
+[0m
+ LOG  [94m6:31:58 PM | INFO : Voice module initialized successfully [0m
+ LOG  [94m6:36:58 PM | INFO : Checking if passcode exists... [0m
+ LOG  [94m6:36:58 PM | INFO : Passcode exists check result: 
+{
+  "hasPasscode": true
+}
+[0m

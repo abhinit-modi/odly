@@ -21,42 +21,17 @@ Odly is a mobile-first knowledge management system that uses AI for:
 
 ## 🚀 Quick Start
 
-### Development Mode (with Metro bundler)
-
-Get up and running in seconds:
-
+**Development Mode** (with Metro bundler):
 ```bash
-# One command to setup everything
 npm run warmup
 ```
+Installs dependencies, starts Metro, launches app on connected device.
 
-This will:
-- ✅ Install dependencies
-- ✅ Detect your connected device
-- ✅ Start Metro bundler
-- ✅ Launch the app
-- ✅ Verify model initialization
-
-### Deploy Mode (debug build, no Metro needed)
-
-Quick deploy for testing:
-
+**Deploy Mode** (standalone debug APK):
 ```bash
-# Build and install a debuggable APK
 npm run deploy
 ```
-
-This will:
-- ✅ Bundle JavaScript code
-- ✅ Build debug APK
-- ✅ Install on connected device
-- ✅ Works without Metro running
-- ✅ Allows file sync with `pull-files.sh`
-
-**Perfect for:**
-- Quick testing cycles
-- File sync workflows
-- Debugging on device
+Bundles JS and builds debug APK. Works without Metro running. Allows file sync with `pull-files.sh`.
 
 ---
 
@@ -263,37 +238,6 @@ npm run lint        # Run ESLint
 npm test            # Run Jest tests
 npm run warmup      # Complete setup and launch
 npm run deploy      # Install a debug build
-```
-
-### Adding Features
-
-**New Service:**
-1. Create in `src/services/`
-2. Follow singleton pattern
-3. Export from `src/index.ts`
-4. Integrate in `LLMQueryApp.tsx`
-
-**New UI Component:**
-1. Create in `src/components/`
-2. Add to tab navigation in `LLMQueryApp.tsx`
-3. Connect to appropriate services
-
-**New Knowledge Category:**
-1. Create `.md` file in `android/app/src/main/assets/aham/`
-2. Add tag option in UI
-3. Rebuild app
-
-### Testing
-
-```bash
-# Run tests
-npm test
-
-# Run specific test
-npm test -- ChatService.test.ts
-
-# Watch mode
-npm test -- --watch
 ```
 
 ---

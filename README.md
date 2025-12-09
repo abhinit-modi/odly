@@ -1,21 +1,40 @@
 # Odly 🏝️
 
-**Personal Knowledge Management with On-Device AI**
+**On-Device AI • Privacy-First LLM • Offline Machine Learning • Mobile AI Assistant**
 
-A React Native application that combines on-device LLM inference with personal knowledge management. Built for privacy-first AI interaction, Odly runs entirely offline using the TinyLlama GGUF model to help you capture thoughts, search knowledge, and manage markdown files.
+A personal project exploring **on-device Large Language Model (LLM) inference** on mobile. I built Odly to learn how to run a complete **TinyLlama neural network locally** on Android—no cloud APIs, no data transmission, 100% offline.
+
+[![React Native](https://img.shields.io/badge/React%20Native-0.74.1-blue?logo=react)](https://reactnative.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![LLM](https://img.shields.io/badge/LLM-TinyLlama%201.1B-green)](https://huggingface.co/TinyLlama)
+[![License](https://img.shields.io/badge/License-Open%20Source-brightgreen)]()
 
 **📖 For product features and usage guide, see [FEATURES.md](./FEATURES.md)**
 
+---
+
+## 🎯 What I Built
+
+| Feature | What I Learned |
+|---------|----------------|
+| **On-Device LLM Inference** | Integrating llama.cpp via llama.rn for native GGUF model execution on mobile |
+| **Privacy-First Architecture** | Designing systems with zero network requests—all AI runs locally |
+| **ML Optimization** | Working with 4-bit quantized models (Q4_K_M) to fit ~700MB on mobile |
+| **End-to-End Mobile AI** | Model loading, tokenization, inference, and response streaming |
+| **Full App Development** | File management, persistent storage, and mobile UX |
+
+---
+
 ## 🌟 Overview
 
-Odly is a mobile-first knowledge management system that uses AI for:
-- On-device LLM inference with TinyLlama
-- Natural language search across markdown files
-- Conversational chat interface with tagging
-- AI-powered message grouping
-- Privacy-first, offline-only operation
+Odly is a personal knowledge management app I built to explore:
+- **On-device LLM inference** using TinyLlama 1.1B via llama.cpp
+- **Natural language search** across my own markdown notes
+- **AI-powered organization** with automatic message grouping
+- **Privacy-first design**—my data never leaves my phone
+- **Offline-first architecture** because I wanted it to work anywhere
 
-**Key Differentiator:** All AI processing happens on-device. No internet required, no data leaves your phone.
+**Why I Built This:** I was curious whether you could run a real LLM on a phone without cloud APIs. Turns out you can! It's slower than ChatGPT, but it's private and works offline.
 
 ---
 
@@ -37,14 +56,22 @@ Bundles JS and builds debug APK. Works without Metro running. Allows file sync w
 
 ## ✨ Features
 
-**Three-Tab Interface:** Chat 💭 | Search 🧞 | Files 🏰
+### AI & Machine Learning
+- **Local LLM Inference**: TinyLlama 1.1B runs entirely on my phone using llama.cpp
+- **Semantic Search**: Ask questions about my notes in natural language
+- **AI-Powered Grouping**: Auto-clusters similar messages together
+- **2048 Token Context**: Enough context for coherent conversations
 
-- **100% Offline**: No internet required for AI inference
-- **Privacy-First**: All data stays on your device
-- **Fast Inference**: Optimized TinyLlama model for mobile
-- **Smart Organization**: AI-powered message grouping and tagging
-- **Source Attribution**: See which files contributed to answers
-- **File Management**: Direct markdown editing in-app
+### Privacy (The Whole Point)
+- **Zero Cloud Calls**: No API requests, no data sent anywhere
+- **My Data Stays Mine**: Everything lives on-device
+- **Works Offline**: Use it on a plane, in the subway, wherever
+
+### The App Itself
+- **Three Tabs**: Chat 💭 | Search 🧞 | Files 🏰
+- **~15-20 Second Responses**: Not fast, but it works!
+- **Saves Everything Locally**: Messages and files persist
+- **Markdown Editor**: Edit my knowledge base directly
 
 **👉 For detailed features and usage guide, see [FEATURES.md](./FEATURES.md)**
 
@@ -121,11 +148,26 @@ android/app/src/main/assets/
 
 ## 🛠️ Tech Stack
 
-- **React Native 0.74.1**: Bare React Native for maximum control
-- **llama.rn 0.7.0**: React Native bindings for llama.cpp GGUF inference
-- **react-native-fs 2.20.0**: Filesystem access for assets and document storage
-- **TypeScript 5.0.4**: Type safety and developer experience
-- **TinyLlama 1.1B**: Compact, fast LLM optimized for mobile devices
+### Core Technologies
+| Technology | Purpose |
+|------------|---------|
+| **React Native 0.74.1** | Cross-platform mobile framework (bare workflow) |
+| **TypeScript 5.0.4** | Static typing for robust, maintainable code |
+| **llama.rn 0.7.0** | React Native bindings for llama.cpp GGUF inference |
+| **llama.cpp** | High-performance C++ LLM inference engine |
+
+### AI/ML Stack
+| Component | Details |
+|-----------|---------|
+| **TinyLlama 1.1B** | Compact transformer model optimized for mobile |
+| **GGUF Format** | Efficient model serialization for edge devices |
+| **Q4_K_M Quantization** | 4-bit quantization reducing model to ~700MB |
+| **CPU Inference** | Optimized for ARM processors without GPU requirement |
+
+### Infrastructure
+- **react-native-fs**: Native filesystem access for model and data storage
+- **AsyncStorage patterns**: Persistent local data management
+- **Service-oriented architecture**: Modular, testable codebase
 
 ---
 
@@ -183,47 +225,42 @@ The release APK will be located at:
 android/app/build/outputs/apk/release/app-release.apk
 ```
 
-## 🔧 Model Configuration
+## 🔧 LLM Configuration
 
-### Current Model
+### Model Specifications
 
-**TinyLlama 1.1B Chat (Q4_K_M)**
-- **Size**: ~700MB
-- **Format**: GGUF (4-bit quantized)
-- **Context**: 2048 tokens
-- **Speed**: ~2-3 paragraphs in 15-20 seconds
-- **Memory**: Optimized for mobile devices
+| Specification | Value |
+|---------------|-------|
+| **Model** | TinyLlama 1.1B Chat |
+| **Quantization** | Q4_K_M (4-bit) |
+| **Size** | ~700MB |
+| **Context Window** | 2048 tokens |
+| **Inference Speed** | ~15-20 seconds per response |
+| **Memory Footprint** | Optimized for 2GB+ RAM devices |
 
-### LLM Settings
+### Inference Configuration
 
-Current configuration in `LLMService.ts`:
 ```typescript
+// LLMService.ts - Production inference settings
 {
-  model: this.modelPath,
-  use_mlock: false,        // Reduce memory pressure
-  n_ctx: 2048,             // Context window
-  n_batch: 256,            // Batch size
-  n_threads: 2,            // Thread count
-  n_gpu_layers: 0,         // CPU only
-  n_predict: 512,          // Response length
-  temperature: 0.7,        // Creativity
-  top_p: 0.9,              // Nucleus sampling
-  repeat_penalty: 1.1,     // Prevent repetition
+  n_ctx: 2048,             // Context window size
+  n_batch: 256,            // Batch processing size
+  n_threads: 2,            // CPU thread allocation
+  n_gpu_layers: 0,         // CPU-only inference
+  n_predict: 512,          // Max response tokens
+  temperature: 0.7,        // Generation creativity
+  top_p: 0.9,              // Nucleus sampling threshold
+  repeat_penalty: 1.1,     // Repetition prevention
 }
 ```
 
-### Using Different Models
+### Model Compatibility
 
-To use a different GGUF model:
-
-1. **Download a GGUF model** from Hugging Face
-2. **Place in** `android/app/src/main/assets/`
-3. **Update reference** in initialization code
-4. **Recommended mobile models:**
-   - TinyLlama 1.1B (current) - Fast, general purpose
-   - Phi-3-mini ~2.3GB - Better quality, slower
-   - Qwen2-0.5B - Faster, lighter
-   - Gemma-2B - Balanced performance
+Supports any GGUF-format model from Hugging Face:
+- **TinyLlama 1.1B** (current) - Optimal speed/quality balance
+- **Phi-3-mini** (~2.3GB) - Higher quality, slower inference
+- **Qwen2-0.5B** - Faster, lighter alternative
+- **Gemma-2B** - Balanced performance option
 
 ---
 
@@ -264,15 +301,47 @@ This project is open source. Please check the model licenses for any GGUF models
 
 ---
 
-## 🙏 Acknowledgments
+## 💼 What I Learned
 
-- **llama.cpp** - Fast inference engine
-- **llama.rn** - React Native bindings
-- **TinyLlama** - Compact, capable model
-- **React Native community** - Excellent tooling
+Building this project helped me explore:
+
+**AI/ML Engineering**
+- Deploying neural networks on mobile devices
+- Integrating LLMs and writing prompts that work
+- Model quantization and inference tuning
+- Edge AI constraints and tradeoffs
+
+**Mobile Development**
+- React Native bare workflow (not Expo)
+- TypeScript for cleaner code
+- Native module integration (C++ via llama.cpp)
+- Optimizing for limited mobile resources
+
+**Software Architecture**
+- Service-oriented patterns
+- Offline-first data design
+- Privacy-preserving systems
+- Building a complete app end-to-end
 
 ---
 
-**Built with ❤️ for privacy-first AI interaction**
+## 🙏 Acknowledgments
 
-*Odly - Your personal knowledge companion, powered by on-device intelligence*
+- [**llama.cpp**](https://github.com/ggerganov/llama.cpp) - High-performance C++ LLM inference
+- [**llama.rn**](https://github.com/mybigday/llama.rn) - React Native bindings for llama.cpp
+- [**TinyLlama**](https://huggingface.co/TinyLlama) - Efficient 1.1B parameter language model
+- **React Native community** - Robust mobile development ecosystem
+
+---
+
+## 📬 Get in Touch
+
+If you're also experimenting with on-device AI or have questions about this project, feel free to reach out!
+
+---
+
+**Keywords:** On-Device AI, Local LLM, Privacy-First AI, Mobile Machine Learning, React Native AI, TinyLlama, llama.cpp, GGUF, Edge AI, Offline AI Assistant, Private AI, No-Cloud AI, Mobile NLP, On-Device Inference, AI Privacy
+
+---
+
+*Odly - A personal experiment in privacy-preserving, on-device AI*

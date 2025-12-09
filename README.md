@@ -183,7 +183,8 @@ android/app/src/main/assets/
 
 1. **Clone and install dependencies:**
    ```bash
-   cd /Users/abhinitmodi/Dev/odly
+   git clone <repository-url>
+   cd odly
    npm install
    ```
 

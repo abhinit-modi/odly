@@ -301,46 +301,12 @@ This project is open source. Please check the model licenses for any GGUF models
 
 ---
 
-## 💼 What I Learned
-
-Building this project helped me explore:
-
-**AI/ML Engineering**
-- Deploying neural networks on mobile devices
-- Integrating LLMs and writing prompts that work
-- Model quantization and inference tuning
-- Edge AI constraints and tradeoffs
-
-**Mobile Development**
-- React Native bare workflow (not Expo)
-- TypeScript for cleaner code
-- Native module integration (C++ via llama.cpp)
-- Optimizing for limited mobile resources
-
-**Software Architecture**
-- Service-oriented patterns
-- Offline-first data design
-- Privacy-preserving systems
-- Building a complete app end-to-end
-
----
-
 ## 🙏 Acknowledgments
 
 - [**llama.cpp**](https://github.com/ggerganov/llama.cpp) - High-performance C++ LLM inference
 - [**llama.rn**](https://github.com/mybigday/llama.rn) - React Native bindings for llama.cpp
 - [**TinyLlama**](https://huggingface.co/TinyLlama) - Efficient 1.1B parameter language model
 - **React Native community** - Robust mobile development ecosystem
-
----
-
-## 📬 Get in Touch
-
-If you're also experimenting with on-device AI or have questions about this project, feel free to reach out!
-
----
-
-**Keywords:** On-Device AI, Local LLM, Privacy-First AI, Mobile Machine Learning, React Native AI, TinyLlama, llama.cpp, GGUF, Edge AI, Offline AI Assistant, Private AI, No-Cloud AI, Mobile NLP, On-Device Inference, AI Privacy
 
 ---
 

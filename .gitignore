@@ -2,6 +2,15 @@
 #
 .DS_Store
 
+# Cursor/IDE logs
+cursor_logs/
+
+# Temp files
+src/[0-9]*
+
+# Ruby bundler
+.bundle/
+
 # Xcode
 #
 build/
@@ -57,6 +66,7 @@ yarn-error.log
 *.jsbundle
 *.bundle
 android/app/src/main/assets/*.bundle
+ios/main.jsbundle
 
 # Ruby / CocoaPods
 **/Pods/

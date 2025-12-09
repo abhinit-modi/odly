@@ -1,17 +1,19 @@
-# Rūḥ 🏝️
+# Odly 🏝️
 
 **Personal Knowledge Management with On-Device AI**
 
-A React Native application that combines on-device LLM inference with personal knowledge management. Built for privacy-first AI interaction, Rūḥ runs entirely offline using the TinyLlama GGUF model to help you capture thoughts, search knowledge, and manage markdown files.
+A React Native application that combines on-device LLM inference with personal knowledge management. Built for privacy-first AI interaction, Odly runs entirely offline using the TinyLlama GGUF model to help you capture thoughts, search knowledge, and manage markdown files.
+
+**📖 For product features and usage guide, see [FEATURES.md](./FEATURES.md)**
 
 ## 🌟 Overview
 
-Rūḥ (meaning "spirit" or "essence" in Arabic) is a mobile-first knowledge management system that uses AI to help you:
-- **Capture thoughts** with tags in a conversational interface
-- **Search your knowledge base** using natural language queries
-- **Edit markdown files** directly on your device
-- **Group and organize** messages automatically with AI
-- **Push content** to categorized markdown files
+Odly is a mobile-first knowledge management system that uses AI for:
+- On-device LLM inference with TinyLlama
+- Natural language search across markdown files
+- Conversational chat interface with tagging
+- AI-powered message grouping
+- Privacy-first, offline-only operation
 
 **Key Differentiator:** All AI processing happens on-device. No internet required, no data leaves your phone.
 
@@ -35,71 +37,41 @@ This will:
 - ✅ Launch the app
 - ✅ Verify model initialization
 
-**Quick Reload (during development):**
-```bash
-npm run reload  # Fast app restart
-```
+### Deploy Mode (debug build, no Metro needed)
 
-### Release Mode (standalone, no Metro needed)
-
-Build and deploy a production-ready APK:
+Quick deploy for testing:
 
 ```bash
-# One command to build and deploy release version
-npm run release
+# Build and install a debuggable APK
+npm run deploy
 ```
 
 This will:
-- ✅ Bundle JavaScript code (optimized)
-- ✅ Build release APK (~1.1GB)
+- ✅ Bundle JavaScript code
+- ✅ Build debug APK
 - ✅ Install on connected device
-- ✅ Launch app (works completely offline)
-- ✅ Verify standalone operation
+- ✅ Works without Metro running
+- ✅ Allows file sync with `pull-files.sh`
 
 **Perfect for:**
-- Production deployment
-- Sharing APK with others
-- Offline-only usage
-- Performance testing
-
-See [cursor_logs/DEVELOPMENT.md](./cursor_logs/DEVELOPMENT.md) for detailed development commands.
+- Quick testing cycles
+- File sync workflows
+- Debugging on device
 
 ---
 
 ## ✨ Features
 
-### Three-Tab Interface
-
-#### 💭 Chat (Default)
-- Capture thoughts and notes in a conversation-style interface
-- Tag messages for organization (default: `<work>`, `<fun>`, `<love>`, `<play>`, `<gig>`, `<random>`; custom: `{urgent}`, `{meeting}`)
-- Edit and delete messages
-- **Group Messages**: AI-powered message grouping by semantic similarity
-- **Push to Files**: Export tagged messages to corresponding markdown files in bulk
-- Persistent local storage
-
-#### 🧞 Search (Genie)
-- Natural language search across your knowledge base
-- Queries multiple markdown files simultaneously
-- AI-generated answers with source attribution
-- Combines file context with LLM's general knowledge
-- Fast, on-device inference
-
-#### 🏰 Files
-- Browse all markdown files in the `aham/` directory
-- View and edit files directly
-- Real-time preview
-- Save changes back to assets
-
-### Core Capabilities
+**Three-Tab Interface:** Chat 💭 | Search 🧞 | Files 🏰
 
 - **100% Offline**: No internet required for AI inference
 - **Privacy-First**: All data stays on your device
 - **Fast Inference**: Optimized TinyLlama model for mobile
-- **Smart Organization**: AI-powered message grouping
+- **Smart Organization**: AI-powered message grouping and tagging
 - **Source Attribution**: See which files contributed to answers
-- **Persistent Storage**: Chat messages saved locally
-- **File Management**: Direct markdown editing
+- **File Management**: Direct markdown editing in-app
+
+**👉 For detailed features and usage guide, see [FEATURES.md](./FEATURES.md)**
 
 ---
 
@@ -187,10 +159,8 @@ android/app/src/main/assets/
 ### Prerequisites
 
 - **Node.js** >= 18
-- **React Native development environment**
-  - Android Studio (for Android)
-  - Xcode (for iOS, macOS only)
-- **Connected device or emulator**
+- **Android Studio** with Android SDK configured
+- **Connected Android device or emulator**
 
 ### Installation
 
@@ -200,27 +170,14 @@ android/app/src/main/assets/
    npm install
    ```
 
-2. **iOS Setup (macOS only):**
-   ```bash
-   cd ios
-   pod install
-   cd ..
-   ```
-
-3. **Android Setup:**
+2. **Android Setup:**
    - Ensure Android SDK is properly configured
    - Connect an Android device or start an emulator
 
 ### Running the App
 
-**Android:**
 ```bash
 npm run android
-```
-
-**iOS (macOS only):**
-```bash
-npm run ios
 ```
 
 **Start Metro bundler separately:**
@@ -232,13 +189,9 @@ npm start
 
 The app can run without the Metro bundler by creating release bundles:
 
-**Create JavaScript bundles:**
+**Create JavaScript bundle:**
 ```bash
-# Android bundle
 npm run bundle:android
-
-# iOS bundle
-npm run bundle:ios
 ```
 
 **Build release APK (Android):**
@@ -254,83 +207,6 @@ The release APK will be located at:
 ```
 android/app/build/outputs/apk/release/app-release.apk
 ```
-
-**iOS Release Build:**
-1. Run: `npm run bundle:ios`
-2. Open `ios/odly.xcodeproj` in Xcode
-3. Select "Product > Archive"
-4. Follow Xcode's distribution workflow
-
-**Note:** Release builds include the bundled JavaScript and don't require the Metro development server to be running.
-
-For detailed release build information, see [RELEASE_GUIDE.md](./RELEASE_GUIDE.md).
-
----
-
-## 📱 Usage Guide
-
-### First Launch
-
-1. App initializes with "Awakening the Oracle" screen
-2. Model loads (~30-60 seconds on first run)
-3. Knowledge files are indexed
-4. Lands on Chat tab (💭) when ready
-
-### Chat Tab 💭
-
-**Capturing Thoughts:**
-1. Type your message in the input field
-2. Add tags: default tags `<work>`, `<fun>`, `<love>`, `<play>`, `<gig>`, `<random>` or create custom tags `{urgent}`, `{project}`, etc.
-3. Tap "Save" to persist the message
-4. Messages are stored locally and persist across app restarts
-
-**Managing Messages:**
-- **Edit**: Tap on a message to modify text or tags
-- **Delete**: Swipe or long-press to remove individual messages
-- **Group**: Tap "Group" to use AI to organize similar messages
-- **Push**: Tap "Push" to export tagged messages to markdown files
-- **Clear**: Remove all messages at once
-
-**Grouping Workflow:**
-- Groups similar messages by semantic meaning
-- Uses on-device LLM to understand context
-- Automatically backs up before grouping
-- Restores on failure
-
-**Push Workflow:**
-- Exports messages to `aham/` files based on first tag
-- Example: Message tagged `<work> {project}` goes to `work.md`
-- Custom tags `{project}` create new markdown files
-- Appends to existing file content
-- Clears conversation after successful push
-- Bulk operation across all messages
-
-### Search Tab 🧞
-
-**Searching Knowledge:**
-1. Enter a natural language question
-2. Tap "Search" or press Enter
-3. AI searches across all markdown files
-4. Displays answer with source attribution
-5. Tap "New Search" to clear and start over
-
-**Example Queries:**
-- "What was the first programmable computer?" → Uses `gig.md`
-- "How can I have more fun?" → Uses `fun.md`
-- "Why is work important?" → Uses `work.md`
-- "What is love?" → Uses `love.md`
-- "Tell me about play" → Uses `play.md`
-
-### Files Tab 🏰
-
-**Managing Files:**
-1. Browse all markdown files in `aham/` directory
-2. Tap a file to view/edit
-3. Make changes directly in the editor
-4. Tap "Save" to persist changes
-5. Files are stored in app assets
-
----
 
 ## 🔧 Model Configuration
 
@@ -376,114 +252,6 @@ To use a different GGUF model:
 
 ---
 
-## 📝 Knowledge Base
-
-### File Structure
-
-Knowledge files are stored in the `aham/` directory:
-- `gig.md` - Computer history, technology
-- `fun.md` - Fun, activities, entertainment
-- `love.md` - Love, relationships, connection
-- `play.md` - Play, games, leisure
-- `work.md` - Work, productivity, career
-
-### Adding Content
-
-**Via Chat + Push:**
-1. Write messages in Chat tab
-2. Tag with appropriate category
-3. Use "Push" to export to files
-
-**Direct Editing:**
-1. Go to Files tab
-2. Select file
-3. Edit content
-4. Save changes
-
-**Manual File Editing:**
-1. Edit files in `android/app/src/main/assets/aham/`
-2. Rebuild app for changes to take effect
-3. Files must be in markdown format
-
----
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Model not loading:**
-- Ensure model file exists in assets
-- Check device storage space (need ~1GB free)
-- Restart app completely
-- Check logs for initialization errors
-
-**Chat messages not persisting:**
-- Check file permissions
-- Ensure DocumentDirectory is accessible
-- Clear app data and restart
-
-**Search returns no results:**
-- Verify markdown files exist in `aham/`
-- Check file permissions
-- Ensure files are not empty
-
-**App crashes on startup:**
-- Check device RAM (2GB+ recommended)
-- Try smaller model
-- Clear app cache
-- Check Android logs: `adb logcat`
-
-**Grouping fails:**
-- Ensure at least 2 messages
-- Check that LLM service is initialized
-- Messages automatically restored on failure
-
-**Push fails:**
-- Verify write permissions
-- Check that target files exist
-- Ensure proper tag format (#tag)
-
-### Debug Mode
-
-**View logs:**
-```bash
-# Android
-npx react-native log-android
-
-# iOS
-npx react-native log-ios
-```
-
-**Metro bundler console** shows detailed initialization and query logs.
-
----
-
-## ⚡ Performance Optimization
-
-### Response Times
-
-- **Model load**: 30-60 seconds (one-time)
-- **Search query**: 15-25 seconds
-- **Message grouping**: 10-20 seconds per message
-- **File operations**: <1 second
-
-### Memory Management
-
-- Model loads once at startup
-- Context cached for subsequent queries
-- Messages stored in lightweight JSON
-- Files read on-demand
-
-### Optimization Tips
-
-1. **Use tags consistently** for better organization
-2. **Group messages periodically** to maintain structure
-3. **Push regularly** to keep chat clear
-4. **Keep knowledge files focused** for better search
-5. **Use shorter queries** for faster responses
-
----
-
 ## 🧪 Development
 
 ### Scripts
@@ -491,12 +259,10 @@ npx react-native log-ios
 ```bash
 npm start           # Start Metro bundler
 npm run android     # Run on Android device/emulator
-npm run ios         # Run on iOS device/simulator
 npm run lint        # Run ESLint
 npm test            # Run Jest tests
 npm run warmup      # Complete setup and launch
-npm run reload      # Fast reload during development
-npm run release     # Build and deploy release APK
+npm run deploy      # Install a debug build
 ```
 
 ### Adding Features
@@ -532,42 +298,17 @@ npm test -- --watch
 
 ---
 
-## 📋 Project Status
+## 🐛 Debugging
 
-### Implemented Features
-- ✅ Three-tab interface (Chat, Search, Files)
-- ✅ On-device LLM inference with TinyLlama
-- ✅ Chat with tagging system
-- ✅ Message persistence
-- ✅ AI-powered message grouping
-- ✅ Push messages to markdown files
-- ✅ Natural language search
-- ✅ Source attribution
-- ✅ File editing
-- ✅ Offline-first architecture
-- ✅ Android support
+### View Logs
 
-### Roadmap
-- 🔲 iOS testing and polish
-- 🔲 Export/backup functionality
-- 🔲 Custom tag creation
-- 🔲 Rich text markdown preview
-- 🔲 Search filters and sorting
-- 🔲 Message templates
-- 🔲 Dark mode
-- 🔲 Multiple model support
+```bash
+# Android
+npx react-native log-android
 
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Test on both Android and iOS (if applicable)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+# Android device logs
+adb logcat
+```
 
 ---
 
@@ -588,19 +329,6 @@ This project is open source. Please check the model licenses for any GGUF models
 
 ---
 
-## 📞 Support
-
-For issues and questions:
-1. Check the troubleshooting section above
-2. Review console logs in Metro bundler
-3. Check device logs (`adb logcat` for Android)
-4. Open an issue with:
-   - Device details (model, OS version)
-   - Error messages
-   - Steps to reproduce
-
----
-
 **Built with ❤️ for privacy-first AI interaction**
 
-*Rūḥ - Your personal knowledge companion, powered by on-device intelligence*
+*Odly - Your personal knowledge companion, powered by on-device intelligence*
